@@ -62,4 +62,32 @@ public class SentenceTokenizer extends Tokenizer{
         }
         return false;
     }
+    public static class Sentence{
+        String a;
+        Sentence(String s){
+            this.a = s;
+        }
+    }
+    public String parseSentence(SentenceTokenizer st){
+        String i = parseInt(this);
+        this.next();
+        if(this.current.equals("+")){
+            this.next();
+            if(parseInt(this) != null){
+                String o = parseInt(this);
+                return (i + "+" + o);
+            }
+        }else{
+            return null;
+        }
+        return null;
+    }
+    public String parseInt(SentenceTokenizer st){
+        if(Character.isDigit(st.current.charAt(0))){
+            return current;
+        }
+        else{
+            return null;
+        }
+    }
 }
