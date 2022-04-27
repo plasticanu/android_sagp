@@ -56,4 +56,15 @@ public class StringTokenizer extends Tokenizer{
         }
         return false;
     }
+    public static abstract class Tag{
+        String content;
+
+        Tag(String starter, String s){
+            this.content = (starter + s);
+        }
+    }
+    public Tag parseTag(StringTokenizer st){
+        return null;
+    }
+
 }
