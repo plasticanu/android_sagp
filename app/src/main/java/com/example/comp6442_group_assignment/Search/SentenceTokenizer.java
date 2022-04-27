@@ -66,4 +66,5 @@ public class SentenceTokenizer extends Tokenizer{
         }
         return false;
     }
+
 }
