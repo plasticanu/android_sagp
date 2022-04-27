@@ -43,5 +43,29 @@ public class StringTokenizerDemo {
         System.out.println("Expected: " + expected);
         System.out.println("Actual: " + actual);
 
+        System.out.println("=======================================================");
+        testString = "Today is a good day. I have learnt 1+1=2. #LearntSomethingNewToday @Bernardo \\Adam";
+        stringTokenizer = new StringTokenizer(testString);
+        String originalString = testString;
+        List<String> firstStep = new ArrayList<String>();
+        List<String> secondStep = new ArrayList<String>();
+
+        while (stringTokenizer.hasNext()) {
+            String token = stringTokenizer.current();
+            firstStep.add(token);
+            stringTokenizer.next();
+        }
+        for (String s : firstStep) {
+            sentenceTokenizer = new SentenceTokenizer(s); // Create a new sentence tokenizer for each string
+            while (sentenceTokenizer.hasNext()) {
+                String token = sentenceTokenizer.current();
+                secondStep.add(token);
+                sentenceTokenizer.next();
+            }
+        }
+
+        System.out.println("Original String: " + originalString);
+        System.out.println("First Step: " + firstStep);
+        System.out.println("Second Step: " + secondStep);
     }
 }
