@@ -12,6 +12,7 @@ public class SentenceTokenizer extends Tokenizer{
     static final char[] mathematicalSymbol = { '+', '-', '*', '/', '%' , '=', '<', '>', '!', '&', '|', '^', '~' };
     static final char[] punctuation = { '.', ',', ';', ':', '?', '!' };
     static final char[] separator = { '(', ')', '[', ']', '{', '}' };
+    static final char[] specialChar = { '#' , '@' , '\\' };
 
     public SentenceTokenizer(String text) {
         this.text = text;
@@ -34,8 +35,8 @@ public class SentenceTokenizer extends Tokenizer{
         consumeWhite(); // Remove white space
         if (pos >= text.length()) {
             current = null; // End of text
-        } else if (isin(text.charAt(pos), mathematicalSymbol) && isin(text.charAt(pos), separator)) {
-            current = String.valueOf(text.charAt(pos)); // Keep math symbols and separators
+        } else if (isin(text.charAt(pos), mathematicalSymbol) || isin(text.charAt(pos), separator) || isin(text.charAt(pos), specialChar)) {
+            current = String.valueOf(text.charAt(pos)); // Keep math symbols and separators and special characters
             pos++; // Move to next position
         }
         else {
@@ -44,7 +45,10 @@ public class SentenceTokenizer extends Tokenizer{
                 pos++;
             }
             current = text.substring(start, pos); // Create a string of the current token
-            if (!isin(text.charAt(pos), mathematicalSymbol) && !isin(text.charAt(pos), separator)) { // Keep math symbols and separators
+            if (pos == text.length()) {
+                return;
+            }
+            if (!isin(text.charAt(pos), mathematicalSymbol) && !isin(text.charAt(pos), separator) && !isin(text.charAt(pos), specialChar)) { // Keep math symbols and separators and special characters
                 pos++;
             }
         }
@@ -62,4 +66,5 @@ public class SentenceTokenizer extends Tokenizer{
         }
         return false;
     }
+
 }
