@@ -82,26 +82,25 @@ public class AVLTree<T> {
 
             if(e.hashCode() < n.left.key){
                 n = rotateRight(n);
-                updateHeight(n);
+
                 return n;
             }
             if(e.hashCode() > n.left.key){
-                n = rotateLeft(n);
+                n.left = rotateLeft(n.left);
                 n = rotateRight(n);
-                updateHeight(n);
+
                 return n;
             }
         }
         else if(getBalance(n) < -1){
             if(e.hashCode() > n.right.key){
                 n = rotateLeft(n);
-                updateHeight(n);
                 return n;
             }
             if(e.hashCode() < n.right.key){
-                n = rotateRight(n.right);
+                n.right = rotateRight(n.right);
                 n = rotateLeft(n);
-                updateHeight(n);
+
                 return n;
             }
         }
