@@ -1,6 +1,15 @@
 package com.example.comp6442_group_assignment.Search.AVLTree;
 
 public class AVLTree<T> {
+    /**
+     * This field refers to the AVLTree.
+     * For example: when referring to the AVLTree, the AVLTree class should not be called. Instead,
+     * AVLTree.tree is the tree.
+     * Code example: AVLTree<String> avl = new AVLTree<String>();
+     *               avl.tree.insert(2);
+     *               System.out.print(avl.tree.toString());
+     * System: {value=2, leftNode=null, rightNode=null}
+     */
     public Node<T> tree;
 
     public AVLTree() {
@@ -35,6 +44,7 @@ public class AVLTree<T> {
         left.right = n;
         n.left = lr;
 
+        //TODO: change the code format the same as rotateLeft.
         n.height = Math.max(getHeight(n.left), getHeight(n.right) + 1);
         left.height = Math.max(getHeight(left.left), getHeight(left.right) + 1);
         return left;
