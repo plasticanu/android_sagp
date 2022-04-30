@@ -2,8 +2,10 @@ package com.example.comp6442_group_assignment.Search.AVLTree;
 
 import androidx.annotation.NonNull;
 
-public class Node<T extends Comparable<T>> {
+public class Node<T>{
     public T data;
+    // Used for comparing object
+    public int key;
     int height;
     Node<T> left;
     Node<T> right;
@@ -11,6 +13,7 @@ public class Node<T extends Comparable<T>> {
 
     public Node(T element){
         this.data = element;
+        this.key = element.hashCode();
         height = 1;
     }
 

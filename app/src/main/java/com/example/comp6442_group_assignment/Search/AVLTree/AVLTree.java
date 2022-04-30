@@ -1,10 +1,7 @@
 package com.example.comp6442_group_assignment.Search.AVLTree;
 
-public class AVLTree<T extends Comparable<T>> {
+public class AVLTree<T> {
     public Node<T> tree;
-    public AVLTree(Node<T> d){
-        this.tree = d;
-    }
 
     public AVLTree() {
         tree = null;
@@ -32,8 +29,8 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     private Node<T> rotateRight(Node<T> n){
-        Node<T> left = n.left;
-        Node<T> lr = left.right;
+        Node left = n.left;
+        Node lr = left.right;
 
         left.right = n;
         n.left = lr;
@@ -44,10 +41,12 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     private Node<T> rotateLeft(Node<T> n){
-        Node<T> right = n.right;
-        Node<T> rightLeft = right.left;
+        //The node type is not specified to avoid nullPointerException.
+        Node right = n.right;
+        Node rl = right.left;
         right.left = n;
-        n.right = rightLeft;
+        n.right = rl;
+
         updateHeight(n);
         updateHeight(right);
         return right;
@@ -63,20 +62,20 @@ public class AVLTree<T extends Comparable<T>> {
             updateHeight(n);
             return n;
         }
-        if(e.compareTo(n.data) > 0){
+        if(e.hashCode() > n.key){
             n.right = insert(n.right,e);
         }
-        else if(e.compareTo(n.data) <0){
+        else if(e.hashCode() < n.key){
             n.left = insert(n.left,e);
         }
         if(getBalance(n) > 1){
 
-            if(e.compareTo(n.left.data) < 0){
+            if(e.hashCode() < n.left.key){
                 n = rotateRight(n);
                 updateHeight(n);
                 return n;
             }
-            if(e.compareTo(n.left.data) > 0){
+            if(e.hashCode() > n.left.key){
                 n = rotateLeft(n);
                 n = rotateRight(n);
                 updateHeight(n);
@@ -84,12 +83,12 @@ public class AVLTree<T extends Comparable<T>> {
             }
         }
         else if(getBalance(n) < -1){
-            if(e.compareTo(n.right.data) > 0){
+            if(e.hashCode() > n.right.key){
                 n = rotateLeft(n);
                 updateHeight(n);
                 return n;
             }
-            if(e.compareTo(n.right.data) < 0){
+            if(e.hashCode() < n.right.key){
                 n = rotateRight(n.right);
                 n = rotateLeft(n);
                 updateHeight(n);
@@ -100,5 +99,6 @@ public class AVLTree<T extends Comparable<T>> {
         return n;
 
     }
+
 
 }

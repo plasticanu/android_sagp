@@ -2,22 +2,31 @@ package com.example.comp6442_group_assignment;
 
 import static org.junit.Assert.assertEquals;
 
+import android.util.Log;
+
 import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
-import com.example.comp6442_group_assignment.Search.AVLTree.Node;
 
 import org.junit.Test;
 
 public class AVLTreeTest {
     @Test
-    public void insertionTest() {
+    public void simpleInsertionTest() {
         AVLTree<String> tree = new AVLTree<>();
         tree.tree = tree.insert(tree.tree,"2");
-        tree.tree = tree.insert(tree.tree,"23");
-        tree.tree = tree.insert(tree.tree,"24");
-        tree.tree = tree.insert(tree.tree,"10");
-        tree.tree = tree.insert(tree.tree,"11");
-        tree.tree = tree.insert(tree.tree,"13");
-        tree.tree = tree.insert(tree.tree,"15");
-        System.out.println(tree);
+        assertEquals("{value=2, leftNode=null, rightNode=null}", tree.tree.toString());
+        Log.i("simpleInsertionTest", "One element inserted to an empty tree, the tree is\n" + tree.tree.toString() +
+                "\nExpected: {value=2, leftNode=null, rightNode=null}");
+    }
+
+    @Test
+    public void insertToRightTest1(){
+        AVLTree<Object> tree = new AVLTree<>();
+        tree.tree = tree.insert(tree.tree, 2);
+        tree.tree = tree.insert(tree.tree, 10);
+        Log.i("insertToRightTest1", "One element inserted to an empty tree, the tree is\n" +
+                tree.tree.toString() +
+                "\nExpected: {value=2, leftNode=null, rightNode={value=10, leftNode=null, rightNode=null}}");
+        assertEquals("{value=2, leftNode=null, rightNode={value=10, leftNode=null, rightNode=null}}", tree.tree.toString());
+
     }
 }
