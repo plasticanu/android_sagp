@@ -2,6 +2,10 @@ package com.example.comp6442_group_assignment;
 
 import com.example.comp6442_group_assignment.State.GuestState;
 import com.example.comp6442_group_assignment.State.UserState;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class UserSession {
     UserState state; // current state of the user
@@ -24,7 +28,7 @@ public class UserSession {
         return userName;
     }
 
-    public boolean login(String userName, String password) {
+    public boolean login(String userName, String password) throws ParserConfigurationException, IOException, SAXException {
         boolean loggedIn = state.login(userName, password);
         if (loggedIn) {
             this.userName = userName;

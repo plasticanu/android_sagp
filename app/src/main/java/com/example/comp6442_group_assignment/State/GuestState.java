@@ -16,27 +16,17 @@ public class GuestState extends UserState {
     }
 
     @Override
-    public boolean login(String userName, String password) {
+    public boolean login(String userName, String password) throws ParserConfigurationException, IOException, SAXException {
         User user = new User(userName, password);
-        try {
-            if (user.isValid()) {
-                session.user = user;
-                session.changeState(new LoggedInState(session));
-                //TODO: Success Message
-                return true;
-            } else {
-                user = null;
-                //TODO: Error Message
-                return false;
-            }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
+        if (user.isValid()) {
+            session.user = user;
+            session.changeState(new LoggedInState(session));
+            return true;
+        } else {
+            user = null;
+            //TODO: Error Message
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -48,9 +38,15 @@ public class GuestState extends UserState {
     @Override
     public boolean register(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
         if (User.register(userName, password, email, firstName, lastName, phoneNumber)) {
-            //TODO: Success Message
+            login(userName, password);
             return true;
         }
+        //TODO: Error Message
+        return false;
+    }
+
+    @Override
+    public boolean deleteAccount() {
         //TODO: Error Message
         return false;
     }
@@ -62,32 +58,32 @@ public class GuestState extends UserState {
 
     @Override
     public void deletePost(int postId) {
-
+        //TODO: Error Message
     }
 
     @Override
     public void editPost(int postId, String title, String content) {
-
+        //TODO: Error Message
     }
 
     @Override
     public void likePost(int postId) {
-
+        //TODO: Error Message
     }
 
     @Override
     public void unlikePost(int postId) {
-
+        //TODO: Error Message
     }
 
     @Override
     public void commentPost(int postId, String content) {
-
+        //TODO: Error Message
     }
 
     @Override
     public void deleteComment(int postId, int commentId) {
-
+        //TODO: Error Message
     }
 
     @Override
@@ -98,11 +94,13 @@ public class GuestState extends UserState {
 
     @Override
     public List<Post> allPosts() {
+        //TODO: Error Message
         return null;
     }
 
     @Override
     public List<Post> search(String keyword) {
+        //TODO: Error Message
         return null;
     }
 }

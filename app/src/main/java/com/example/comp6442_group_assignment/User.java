@@ -167,6 +167,62 @@ public class User {
         return false;
     }
 
+    public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
+        String address = "app/src/main/assets/user.xml";
+        File file = new File(address);
+
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("Users");
+        doc.appendChild(rootElement);
+
+        for (User u : users) {
+            // user elements
+            Element user = doc.createElement("User");
+            rootElement.appendChild(user);
+
+            // user name elements
+            Element userName1 = doc.createElement("UserName");
+            userName1.appendChild(doc.createTextNode(u.getUserName()));
+            user.appendChild(userName1);
+
+            // password elements
+            Element password1 = doc.createElement("Password");
+            password1.appendChild(doc.createTextNode(u.getPassword()));
+            user.appendChild(password1);
+
+            // email elements
+            Element email1 = doc.createElement("Email");
+            email1.appendChild(doc.createTextNode(u.getEmail()));
+            user.appendChild(email1);
+
+            // first name elements
+            Element firstName1 = doc.createElement("FirstName");
+            firstName1.appendChild(doc.createTextNode(u.getFirstName()));
+            user.appendChild(firstName1);
+
+            // last name elements
+            Element lastName1 = doc.createElement("LastName");
+            lastName1.appendChild(doc.createTextNode(u.getLastName()));
+            user.appendChild(lastName1);
+
+            // phone number elements
+            Element phoneNumber1 = doc.createElement("PhoneNumber");
+            phoneNumber1.appendChild(doc.createTextNode(u.getPhoneNumber()));
+            user.appendChild(phoneNumber1);
+        }
+
+        // write dom document to a file
+        try (FileOutputStream output =
+                     new FileOutputStream(address)) {
+            writeXml(doc, output);
+        } catch (IOException | TransformerException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Write a new user to users.xml file, should be a server function
      * @param userName
@@ -189,61 +245,20 @@ public class User {
             List<User> users = readUsers();
             User newUser = new User(userName, password, email, firstName, lastName, phoneNumber);
             users.add(newUser);
-
-            String address = "app/src/main/assets/user.xml";
-            File file = new File(address);
-
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("Users");
-            doc.appendChild(rootElement);
-
-            for (User u : users) {
-                // user elements
-                Element user = doc.createElement("User");
-                rootElement.appendChild(user);
-
-                // user name elements
-                Element userName1 = doc.createElement("UserName");
-                userName1.appendChild(doc.createTextNode(u.getUserName()));
-                user.appendChild(userName1);
-
-                // password elements
-                Element password1 = doc.createElement("Password");
-                password1.appendChild(doc.createTextNode(u.getPassword()));
-                user.appendChild(password1);
-
-                // email elements
-                Element email1 = doc.createElement("Email");
-                email1.appendChild(doc.createTextNode(u.getEmail()));
-                user.appendChild(email1);
-
-                // first name elements
-                Element firstName1 = doc.createElement("FirstName");
-                firstName1.appendChild(doc.createTextNode(u.getFirstName()));
-                user.appendChild(firstName1);
-
-                // last name elements
-                Element lastName1 = doc.createElement("LastName");
-                lastName1.appendChild(doc.createTextNode(u.getLastName()));
-                user.appendChild(lastName1);
-
-                // phone number elements
-                Element phoneNumber1 = doc.createElement("PhoneNumber");
-                phoneNumber1.appendChild(doc.createTextNode(u.getPhoneNumber()));
-                user.appendChild(phoneNumber1);
-            }
-
-            // write dom document to a file
-            try (FileOutputStream output =
-                         new FileOutputStream(address)) {
-                writeXml(doc, output);
-            } catch (IOException | TransformerException e) {
-                e.printStackTrace();
-            }
+            writeToUser(users);
             return true;
         }
+    }
+
+    public static boolean deleteAccount(String userName) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName)) {
+                users.remove(user);
+                break;
+            }
+        }
+        writeToUser(users);
+        return true;
     }
 }

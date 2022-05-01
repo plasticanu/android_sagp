@@ -3,7 +3,10 @@ package com.example.comp6442_group_assignment.State;
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.List;
 
 public class LoggedInState extends UserState{
@@ -22,7 +25,7 @@ public class LoggedInState extends UserState{
     public boolean logout() {
         session.changeState(new GuestState(session));
         session.user = null; // reset user
-        return false;
+        return true;
     }
 
     @Override
@@ -32,9 +35,14 @@ public class LoggedInState extends UserState{
     }
 
     @Override
+    public boolean deleteAccount() throws ParserConfigurationException, IOException, SAXException {
+        return User.deleteAccount(session.user.getUserName());
+    }
+
+    @Override
     public void createPost(String title, String content) {
         Post post = new Post(title, content, session.profile());
-
+        //TODO: To implement
     }
 
     @Override
@@ -69,7 +77,7 @@ public class LoggedInState extends UserState{
 
     @Override
     public User profile() {
-        return null;
+        return session.user;
     }
 
     @Override

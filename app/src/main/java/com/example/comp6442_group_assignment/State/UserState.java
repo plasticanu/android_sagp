@@ -16,9 +16,10 @@ public abstract class UserState {
         this.session = session;
     }
 
-    public abstract boolean login(String userName, String password);
+    public abstract boolean login(String userName, String password) throws ParserConfigurationException, IOException, SAXException;
     public abstract boolean logout();
     public abstract boolean register(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException;
+    public abstract boolean deleteAccount() throws ParserConfigurationException, IOException, SAXException;
     public abstract void createPost(String title, String content);
     public abstract void deletePost(int postId);
     public abstract void editPost(int postId, String title, String content);
