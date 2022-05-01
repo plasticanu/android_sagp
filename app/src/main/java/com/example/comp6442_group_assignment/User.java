@@ -250,6 +250,14 @@ public class User {
         }
     }
 
+    /**
+     * Delete a user with @param userName from users.xml file, should be a server function
+     * @param userName
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     public static boolean deleteAccount(String userName) throws ParserConfigurationException, IOException, SAXException {
         List<User> users = readUsers();
         for (User user : users) {
