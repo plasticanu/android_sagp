@@ -5,8 +5,8 @@ public class AVLTree<T> {
      * This field refers to the AVLTree.
      * For example: when referring to the AVLTree, the AVLTree class should not be called. Instead,
      * AVLTree.tree is the tree.
-     * Code example: AVLTree<String> avl = new AVLTree<String>();
-     *               avl.tree.insert(2);
+     * Code example: AVLTree<Object> avl = new AVLTree<Object>();
+     *               avl.tree = avl.tree.insert(2);
      *               System.out.print(avl.tree.toString());
      * System: {value=2, leftNode=null, rightNode=null}
      */
@@ -37,7 +37,7 @@ public class AVLTree<T> {
         }
     }
 
-    private Node<T> rotateRight(Node<T> n){
+    private Node<T> rightRotate(Node<T> n){
         Node left = n.left;
         Node lr = left.right;
 
@@ -50,7 +50,7 @@ public class AVLTree<T> {
         return left;
     }
 
-    private Node<T> rotateLeft(Node<T> n){
+    private Node<T> leftRotate(Node<T> n){
         //The node type is not specified to avoid nullPointerException.
         Node right = n.right;
         Node rl = right.left;
@@ -79,27 +79,25 @@ public class AVLTree<T> {
             n.left = insert(n.left,e);
         }
         if(getBalance(n) > 1){
-
             if(e.hashCode() < n.left.key){
-                n = rotateRight(n);
-
+                n = rightRotate(n);
                 return n;
             }
             if(e.hashCode() > n.left.key){
-                n.left = rotateLeft(n.left);
-                n = rotateRight(n);
+                n.left = leftRotate(n.left);
+                n = rightRotate(n);
 
                 return n;
             }
         }
         else if(getBalance(n) < -1){
             if(e.hashCode() > n.right.key){
-                n = rotateLeft(n);
+                n = leftRotate(n);
                 return n;
             }
             if(e.hashCode() < n.right.key){
-                n.right = rotateRight(n.right);
-                n = rotateLeft(n);
+                n.right = rightRotate(n.right);
+                n = leftRotate(n);
 
                 return n;
             }
