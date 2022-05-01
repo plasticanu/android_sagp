@@ -7,6 +7,7 @@ public class UserSession {
     UserState state; // current state of the user
     String userName; // username
     boolean isLoggedIn; // whether the user is logged in
+    public User user; // user profile, current user
 
     public UserSession() {
         userName = "Guest"; // default username
@@ -17,6 +18,10 @@ public class UserSession {
 
     public void changeState(UserState newState) {
         this.state = newState;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public boolean login(String userName, String password) {
@@ -37,5 +42,12 @@ public class UserSession {
         return loggedOut;
     }
 
+    public User profile() {
+        return state.profile();
+    }
+
+    public void createPost(String title, String content) {
+        state.createPost(title, content);
+    }
 
 }

@@ -44,7 +44,7 @@ public class StringTokenizerDemo {
         System.out.println("Actual: " + actual);
 
         System.out.println("=======================================================");
-        testString = "Today is a good day. I have learnt 1+1=2. #LearntSomethingNewToday @Bernardo \\Adam";
+        testString = "Today is a good day. I have learnt 11+1=12. #LearntSomethingNewToday @Bernardo \\Adam";
         stringTokenizer = new StringTokenizer(testString);
         String originalString = testString;
         List<String> firstStep = new ArrayList<String>();

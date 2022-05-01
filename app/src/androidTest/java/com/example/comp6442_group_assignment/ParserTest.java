@@ -12,21 +12,21 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ParserTest {
-    @Test
-    public void sharpTagTest(){
-        ArrayList<String> inputList = new ArrayList<String>();
-        inputList.add("#a2bcADWAE");
-        inputList.add("@ABC");
-        inputList.add("#abcA rhjd");
-        inputList.add("##af#");
-        inputList.add("awr");
-        for(int i = 0; i < 5; i ++){
-            StringTokenizer st = new StringTokenizer(inputList.get(i));
-            Parser p = new Parser(st);
-            if(p.parseTag() != null){
-                Log.i("Actual: ", p.parseTag().show());
-            }
-
-        }
-    }
+//    @Test
+//    public void sharpTagTest(){
+//        ArrayList<String> inputList = new ArrayList<String>();
+//        inputList.add("#a2bcADWAE");
+//        inputList.add("@ABC");
+//        inputList.add("#abcA rhjd");
+//        inputList.add("##af#");
+//        inputList.add("awr");
+//        for(int i = 0; i < 5; i ++){
+//            StringTokenizer st = new StringTokenizer(inputList.get(i));
+//            Parser p = new Parser(st);
+//            if(p.parseTag() != null){
+//                Log.i("Actual: ", p.parseTag().show());
+//            }
+//
+//        }
+//    }
 }

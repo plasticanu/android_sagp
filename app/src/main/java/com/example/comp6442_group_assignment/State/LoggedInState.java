@@ -14,16 +14,26 @@ public class LoggedInState extends UserState{
 
     @Override
     public boolean login(String userName, String password) {
+        //TODO: Error Message
         return false;
     }
 
     @Override
     public boolean logout() {
+        session.changeState(new GuestState(session));
+        session.user = null; // reset user
+        return false;
+    }
+
+    @Override
+    public boolean register(String userName, String password, String email, String firstName, String lastName, String phoneNumber) {
+        //TODO: Error Message
         return false;
     }
 
     @Override
     public void createPost(String title, String content) {
+        Post post = new Post(title, content, session.profile());
 
     }
 
