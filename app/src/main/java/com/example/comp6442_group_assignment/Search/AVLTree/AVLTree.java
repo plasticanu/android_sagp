@@ -106,6 +106,20 @@ public class AVLTree<T> {
         return n;
 
     }
+    public Node<T> delete(Node<T> n, T e){
+
+        if (n == null)
+            return n;
+
+        // BST deletion method
+        if(e.hashCode() < n.key)
+            n.left = delete(n.left, e);
+        else if(e.hashCode() > n.key)
+            n.right = delete(n.right, e);
+        // Case: needs rotation
+        // TODO: balance
+        return n;
+    }
 
 
 }

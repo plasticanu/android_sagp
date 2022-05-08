@@ -1,19 +1,18 @@
 package com.example.comp6442_group_assignment.Search.Tags;
 
-public class SharpTag extends Tag{
+public class AuthorTag extends Tag{
     String expression;
 
-    public SharpTag(String s){
+    public AuthorTag(String s){
         this.expression = s;
     }
     @Override
     public void show() {
-        String starter = "#";
-        System.out.println(starter + expression);
+        System.out.println("@" + expression);
     }
 
     @Override
     public Tag evaluate() {
-        return new SharpTag(expression);
+        return new AuthorTag(expression);
     }
 }
