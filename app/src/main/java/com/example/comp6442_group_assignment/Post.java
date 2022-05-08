@@ -1,13 +1,15 @@
 package com.example.comp6442_group_assignment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
     private String title;
     private String content;
     private User author;
-    private String time;
-    private List<Comment> comments;
+    private int likes;
+    private String createTime;
+    private ArrayList<Comment> comments;
 
     public Post(String title, String content, User author) {
         this.title = title;

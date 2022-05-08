@@ -1,11 +1,5 @@
 package com.example.comp6442_group_assignment;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -92,7 +86,7 @@ public class User {
         this.password = password;
     }
 
-    @Override @NotNull
+    @Override
     public String toString() {
         return "User{" +
                 "userName='" + userName + '\'' +
