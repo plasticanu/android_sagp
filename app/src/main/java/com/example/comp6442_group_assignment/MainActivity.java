@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,10 +29,13 @@ import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isLogged = false;
+    private static Context applicationContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        applicationContext = getContext();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Home");
@@ -134,4 +138,8 @@ public class MainActivity extends AppCompatActivity {
         return data;
     }
 
+
+    public static Context getContext() {
+        return applicationContext;
+    }
 }

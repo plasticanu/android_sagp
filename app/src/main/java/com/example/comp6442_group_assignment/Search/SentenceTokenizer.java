@@ -1,5 +1,7 @@
 package com.example.comp6442_group_assignment.Search;
 
+import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
+
 public class SentenceTokenizer extends Tokenizer{
 
     private final String text;
@@ -66,5 +68,6 @@ public class SentenceTokenizer extends Tokenizer{
         }
         return false;
     }
+
 
 }
