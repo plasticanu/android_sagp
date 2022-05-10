@@ -4,11 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.R;
+import com.example.comp6442_group_assignment.Search.Search;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +70,33 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View myview = inflater.inflate(R.layout.fragment_home, container, false);
+        Button b = (Button) myview.findViewById(R.id.testButton);
+        EditText et = (EditText) myview.findViewById(R.id.testInput);
+        Search search = new Search();
+        search.setFilePath("posts.xml");
+        search.insertToContentTree();
+
+        b.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                String input = et.getText().toString();
+                search.rankContent(input);
+                ArrayList<Integer> result =search.getContentRank();
+
+                Log.i("search result: ", String.valueOf(result.get(0)));
+                for(Post p : search.getPosts()){
+                    if(p.getLikes() == result.get(0)){
+                        Log.i("Content: " , p.getContent());
+                        System.out.println( p.getContent());
+                    }
+                }
+            }
+        });
+
+        return myview;
+
     }
 
 }

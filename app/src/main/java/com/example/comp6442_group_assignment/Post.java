@@ -16,6 +16,10 @@ public class Post {
         this.content = content;
         this.author = author;
     }
+    public Post(String content, int likes){
+        this.content = content;
+        this.likes = likes;
+    }
 
     public String getTitle() {
         return title;
@@ -39,5 +43,9 @@ public class Post {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public int getLikes() {
+        return likes;
     }
 }

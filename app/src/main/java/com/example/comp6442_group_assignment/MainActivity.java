@@ -13,6 +13,10 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 
 import com.example.comp6442_group_assignment.Fragment.forumFragment;
 import com.example.comp6442_group_assignment.Fragment.homeFragment;
@@ -28,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isLogged = false;
