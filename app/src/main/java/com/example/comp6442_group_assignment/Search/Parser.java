@@ -26,12 +26,18 @@ public class Parser {
     public Parser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
     }
+
+    /**
+     * @Author Zhidong Piao u7139999
+     * please run with coverage to avoid errors.
+     * @param args
+     */
     public static void main(String[] args) {
         String test = "@abc #araworij 143124 @abcccc 'awwad'";
         SentenceTokenizer s = new SentenceTokenizer(test);
         Parser p = new Parser(s);
         for(Tag t : p.parseTag()){
-            t.show();
+            System.out.println(t.show());
         }
 
     }
@@ -40,6 +46,7 @@ public class Parser {
      * Parse tags from the input. It reads all the tags once.
      * The result is an ArrayList contain the tags.
      * @return ArrayList<Tag>
+     * @Author Zhidong Piao u7139999
      */
     public ArrayList<Tag> parseTag(){
         // Declare the result to be an Arraylist

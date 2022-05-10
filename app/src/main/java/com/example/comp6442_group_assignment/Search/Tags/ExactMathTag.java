@@ -8,8 +8,9 @@ public class ExactMathTag extends Tag{
     }
 
     @Override
-    public void show() {
+    public String show() {
         System.out.println("'" + expression + "'");
+        return null;
     }
 
     @Override

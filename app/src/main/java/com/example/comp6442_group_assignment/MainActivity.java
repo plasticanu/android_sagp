@@ -19,6 +19,8 @@ import com.example.comp6442_group_assignment.Fragment.homeFragment;
 import com.example.comp6442_group_assignment.Fragment.loginFragment;
 import com.example.comp6442_group_assignment.Fragment.profileFragment;
 import com.example.comp6442_group_assignment.Fragment.searchFragment;
+import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
+import com.example.comp6442_group_assignment.Search.Search;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.BufferedReader;
@@ -29,17 +31,22 @@ import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isLogged = false;
+
+    // Author Zhidong Piao u7139999
+    // This field let other classes (non activity class) access the application context.
+    // For accessing the resource and assets folder.
     private static Context applicationContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        applicationContext = getContext();
+        applicationContext = getApplicationContext();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Home");
         myNavigation();
+
+
     }
 
 

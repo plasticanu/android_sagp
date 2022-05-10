@@ -7,8 +7,8 @@ public class AuthorTag extends Tag{
         this.expression = s;
     }
     @Override
-    public void show() {
-        System.out.println("@" + expression);
+    public String show() {
+        return "@" + expression;
     }
 
     @Override

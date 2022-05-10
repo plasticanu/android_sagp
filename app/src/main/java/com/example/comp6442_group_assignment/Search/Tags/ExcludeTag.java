@@ -6,8 +6,9 @@ public class ExcludeTag extends Tag{
         this.expression = s;
     }
     @Override
-    public void show() {
+    public String show() {
         System.out.println("/" + expression);
+        return null;
     }
 
     @Override

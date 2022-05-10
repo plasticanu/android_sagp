@@ -2,11 +2,18 @@ package com.example.comp6442_group_assignment.Search.AVLTree;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
+/**
+ * Node for AVLTree
+ * TODO:  Comment, getters and setters.
+ * @param <T>
+ */
 public class Node<T>{
     public T data;
     // Used for comparing object
     public int key;
-    public int postID;
+    public ArrayList<Integer> postID = new ArrayList<>();
     int height;
     Node<T> left;
     Node<T> right;
@@ -20,7 +27,7 @@ public class Node<T>{
     public Node(T element, int id){
         this.data = element;
         this.key = element.hashCode();
-        this.postID = id;
+        this.postID.add(id);
         height = 1;
     }
 
@@ -32,7 +39,7 @@ public class Node<T>{
         return key;
     }
 
-    public int getPostID() {
+    public ArrayList<Integer> getPostID() {
         return postID;
     }
 
@@ -64,9 +71,6 @@ public class Node<T>{
         this.left = left;
     }
 
-    public void setPostID(int postID) {
-        this.postID = postID;
-    }
 
     public void setRight(Node<T> right) {
         this.right = right;

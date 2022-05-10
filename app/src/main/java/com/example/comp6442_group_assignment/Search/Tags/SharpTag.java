@@ -7,9 +7,10 @@ public class SharpTag extends Tag{
         this.expression = s;
     }
     @Override
-    public void show() {
+    public String show() {
         String starter = "#";
         System.out.println(starter + expression);
+        return starter;
     }
 
     @Override

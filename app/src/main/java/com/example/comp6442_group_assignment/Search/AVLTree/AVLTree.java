@@ -1,6 +1,11 @@
 package com.example.comp6442_group_assignment.Search.AVLTree;
 
-
+/**
+ * AVLTree implementation, not immutable.
+ * @Author Zhidong Piao u7139999
+ * TODO: Deletion method and comment. AND code style.
+ * @param <T>
+ */
 public class AVLTree<T> {
     /**
      * This field refers to the AVLTree.
@@ -108,9 +113,12 @@ public class AVLTree<T> {
 
     }
     public Node<T> insertWithPostID(Node<T> n, T e, int postID){
-        Node<T> result = insert(n, e);
-        result.postID = postID;
-        return result;
+        if(findNode(n, e) == null){
+            n = insert(n, e);
+        }
+        findNode(n,e).getPostID().add(postID);
+
+        return n;
     }
     public Node<T> delete(Node<T> n, T e){
 
@@ -127,5 +135,18 @@ public class AVLTree<T> {
         return n;
     }
 
+    public Node<T> findNode(Node<T> n, T e){
+        if(n == null){
+            return null;
+        }
+        else if(n.key == e.hashCode()){
+            return n;
+        }
+        else if(e.hashCode() > n.key){
+            return findNode(n.getRight(), e);
+        }else{
+            return findNode(n.getLeft(), e);
+        }
+    }
 
 }
