@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.content.AsyncTaskLoader;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,11 +29,14 @@ import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isLogged = false;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     // This field let other classes (non activity class) access the application context.
     // For accessing the resource and assets folder.
     private static Context applicationContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setTitle("Home");
         myNavigation();
+
+//        UserSession userSession = new UserSession();
+//        System.out.println(userSession.isLoggedIn);
+
+//        new SetupClient().execute();
+
+
+
 
     }
 
@@ -115,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragmentContainerView,fragment);
         fragmentTransaction.commit();
     }
+
+
+
+
 
     /**
      * A method used to change the current action bar title.

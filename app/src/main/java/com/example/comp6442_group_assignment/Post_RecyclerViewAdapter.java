@@ -35,8 +35,8 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
         holder.tvAuthor.setText(postModels.get(position).getAuthor());
         holder.tvDate.setText(postModels.get(position).getCreateTime());
         holder.tvContent.setText(postModels.get(position).getContent());
-        holder.tvLike.setText(String.valueOf(postModels.get(position).getLikes()));
-
+        holder.tvLike.setText(String.valueOf(postModels.get(position).getLikes().size()));
+        holder.tvComment.setText(String.valueOf(postModels.get(position).getComments().size()));
 
     }
 
@@ -48,7 +48,7 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvAuthor,tvDate,tvContent,tvLike;
+        TextView tvAuthor,tvDate,tvContent,tvLike,tvComment;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -57,6 +57,7 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
             tvDate = itemView.findViewById(R.id.textView_date);
             tvContent = itemView.findViewById(R.id.textView_content);
             tvLike = itemView.findViewById(R.id.textView_like_count);
+            tvComment = itemView.findViewById(R.id.textView_comment_count);
         }
     }
 }
