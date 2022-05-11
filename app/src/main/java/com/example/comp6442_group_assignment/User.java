@@ -24,6 +24,8 @@ public class User {
     private String lastName;
     private String phoneNumber;
 
+    private List<String> notifications; //TODO: ADD this to writer and reader
+
     public String getEmail() {
         return email;
     }
@@ -161,6 +163,14 @@ public class User {
         return false;
     }
 
+    /**
+     * directly write to the user.xml file, server side initialization function. This should probably never be
+     * called alone.
+     * @param users
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
