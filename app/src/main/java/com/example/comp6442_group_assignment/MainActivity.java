@@ -24,7 +24,6 @@ import com.example.comp6442_group_assignment.Fragment.loginFragment;
 import com.example.comp6442_group_assignment.Fragment.profileFragment;
 import com.example.comp6442_group_assignment.Fragment.searchFragment;
 import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
-import com.example.comp6442_group_assignment.Search.Search;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.BufferedReader;

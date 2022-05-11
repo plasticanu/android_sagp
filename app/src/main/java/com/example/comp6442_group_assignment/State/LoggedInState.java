@@ -17,7 +17,7 @@ public class LoggedInState extends UserState{
 
     @Override
     public boolean login(String userName, String password) {
-        //TODO: Error Message
+        System.out.println("You are already logged in.");
         return false;
     }
 
@@ -25,23 +25,32 @@ public class LoggedInState extends UserState{
     public boolean logout() {
         session.changeState(new GuestState(session));
         session.user = null; // reset user
+        System.out.println("Logout Successful!");
         return true;
     }
 
     @Override
     public boolean register(String userName, String password, String email, String firstName, String lastName, String phoneNumber) {
-        //TODO: Error Message
+        System.out.println("You are already logged in.");
         return false;
     }
 
     @Override
     public boolean deleteAccount() throws ParserConfigurationException, IOException, SAXException {
-        return User.deleteAccount(session.user.getUserName());
+        boolean result = User.deleteAccount(session.user.getUserName());
+        if (result) {
+            logout();
+            System.out.println("Delete Successful!");
+            return true; // delete successful
+        } else {
+            System.out.println("Delete account failed.");
+            return false; // delete failed
+        }
     }
 
     @Override
-    public void createPost(String title, String content) {
-        Post post = new Post(title, content, session.profile());
+    public void createPost(String content) {
+        Post post = new Post(content, session.user.getUserName());
         //TODO: To implement
     }
 
@@ -81,9 +90,7 @@ public class LoggedInState extends UserState{
     }
 
     @Override
-    public List<Post> allPosts() {
-        return null;
-    }
+    public List<Post> allPosts() { return null; }
 
     @Override
     public List<Post> search(String keyword) {

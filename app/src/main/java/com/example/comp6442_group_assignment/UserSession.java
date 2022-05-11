@@ -6,6 +6,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.List;
 
 public class UserSession {
     UserState state; // current state of the user
@@ -46,12 +47,8 @@ public class UserSession {
         return loggedOut;
     }
 
-    public User profile() {
-        return state.profile();
-    }
-
-    public void createPost(String title, String content) {
-        state.createPost(title, content);
+    public void createPost(String content) {
+        state.createPost(content);
     }
 
 }
