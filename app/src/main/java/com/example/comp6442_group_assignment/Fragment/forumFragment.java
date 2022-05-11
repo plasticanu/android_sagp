@@ -1,14 +1,27 @@
 package com.example.comp6442_group_assignment.Fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.comp6442_group_assignment.R;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +34,8 @@ public class forumFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,5 +77,136 @@ public class forumFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_forum, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Button button = view.findViewById(R.id.button_connect);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new AsyncAction().execute();
+
+
+            }
+
+        });
+
+
+    }
+
+
+    private class AsyncAction extends AsyncTask<String, Void, String> {
+        public Socket socket = null;
+        public InputStreamReader inputStreamReader = null;
+        public OutputStreamWriter outputStreamWriter = null;
+        public BufferedReader bufferedReader = null;
+        public BufferedWriter bufferedWriter = null;
+        protected String doInBackground(String... args) {
+
+
+
+            try {
+                socket = new Socket("10.0.2.2", 6060);
+                inputStreamReader = new InputStreamReader(socket.getInputStream());
+                outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
+
+                bufferedReader = new BufferedReader(inputStreamReader);
+                bufferedWriter = new BufferedWriter(outputStreamWriter);
+
+//                Scanner scanner = new Scanner(System.in); // for user input
+
+                Button login = getActivity().findViewById(R.id.button_login);
+                Button logout = getActivity().findViewById(R.id.button_logout);
+
+                while (true) {
+
+//                    String input = scanner.nextLine();
+                    login.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                bufferedWriter.write("li user1 qwerty");
+                                bufferedWriter.newLine();
+                                bufferedWriter.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    logout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                bufferedWriter.write("lo");
+                                bufferedWriter.newLine();
+                                bufferedWriter.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+
+                    bufferedWriter.write("");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+
+                    System.out.println("Server: " + bufferedReader.readLine());
+
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (bufferedWriter != null) {
+                    try {
+                        bufferedWriter.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (inputStreamReader != null) {
+                    try {
+                        inputStreamReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (outputStreamWriter != null) {
+                    try {
+                        outputStreamWriter.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (socket != null) {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+//            return null;//returns what you want to pass to the onPostExecute()
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            //resultis the data returned from doInbackground
+
+
+        }
     }
 }

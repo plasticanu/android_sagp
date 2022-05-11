@@ -60,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println(userSession.isLoggedIn);
 
 //        new SetupClient().execute();
-
-
-
-
     }
 
 
