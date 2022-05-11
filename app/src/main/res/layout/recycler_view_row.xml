@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textView_like_count"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/textView_comment_count"
-                app:layout_constraintTop_toBottomOf="@+id/editText_content"
+                app:layout_constraintTop_toBottomOf="@+id/textView_content"
                 app:srcCompat="@drawable/ic_favorite" />
 
             <TextView
@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_like"
-                app:layout_constraintTop_toBottomOf="@+id/editText_content" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_content" />
 
             <ImageButton
                 android:id="@+id/button_comment"
@@ -63,7 +63,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textView_comment_count"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_content"
+                app:layout_constraintTop_toBottomOf="@+id/textView_content"
                 app:srcCompat="@drawable/ic_comment" />
 
             <TextView
@@ -78,19 +78,16 @@
                 app:layout_constraintEnd_toStartOf="@+id/button_like"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_comment"
-                app:layout_constraintTop_toBottomOf="@+id/editText_content" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_content" />
 
             <TextView
                 android:id="@+id/textView_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
-                android:layout_marginEnd="231dp"
-                android:layout_marginRight="231dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:text="User Name"
                 android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,34 +95,30 @@
                 android:id="@+id/textView_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
-                android:layout_marginEnd="301dp"
-                android:layout_marginRight="301dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Date"
                 android:textSize="14dp"
-                app:layout_constraintBottom_toTopOf="@+id/editText_content"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textView_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_user" />
 
             <TextView
-                android:id="@+id/editText_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/textView_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Content..."
+                android:breakStrategy="balanced"
+                android:gravity="center_horizontal"
+                android:text="Content.."
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView_date"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
