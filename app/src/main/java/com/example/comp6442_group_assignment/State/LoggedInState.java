@@ -1,10 +1,12 @@
 package com.example.comp6442_group_assignment.State;
 
 import android.os.Build;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
+import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +20,13 @@ public class LoggedInState extends UserState{
 
     public LoggedInState(UserSession session) {
         super(session);
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return "LoggedInState";
     }
 
     @Override

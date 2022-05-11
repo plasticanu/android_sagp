@@ -1,8 +1,10 @@
 package com.example.comp6442_group_assignment.State;
 
+import androidx.annotation.NonNull;
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
+import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +15,13 @@ public class GuestState extends UserState {
 
     public GuestState(UserSession session) {
         super(session);
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return "GuestState";
     }
 
     @Override

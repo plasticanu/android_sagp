@@ -21,6 +21,10 @@ public class UserSession {
         changeState(defaultState);
     }
 
+    public UserState getState() {
+        return state;
+    }
+
     public void changeState(UserState newState) {
         this.state = newState;
     }
