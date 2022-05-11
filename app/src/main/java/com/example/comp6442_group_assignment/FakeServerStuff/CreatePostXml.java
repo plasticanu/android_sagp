@@ -20,12 +20,15 @@ public class CreatePostXml {
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment("comment1", "user1", "2020-01-01"));
         comments.add(new Comment("comment2", "user2", "2020-01-02"));
-        Post post1 = new Post("00000001","This is a test post", "user1", 0, "2020-01-01", comments);
-        Post post2 = new Post("00000002","This is a test post", "user1", 0, "2020-01-01", new ArrayList<Comment>());
-        Post post3 = new Post("00000003","This is a test post", "user2", 0, "2020-01-01", new ArrayList<Comment>());
-        Post post4 = new Post("00000004","This is a test post", "user3", 0, "2020-01-01", new ArrayList<Comment>());
-        Post post5 = new Post("00000005","This is a test post", "user1", 0, "2020-01-01", new ArrayList<Comment>());
-        Post post6 = new Post("00000006","This is a test post", "user1", 0, "2020-01-01", new ArrayList<Comment>());
+        List<String> likes = new ArrayList<>();
+        likes.add("user1");
+        likes.add("user2");
+        Post post1 = new Post("00000001","This is a test post", "user1", new ArrayList<>(), "2020-01-01", comments);
+        Post post2 = new Post("00000002","This is a test post", "user1", new ArrayList<>(), "2020-01-01", new ArrayList<Comment>());
+        Post post3 = new Post("00000003","This is a test post", "user2", likes, "2020-01-01", new ArrayList<Comment>());
+        Post post4 = new Post("00000004","This is a test post", "user3", new ArrayList<>(), "2020-01-01", new ArrayList<Comment>());
+        Post post5 = new Post("00000005","This is a test post", "user1", new ArrayList<>(), "2020-01-01", new ArrayList<Comment>());
+        Post post6 = new Post("00000006","This is a test post", "user1", new ArrayList<>(), "2020-01-01", new ArrayList<Comment>());
 
         List<Post> posts = new ArrayList<>();
         posts.add(post1);
