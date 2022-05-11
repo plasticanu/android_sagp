@@ -1,0 +1,150 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="COMP6442_Group_Assignment:jar">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/COMP6442_Group_Assignment_jar</output-path>
+    <root id="archive" name="COMP6442_Group_Assignment.jar">
+      <element id="module-output" name="COMP6442_Group_Assignment.app" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7a39e6348173755dbec992b0b01ab56d/asynclayoutinflater-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7a39e6348173755dbec992b0b01ab56d/asynclayoutinflater-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/67da749b2f8d9f48f469a0b64db63311/media-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/67da749b2f8d9f48f469a0b64db63311/media-1.0.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/67da749b2f8d9f48f469a0b64db63311/media-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5a920d6596cf0f24856cfb788f6142cb/activity-ktx-1.2.3/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5a920d6596cf0f24856cfb788f6142cb/activity-ktx-1.2.3/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5d0e94e64e126b01fab1bedc776c11b9/savedstate-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5d0e94e64e126b01fab1bedc776c11b9/savedstate-1.1.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5d0e94e64e126b01fab1bedc776c11b9/savedstate-1.1.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6cc95a1472775caa617667205113bdf5/appcompat-resources-1.4.1/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6cc95a1472775caa617667205113bdf5/appcompat-resources-1.4.1/res" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6cc95a1472775caa617667205113bdf5/appcompat-resources-1.4.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0f608b7d90c5a7acd446fb5c76d7b5aa/lifecycle-viewmodel-savedstate-2.3.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0f608b7d90c5a7acd446fb5c76d7b5aa/lifecycle-viewmodel-savedstate-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8f3d36954ec2b6ebefa257d698da305d/fragment-ktx-1.4.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8f3d36954ec2b6ebefa257d698da305d/fragment-ktx-1.4.1/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8f3d36954ec2b6ebefa257d698da305d/fragment-ktx-1.4.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cf8c7d9b1ccc354463e16c733c410fd6/viewpager2-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cf8c7d9b1ccc354463e16c733c410fd6/viewpager2-1.0.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cf8c7d9b1ccc354463e16c733c410fd6/viewpager2-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d2e9fc4961736d27d99ce870b509578/loader-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d2e9fc4961736d27d99ce870b509578/loader-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aba69667f1ca1db93ffadd7af74e65f7/documentfile-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aba69667f1ca1db93ffadd7af74e65f7/documentfile-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/84b5f2b7e92513321f1aa6f293e5fd2c/navigation-common-2.4.2/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/84b5f2b7e92513321f1aa6f293e5fd2c/navigation-common-2.4.2/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/84b5f2b7e92513321f1aa6f293e5fd2c/navigation-common-2.4.2/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/73fd0093d8042d45f3e473dd03cce34f/viewpager-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/73fd0093d8042d45f3e473dd03cce34f/viewpager-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.collection/collection-ktx/1.1.0/f807b2f366f7b75142a67d2f3c10031065b5168/collection-ktx-1.1.0.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/df42aa28c4955aa78e5057facd606476/vectordrawable-1.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/df42aa28c4955aa78e5057facd606476/vectordrawable-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6a8912373ff867804642142b47d40805/transition-1.4.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6a8912373ff867804642142b47d40805/transition-1.4.1/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6a8912373ff867804642142b47d40805/transition-1.4.1/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0575f15fbca8eb5299e700bb5f3ce040/material-1.5.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0575f15fbca8eb5299e700bb5f3ce040/material-1.5.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0575f15fbca8eb5299e700bb5f3ce040/material-1.5.0/jars/classes.jar" path-in-jar="/" />
+      <element id="library" level="application" name="Python 3.10 (comp3620-2022-assignment-1) interpreter library" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.5.30/5fd47535cc85f9e24996f939c2de6583991481b0/kotlin-stdlib-jdk8-1.5.30.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba5a765e6b73789408ffc8f6ff4e392b/coordinatorlayout-1.1.0/res" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba5a765e6b73789408ffc8f6ff4e392b/coordinatorlayout-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba5a765e6b73789408ffc8f6ff4e392b/coordinatorlayout-1.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7a953a9cf8d232b040588a10ec24a3e/core-1.7.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7a953a9cf8d232b040588a10ec24a3e/core-1.7.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7a953a9cf8d232b040588a10ec24a3e/core-1.7.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b7de624594c0fcc60ab8a2ce8f46f7c9/annotation-experimental-1.1.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b7de624594c0fcc60ab8a2ce8f46f7c9/annotation-experimental-1.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b7de624594c0fcc60ab8a2ce8f46f7c9/annotation-experimental-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/29636fda6f358ff77e26a500e62a9e9d/legacy-support-v4-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/29636fda6f358ff77e26a500e62a9e9d/legacy-support-v4-1.0.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b355c480db1f0bbc262347d90f178e94/legacy-support-core-utils-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b355c480db1f0bbc262347d90f178e94/legacy-support-core-utils-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f6772fc35be49ef82d023a759abf965a/lifecycle-livedata-ktx-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f6772fc35be49ef82d023a759abf965a/lifecycle-livedata-ktx-2.3.1/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1386f3092cbcfd7b8a0b00a2093493fd/cardview-1.0.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1386f3092cbcfd7b8a0b00a2093493fd/cardview-1.0.0/res" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1386f3092cbcfd7b8a0b00a2093493fd/cardview-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.6.0/7857e365f925cfa060f941c1357cda1f8790502c/kotlin-stdlib-common-1.6.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d16bf190ee8f3fb9b0c730ff0fb6acd/savedstate-ktx-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d16bf190ee8f3fb9b0c730ff0fb6acd/savedstate-ktx-1.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.6.0/a40b8b22529b733892edf4b73468ce598bb17f04/kotlin-stdlib-1.6.0.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/91886eea684eb29ae826777e94c60844/activity-1.2.4/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/91886eea684eb29ae826777e94c60844/activity-1.2.4/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/87a5fdf0b670e5270cd7934fc9666a26/dynamicanimation-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/87a5fdf0b670e5270cd7934fc9666a26/dynamicanimation-1.0.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3aa8ca4c74d3d5511fd800d97c49f13b/versionedparcelable-1.1.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3aa8ca4c74d3d5511fd800d97c49f13b/versionedparcelable-1.1.1/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.5.30/525f5a7fa6d7790a571c07dd24214ed2dda352fe/kotlin-stdlib-jdk7-1.5.30.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5ccb6cc7329316a197e0bebebc57e36b/swiperefreshlayout-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5ccb6cc7329316a197e0bebebc57e36b/swiperefreshlayout-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.5.2/f4cc07a50437659e0043e7da762809a46932b6a0/kotlinx-coroutines-core-jvm-1.5.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation/1.3.0/21f49f5f9b85fc49de712539f79123119740595/annotation-1.3.0.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/58658d8a0306c33035b6120cc4581a66/appcompat-1.4.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/58658d8a0306c33035b6120cc4581a66/appcompat-1.4.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/58658d8a0306c33035b6120cc4581a66/appcompat-1.4.1/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6d8703cb3fa50afd342a98e47ad880bd/interpolator-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6d8703cb3fa50afd342a98e47ad880bd/interpolator-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/00ab146161884aa09582a68c330f64c9/fragment-1.4.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/00ab146161884aa09582a68c330f64c9/fragment-1.4.1/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/00ab146161884aa09582a68c330f64c9/fragment-1.4.1/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/21f0a624e5045d64b8ee49e2721d353e/recyclerview-1.1.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/21f0a624e5045d64b8ee49e2721d353e/recyclerview-1.1.0/res" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/21f0a624e5045d64b8ee49e2721d353e/recyclerview-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/78e6a23db99283c9340d5d062662a01e/customview-1.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/78e6a23db99283c9340d5d062662a01e/customview-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3ce20c3ca039e42084947f29816305b2/core-runtime-2.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3ce20c3ca039e42084947f29816305b2/core-runtime-2.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a0e4e97ec956501bc90bf36ee7437499/legacy-support-core-ui-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a0e4e97ec956501bc90bf36ee7437499/legacy-support-core-ui-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9fc414c457e4555c0780ec8a8548f2e/navigation-fragment-2.4.2/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9fc414c457e4555c0780ec8a8548f2e/navigation-fragment-2.4.2/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9fc414c457e4555c0780ec8a8548f2e/navigation-fragment-2.4.2/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96a7bf8e55ee4bf15ac2956d0cddff0e/slidingpanelayout-1.2.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96a7bf8e55ee4bf15ac2956d0cddff0e/slidingpanelayout-1.2.0/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96a7bf8e55ee4bf15ac2956d0cddff0e/slidingpanelayout-1.2.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/98070a346694124a86a6460b0b412aba/navigation-runtime-2.4.2/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/98070a346694124a86a6460b0b412aba/navigation-runtime-2.4.2/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/98070a346694124a86a6460b0b412aba/navigation-runtime-2.4.2/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/59b8a257f3dc0ede87b9e54c0e7508c5/drawerlayout-1.1.1/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/59b8a257f3dc0ede87b9e54c0e7508c5/drawerlayout-1.1.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/59b8a257f3dc0ede87b9e54c0e7508c5/drawerlayout-1.1.1/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/75c3862bb731dadb8b17cccd5ef29248/viewbinding-4.2.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/75c3862bb731dadb8b17cccd5ef29248/viewbinding-4.2.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/523bacb8b9afebd1f6cfdf603d1f5223/print-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/523bacb8b9afebd1f6cfdf603d1f5223/print-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1f2db155eea4e478987a6a73ede641d2/lifecycle-viewmodel-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1f2db155eea4e478987a6a73ede641d2/lifecycle-viewmodel-2.3.1/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1f2db155eea4e478987a6a73ede641d2/lifecycle-viewmodel-2.3.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0fb1d34a9d68b7e776ee70d6243b3d72/localbroadcastmanager-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0fb1d34a9d68b7e776ee70d6243b3d72/localbroadcastmanager-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f20f1f5e54cafb2cbaadb92aeb8f4525/lifecycle-livedata-core-ktx-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f20f1f5e54cafb2cbaadb92aeb8f4525/lifecycle-livedata-core-ktx-2.3.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7dc87433fa0edde48e38518aa125d6c9/lifecycle-runtime-ktx-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7dc87433fa0edde48e38518aa125d6c9/lifecycle-runtime-ktx-2.3.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-android/1.5.2/d246a704a55b7bddb79407cce4348890eaa341d9/kotlinx-coroutines-android-1.5.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.4.0/1fdb7349701e9cf2f0a69fc10642b6fef6bb3e12/lifecycle-common-2.4.0.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3d77d590a58689ec470cb96907b87206/lifecycle-runtime-2.4.0/res" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3d77d590a58689ec470cb96907b87206/lifecycle-runtime-2.4.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3d77d590a58689ec470cb96907b87206/lifecycle-runtime-2.4.0/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2ad8fcbd911d8056a09677e4f354f1dc/vectordrawable-animated-1.1.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2ad8fcbd911d8056a09677e4f354f1dc/vectordrawable-animated-1.1.0/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a75659d0a61dcfb9b60b0b17cd2e475/lifecycle-viewmodel-ktx-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a75659d0a61dcfb9b60b0b17cd2e475/lifecycle-viewmodel-ktx-2.3.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c5267c23b25c8a657ad44f44c5daeb2d/cursoradapter-1.0.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c5267c23b25c8a657ad44f44c5daeb2d/cursoradapter-1.0.0/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.arch.core/core-common/2.1.0/b3152fc64428c9354344bd89848ecddc09b6f07e/core-common-2.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a2972fb8f18b4750e4760a9cd0442ede/lifecycle-livedata-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a2972fb8f18b4750e4760a9cd0442ede/lifecycle-livedata-2.3.1/AndroidManifest.xml" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6a4feb354b5972e84b6408fc12c0cabe/lifecycle-livedata-core-2.3.1/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6a4feb354b5972e84b6408fc12c0cabe/lifecycle-livedata-core-2.3.1/jars/classes.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/525f5428a791349f948fd37d758a3a2b/navigation-ui-2.4.2/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/525f5428a791349f948fd37d758a3a2b/navigation-ui-2.4.2/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/525f5428a791349f948fd37d758a3a2b/navigation-ui-2.4.2/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.collection/collection/1.1.0/1f27220b47669781457de0d600849a5de0e89909/collection-1.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3b75a902f3f44a0122ff79beabee3ed9/constraintlayout-2.1.3/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3b75a902f3f44a0122ff79beabee3ed9/constraintlayout-2.1.3/res" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3b75a902f3f44a0122ff79beabee3ed9/constraintlayout-2.1.3/AndroidManifest.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7905709b44f06030921e5e2e8aa9910/core-ktx-1.2.0/jars/classes.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7905709b44f06030921e5e2e8aa9910/core-ktx-1.2.0/AndroidManifest.xml" />
+    </root>
+  </artifact>
+</component>

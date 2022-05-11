@@ -59,6 +59,14 @@ public class UserSession {
         return false;
     }
 
+    public boolean deleteAccount() throws ParserConfigurationException, IOException, SAXException {
+        if (state.deleteAccount()) {
+            logout();
+            return true;
+        }
+        return false;
+    }
+
     public void createPost(String content) throws ParserConfigurationException, IOException, SAXException {
         state.createPost(content);
     }
