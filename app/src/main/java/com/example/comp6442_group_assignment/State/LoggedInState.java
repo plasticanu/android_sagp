@@ -53,7 +53,6 @@ public class LoggedInState extends UserState{
     public boolean deleteAccount() throws ParserConfigurationException, IOException, SAXException {
         boolean result = User.deleteAccount(session.user.getUserName());
         if (result) {
-            logout();
             System.out.println("Delete Successful!");
             return true; // delete successful
         } else {
