@@ -72,30 +72,40 @@ public class forumFragment extends Fragment {
         }
     }
 
+    //global variables used to connect to server.
+    public Socket socket = null;
+    public InputStreamReader inputStreamReader = null;
+    public OutputStreamWriter outputStreamWriter = null;
+    public BufferedReader bufferedReader = null;
+    public BufferedWriter bufferedWriter = null;
+    public String cmd="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_forum, container, false);
     }
-    public Socket socket = null;
-    public InputStreamReader inputStreamReader = null;
-    public OutputStreamWriter outputStreamWriter = null;
-    public BufferedReader bufferedReader = null;
-    public BufferedWriter bufferedWriter = null;
+
+    /**
+     * Define a few button click listeners
+     *
+     * @Author Jiyuan Chen u7055573
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button button = view.findViewById(R.id.button_connect);
         Button login = view.findViewById(R.id.button_login);
         Button logout = view.findViewById(R.id.button_logout);
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 AsyncAction action = new AsyncAction();
-                action.execute();
-
+                cmd = "";
+                action.execute(cmd);
             }
         });
 
@@ -103,102 +113,68 @@ public class forumFragment extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    bufferedWriter.write("li user1 qwerty");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                    System.out.println("Server: " + bufferedReader.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                AsyncAction action = new AsyncAction();
+                cmd = "li user1 qwerty";
+                action.execute(cmd);
+
             }
         });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    bufferedWriter.write("lo");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                    System.out.println("Server: " + bufferedReader.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+                AsyncAction action = new AsyncAction();
+                cmd = "lo";
+                action.execute(cmd);
             }
         });
 
     }
 
-
+    /**
+     * An AsyncTask class, used to make connection and,
+     * communicate with server.
+     * @Author Jiyuan Chen u7055573, Support by: Peicheng Liu u7294212
+     */
     private class AsyncAction extends AsyncTask<String, Void, String> {
-
 
         protected String doInBackground(String... args) {
 
-
+            //response used to store the message from the server.
+            String response = "";
 
             try {
-                socket = new Socket("10.0.2.2", 6060);
-                inputStreamReader = new InputStreamReader(socket.getInputStream());
-                outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
+                if(socket == null){
+                    socket = new Socket("10.0.2.2", 6060);
+                }
+                if(inputStreamReader == null){
+                    inputStreamReader = new InputStreamReader(socket.getInputStream());
+                }
+                if(outputStreamWriter == null){
+                    outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
+                }
+                if(bufferedReader == null){
+                    bufferedReader = new BufferedReader(inputStreamReader);
+                }
+                if(bufferedWriter == null){
+                    bufferedWriter = new BufferedWriter(outputStreamWriter);
+                }
 
-                bufferedReader = new BufferedReader(inputStreamReader);
-                bufferedWriter = new BufferedWriter(outputStreamWriter);
-                bufferedWriter.write("");
+                bufferedWriter.write(args[0]);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
-                System.out.println("Server: " + bufferedReader.readLine());
+                response = bufferedReader.readLine();
+                System.out.println("Server: " + response);
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (bufferedWriter != null) {
-                    try {
-                        bufferedWriter.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (inputStreamReader != null) {
-                    try {
-                        inputStreamReader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (outputStreamWriter != null) {
-                    try {
-                        outputStreamWriter.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
 
-//            return null;//returns what you want to pass to the onPostExecute()
-            return null;
+            return response;
         }
 
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
             System.out.println(result);
-
-
         }
     }
 }
