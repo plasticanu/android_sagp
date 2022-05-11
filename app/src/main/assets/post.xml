@@ -2,9 +2,9 @@
 <Posts>
     <Post>
         <PostId>00000001</PostId>
-        <Content>This is a test post</Content>
+        <Content>This is a test post. This is a test post.This is a test post. This is a test post. This is a test post. This is a test post. This is a test post.</Content>
         <Author>user1</Author>
-        <Likes/>
+        <Likes>3331</Likes>
         <CreateTime>2020-01-01</CreateTime>
         <Comments>
             <Comment>
@@ -23,7 +23,7 @@
         <PostId>00000002</PostId>
         <Content>This is a test post</Content>
         <Author>user1</Author>
-        <Likes/>
+        <Likes>2340</Likes>
         <CreateTime>2020-01-01</CreateTime>
         <Comments/>
     </Post>
@@ -31,10 +31,7 @@
         <PostId>00000003</PostId>
         <Content>This is a test post</Content>
         <Author>user2</Author>
-        <Likes>
-            <User>user1</User>
-            <User>user2</User>
-        </Likes>
+        <Likes>0</Likes>
         <CreateTime>2020-01-01</CreateTime>
         <Comments/>
     </Post>
@@ -42,7 +39,7 @@
         <PostId>00000004</PostId>
         <Content>This is a test post</Content>
         <Author>user3</Author>
-        <Likes/>
+        <Likes>0</Likes>
         <CreateTime>2020-01-01</CreateTime>
         <Comments/>
     </Post>
@@ -50,7 +47,7 @@
         <PostId>00000005</PostId>
         <Content>This is a test post</Content>
         <Author>user1</Author>
-        <Likes/>
+        <Likes>0</Likes>
         <CreateTime>2020-01-01</CreateTime>
         <Comments/>
     </Post>
@@ -58,7 +55,7 @@
         <PostId>00000006</PostId>
         <Content>This is a test post</Content>
         <Author>user1</Author>
-        <Likes/>
+        <Likes>0</Likes>
         <CreateTime>2020-01-01</CreateTime>
         <Comments/>
     </Post>

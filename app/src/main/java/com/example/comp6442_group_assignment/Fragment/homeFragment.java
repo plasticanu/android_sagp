@@ -2,7 +2,11 @@ package com.example.comp6442_group_assignment.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +15,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.comp6442_group_assignment.Comment;
 import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.Post_RecyclerViewAdapter;
 import com.example.comp6442_group_assignment.R;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,33 +89,94 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myview = inflater.inflate(R.layout.fragment_home, container, false);
-        Button b = (Button) myview.findViewById(R.id.testButton);
-        EditText et = (EditText) myview.findViewById(R.id.testInput);
-//        Search search = new Search();
-//        search.setFilePath("posts.xml");
-//        search.insertToContentTree();
-//
-//        b.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View view) {
-//                String input = et.getText().toString();
-//                search.rankContent(input);
-//                ArrayList<Integer> result =search.getContentRank();
-//
-//                Log.i("search result: ", String.valueOf(result.get(0)));
-//                for(Post p : search.getPosts()){
-//                    if(p.getLikes() == result.get(0)){
-//                        Log.i("Content: " , p.getContent());
-//                        System.out.println( p.getContent());
-//                    }
-//                }
-//            }
-//        });
-
-        return myview;
-
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    /**
+     * Use this to define the recyclerView in homeFragment.
+     * This recyclerView display a card view contains Author of the post,
+     * Date of thet post, content of the post and number of likes of the post.
+     *
+     * @Author Jiyuan Chen u7055573
+     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        List<Post> postModels = new ArrayList<>();
+
+        //define the recyclerView in fragment_home.xml.
+        RecyclerView recyclerView = view.findViewById(R.id.mRecyclerView);
+
+        //setup the list models for posts.
+        postModels = setupPost();
+
+        //custom recyclerView adapter.
+        Post_RecyclerViewAdapter adapter = new Post_RecyclerViewAdapter(getActivity(),postModels);
+
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+
+    /**
+     * Use this to setup the post models list.
+     *
+     * @Author Jiyuan Chen u7055573
+     */
+    private List<Post> setupPost(){
+        List<Post> postModels = new ArrayList<>();
+        try {
+            postModels = readFromPost();
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return postModels;
+    }
+
+    /**
+     * Reads the post.xml file and returns a list of posts, should be a server function
+     * @return List of posts.
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @Author Peicheng Liu u7294212 Edited by: Jiyuan Chen u7055573
+     */
+    public List<Post> readFromPost() throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = new ArrayList<>();
+        InputStream in = getContext().getAssets().open("post.xml");
+
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.parse(new InputSource(in));
+        doc.getDocumentElement().normalize();
+
+        NodeList nList = doc.getElementsByTagName("Post");
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+            Element postElement = (Element) nList.item(temp);
+            String postId = postElement.getElementsByTagName("PostId").item(0).getTextContent();
+            String content = postElement.getElementsByTagName("Content").item(0).getTextContent();
+            String author = postElement.getElementsByTagName("Author").item(0).getTextContent();
+            int likes = Integer.parseInt(postElement.getElementsByTagName("Likes").item(0).getTextContent());
+            String createTime = postElement.getElementsByTagName("CreateTime").item(0).getTextContent();
+            List<Comment> comments = new ArrayList<>();
+            NodeList commentList = postElement.getElementsByTagName("Comment");
+            for (int i = 0; i < commentList.getLength(); i++) {
+                Element commentElement = (Element) commentList.item(i);
+                String commentContent = commentElement.getElementsByTagName("Content").item(0).getTextContent();
+                String commentAuthor = commentElement.getElementsByTagName("Author").item(0).getTextContent();
+                String commentTime = commentElement.getElementsByTagName("Time").item(0).getTextContent();
+                Comment comment = new Comment(commentContent, commentAuthor, commentTime);
+                comments.add(comment);
+            }
+            Post post = new Post(postId, content, author, likes, createTime, comments);
+            posts.add(post);
+        }
+        return posts;
+    }
 }

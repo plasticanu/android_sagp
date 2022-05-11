@@ -98,7 +98,7 @@ public class loginFragment extends Fragment {
                 System.out.println(userString);
                 System.out.println(passString);
                 if(userString.compareTo(user) == 0 && passString.compareTo(pass) == 0){
-                    ((MainActivity) getActivity()).setActionBarTitle("My Profile");
+//                    ((MainActivity) getActivity()).setActionBarTitle("My Profile");
                     MainActivity.isLogged = true;
                     Fragment fragment = new profileFragment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
