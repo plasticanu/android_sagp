@@ -78,32 +78,63 @@ public class forumFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_forum, container, false);
     }
-
+    public Socket socket = null;
+    public InputStreamReader inputStreamReader = null;
+    public OutputStreamWriter outputStreamWriter = null;
+    public BufferedReader bufferedReader = null;
+    public BufferedWriter bufferedWriter = null;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button button = view.findViewById(R.id.button_connect);
+        Button login = view.findViewById(R.id.button_login);
+        Button logout = view.findViewById(R.id.button_logout);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                new AsyncAction().execute();
-
+                AsyncAction action = new AsyncAction();
+                action.execute();
 
             }
-
         });
 
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    bufferedWriter.write("li user1 qwerty");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                    System.out.println("Server: " + bufferedReader.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    bufferedWriter.write("lo");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                    System.out.println("Server: " + bufferedReader.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
     }
 
 
     private class AsyncAction extends AsyncTask<String, Void, String> {
-        public Socket socket = null;
-        public InputStreamReader inputStreamReader = null;
-        public OutputStreamWriter outputStreamWriter = null;
-        public BufferedReader bufferedReader = null;
-        public BufferedWriter bufferedWriter = null;
+
+
         protected String doInBackground(String... args) {
 
 
@@ -115,50 +146,10 @@ public class forumFragment extends Fragment {
 
                 bufferedReader = new BufferedReader(inputStreamReader);
                 bufferedWriter = new BufferedWriter(outputStreamWriter);
-
-//                Scanner scanner = new Scanner(System.in); // for user input
-
-                Button login = getActivity().findViewById(R.id.button_login);
-                Button logout = getActivity().findViewById(R.id.button_logout);
-
-                while (true) {
-
-//                    String input = scanner.nextLine();
-                    login.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                bufferedWriter.write("li user1 qwerty");
-                                bufferedWriter.newLine();
-                                bufferedWriter.flush();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-                    logout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                bufferedWriter.write("lo");
-                                bufferedWriter.newLine();
-                                bufferedWriter.flush();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    });
-
-                    bufferedWriter.write("");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-
-                    System.out.println("Server: " + bufferedReader.readLine());
-
-
-                }
+                bufferedWriter.write("");
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+                System.out.println("Server: " + bufferedReader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -205,6 +196,7 @@ public class forumFragment extends Fragment {
 
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
+            System.out.println(result);
 
 
         }
