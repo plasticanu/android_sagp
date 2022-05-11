@@ -1,8 +1,10 @@
 package com.example.comp6442_group_assignment.State;
 
+import androidx.annotation.NonNull;
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
+import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,11 +17,23 @@ public class GuestState extends UserState {
         super(session);
     }
 
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return "GuestState";
+    }
+
     @Override
     public boolean login(String userName, String password) throws ParserConfigurationException, IOException, SAXException {
         User user = new User(userName, password);
         if (user.isValid()) {
-            session.user = user;
+            List<User> users = User.readUsers(); // read all users
+            for (User u : users) {
+                if (u.getUserName().equals(userName)) {
+                    session.user = u; // set user
+                }
+            }
             session.changeState(new LoggedInState(session));
             System.out.println("Login Successful! " + user.getUserName());
             return true;
@@ -47,7 +61,6 @@ public class GuestState extends UserState {
             return false;
         }
         if (User.register(userName, password, email, firstName, lastName, phoneNumber)) {
-            login(userName, password);
             System.out.println("Register Successful! " + userName);
             return true;
         }

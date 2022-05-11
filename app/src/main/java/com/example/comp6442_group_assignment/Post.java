@@ -201,7 +201,7 @@ public class Post {
             String author = postElement.getElementsByTagName("Author").item(0).getTextContent();
             String createTime = postElement.getElementsByTagName("CreateTime").item(0).getTextContent();
             List<String> likes = new ArrayList<>();
-            NodeList likeList = postElement.getElementsByTagName("Like");
+            NodeList likeList = postElement.getElementsByTagName("User");
             for (int i = 0; i < likeList.getLength(); i++) {
                 likes.add(likeList.item(i).getTextContent());
             }
