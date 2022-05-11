@@ -39,7 +39,7 @@ public class FakeServer {
                     System.out.println("Client: " + msgFromClient);
                     String msgToClient = "";
 
-                    if (msgFromClient.length() >= 2) {
+                    if (msgFromClient != null && msgFromClient.length() >= 2) {
                         switch (msgFromClient.substring(0, 2)) {
                             case "li":
                                 String[] tokens_li = msgFromClient.split(" ");
