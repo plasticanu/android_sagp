@@ -24,11 +24,11 @@ public class Post {
     private String content;
     private String author;
 
-    private int likes;
     private String createTime;
     private List<Comment> comments;
+    private List<String> likes;
 
-    public Post(String postId, String content, String author, int likes, String createTime, List<Comment> comments) {
+    public Post(String postId, String content, String author, List<String> likes, String createTime, List<Comment> comments) {
         this.postId = postId;
         this.content = content;
         this.author = author;
@@ -54,7 +54,7 @@ public class Post {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -74,11 +74,11 @@ public class Post {
         this.author = author;
     }
 
-    public int getLikes() {
+    public List<String> getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) { this.likes = likes; }
+    public void setLikes(List<String> likes) { this.likes = likes; }
 
     public String getPostId() { return postId; }
 
@@ -130,8 +130,13 @@ public class Post {
             postElement.appendChild(author);
 
             Element likes = doc.createElement("Likes");
-            likes.appendChild(doc.createTextNode(Integer.toString(post.getLikes())));
             postElement.appendChild(likes);
+
+            for (String like : post.getLikes()) {
+                Element likeElement = doc.createElement("User");
+                likeElement.appendChild(doc.createTextNode(like));
+                likes.appendChild(likeElement);
+            }
 
             Element createTime = doc.createElement("CreateTime");
             createTime.appendChild(doc.createTextNode(post.getCreateTime()));
@@ -191,8 +196,12 @@ public class Post {
             String postId = postElement.getElementsByTagName("PostId").item(0).getTextContent();
             String content = postElement.getElementsByTagName("Content").item(0).getTextContent();
             String author = postElement.getElementsByTagName("Author").item(0).getTextContent();
-            int likes = Integer.parseInt(postElement.getElementsByTagName("Likes").item(0).getTextContent());
             String createTime = postElement.getElementsByTagName("CreateTime").item(0).getTextContent();
+            List<String> likes = new ArrayList<>();
+            NodeList likeList = postElement.getElementsByTagName("Like");
+            for (int i = 0; i < likeList.getLength(); i++) {
+                likes.add(likeList.item(i).getTextContent());
+            }
             List<Comment> comments = new ArrayList<>();
             NodeList commentList = postElement.getElementsByTagName("Comment");
             for (int i = 0; i < commentList.getLength(); i++) {
@@ -229,6 +238,18 @@ public class Post {
         return false;
     }
 
+    public static boolean belongToUser(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                if (post.getAuthor().equals(userId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Write a new post to post.xml file, should be a server function
      * @param post
@@ -246,6 +267,73 @@ public class Post {
         writeToPost(posts);
         System.out.println("Post added. " + post);
         return true;
+    }
+
+    /**
+     * Edit a post in post.xml file, should be a server function
+     * @param postId
+     * @param content
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static boolean editPost(String postId, String content) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                post.setContent(content);
+                writeToPost(posts);
+                System.out.println("Post edited. " + post);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add a user to the like list of a post, should be a server function
+     * @param postId
+     * @param userId
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static boolean likePost(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                if (!post.getLikes().contains(userId)) {
+                    post.getLikes().add(userId);
+                    writeToPost(posts);
+                    System.out.println("Post liked. " + post);
+                    return true;
+                } else {
+                    System.out.println("Post already liked. " + post);
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean unlikePost(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                if (post.getLikes().contains(userId)) {
+                    post.getLikes().remove(userId);
+                    writeToPost(posts);
+                    System.out.println("Post unliked. " + post);
+                    return true;
+                } else {
+                    System.out.println("Post already unliked. " + post);
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     /**

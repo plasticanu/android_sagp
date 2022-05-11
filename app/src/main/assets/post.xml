@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Posts>
+    <Post>
+        <PostId>00000001</PostId>
+        <Content>This is a test post</Content>
+        <Author>user1</Author>
+        <Likes/>
+        <CreateTime>2020-01-01</CreateTime>
+        <Comments>
+            <Comment>
+                <Content>comment1</Content>
+                <Author>user1</Author>
+                <Time>2020-01-01</Time>
+            </Comment>
+            <Comment>
+                <Content>comment2</Content>
+                <Author>user2</Author>
+                <Time>2020-01-02</Time>
+            </Comment>
+        </Comments>
+    </Post>
+    <Post>
+        <PostId>00000002</PostId>
+        <Content>This is a test post</Content>
+        <Author>user1</Author>
+        <Likes/>
+        <CreateTime>2020-01-01</CreateTime>
+        <Comments/>
+    </Post>
+    <Post>
+        <PostId>00000003</PostId>
+        <Content>This is a test post</Content>
+        <Author>user2</Author>
+        <Likes>
+            <User>user1</User>
+            <User>user2</User>
+        </Likes>
+        <CreateTime>2020-01-01</CreateTime>
+        <Comments/>
+    </Post>
+    <Post>
+        <PostId>00000004</PostId>
+        <Content>This is a test post</Content>
+        <Author>user3</Author>
+        <Likes/>
+        <CreateTime>2020-01-01</CreateTime>
+        <Comments/>
+    </Post>
+    <Post>
+        <PostId>00000005</PostId>
+        <Content>This is a test post</Content>
+        <Author>user1</Author>
+        <Likes/>
+        <CreateTime>2020-01-01</CreateTime>
+        <Comments/>
+    </Post>
+    <Post>
+        <PostId>00000006</PostId>
+        <Content>This is a test post</Content>
+        <Author>user1</Author>
+        <Likes/>
+        <CreateTime>2020-01-01</CreateTime>
+        <Comments/>
+    </Post>
+</Posts>

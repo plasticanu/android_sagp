@@ -47,7 +47,7 @@ public class UserSession {
         return loggedOut;
     }
 
-    public void createPost(String content) {
+    public void createPost(String content) throws ParserConfigurationException, IOException, SAXException {
         state.createPost(content);
     }
 
