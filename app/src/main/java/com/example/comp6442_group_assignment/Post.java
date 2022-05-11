@@ -14,8 +14,11 @@ import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.view.ContextThemeWrapper;
 
 import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
 
@@ -356,6 +359,13 @@ public class Post {
         }
         System.out.println("Post not found. " + postId);
         return false;
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            System.out.println(post);
+        }
     }
 }
 
