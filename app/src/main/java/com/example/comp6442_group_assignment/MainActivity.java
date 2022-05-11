@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         applicationContext = getApplicationContext();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Home");
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("Home");
         myNavigation();
 
 
@@ -69,30 +69,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                ActionBar actionBar = getSupportActionBar();
+//                ActionBar actionBar = getSupportActionBar();
 
                 //change fragment view depends on the menu item, then change the action bar title.
                 switch (id){
                     case R.id.homeFragment:
                         replaceFragment(new homeFragment());
-                        actionBar.setTitle("Home");
+//                        actionBar.setTitle("Home");
                         break;
                     case R.id.forumFragment:
                         replaceFragment(new forumFragment());
-                        actionBar.setTitle("Forum");
+//                        actionBar.setTitle("Forum");
                         break;
                     case R.id.searchFragment:
                         replaceFragment(new searchFragment());
-                        actionBar.setTitle("Search");
+//                        actionBar.setTitle("Search");
                         break;
                     case R.id.profileFragment:
                         if(isLogged == false){
                             replaceFragment(new loginFragment());
-                            actionBar.setTitle("Login");
+//                            actionBar.setTitle("Login");
                             break;
                         }else{
                             replaceFragment(new profileFragment());
-                            actionBar.setTitle("My Profile");
+//                            actionBar.setTitle("My Profile");
                             break;
                         }
                     default:

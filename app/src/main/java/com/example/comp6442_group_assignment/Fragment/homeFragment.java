@@ -70,33 +70,7 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myview = inflater.inflate(R.layout.fragment_home, container, false);
-        Button b = (Button) myview.findViewById(R.id.testButton);
-        EditText et = (EditText) myview.findViewById(R.id.testInput);
-        Search search = new Search();
-        search.setFilePath("posts.xml");
-        search.insertToContentTree();
-
-        b.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                String input = et.getText().toString();
-                search.rankContent(input);
-                ArrayList<Integer> result =search.getContentRank();
-
-                Log.i("search result: ", String.valueOf(result.get(0)));
-                for(Post p : search.getPosts()){
-                    if(p.getLikes() == result.get(0)){
-                        Log.i("Content: " , p.getContent());
-                        System.out.println( p.getContent());
-                    }
-                }
-            }
-        });
-
-        return myview;
-
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
 }
