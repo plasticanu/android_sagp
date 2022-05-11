@@ -51,6 +51,14 @@ public class UserSession {
         return loggedOut;
     }
 
+    public boolean register(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
+        if (state.register(userName, password, email, firstName, lastName, phoneNumber)) {
+            login(userName, password);
+            return true;
+        }
+        return false;
+    }
+
     public void createPost(String content) throws ParserConfigurationException, IOException, SAXException {
         state.createPost(content);
     }

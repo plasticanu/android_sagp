@@ -24,4 +24,12 @@
         <LastName/>
         <PhoneNumber/>
     </User>
+    <User>
+        <UserName>user4</UserName>
+        <Password>qwertyui</Password>
+        <Email>user4@mail.com</Email>
+        <FirstName>First4</FirstName>
+        <LastName>Last4</LastName>
+        <PhoneNumber>987654321</PhoneNumber>
+    </User>
 </Users>

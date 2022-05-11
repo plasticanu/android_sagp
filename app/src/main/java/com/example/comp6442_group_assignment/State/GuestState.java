@@ -28,7 +28,12 @@ public class GuestState extends UserState {
     public boolean login(String userName, String password) throws ParserConfigurationException, IOException, SAXException {
         User user = new User(userName, password);
         if (user.isValid()) {
-            session.user = user;
+            List<User> users = User.readUsers(); // read all users
+            for (User u : users) {
+                if (u.getUserName().equals(userName)) {
+                    session.user = u; // set user
+                }
+            }
             session.changeState(new LoggedInState(session));
             System.out.println("Login Successful! " + user.getUserName());
             return true;
@@ -56,7 +61,6 @@ public class GuestState extends UserState {
             return false;
         }
         if (User.register(userName, password, email, firstName, lastName, phoneNumber)) {
-            login(userName, password);
             System.out.println("Register Successful! " + userName);
             return true;
         }

@@ -126,57 +126,7 @@ public class homeFragment extends Fragment {
      */
     private List<Post> setupPost(){
         List<Post> postModels = new ArrayList<>();
-        try {
-            postModels = readFromPost();
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return postModels;
     }
 
-    /**
-     * Reads the post.xml file and returns a list of posts, should be a server function
-     * @return List of posts.
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @Author Peicheng Liu u7294212 Edited by: Jiyuan Chen u7055573
-     */
-    public List<Post> readFromPost() throws ParserConfigurationException, SAXException, IOException {
-        List<Post> posts = new ArrayList<>();
-        InputStream in = getContext().getAssets().open("post.xml");
-
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        Document doc = docBuilder.parse(new InputSource(in));
-        doc.getDocumentElement().normalize();
-
-        NodeList nList = doc.getElementsByTagName("Post");
-        for (int temp = 0; temp < nList.getLength(); temp++) {
-            Element postElement = (Element) nList.item(temp);
-            String postId = postElement.getElementsByTagName("PostId").item(0).getTextContent();
-            String content = postElement.getElementsByTagName("Content").item(0).getTextContent();
-            String author = postElement.getElementsByTagName("Author").item(0).getTextContent();
-            int likes = Integer.parseInt(postElement.getElementsByTagName("Likes").item(0).getTextContent());
-            String createTime = postElement.getElementsByTagName("CreateTime").item(0).getTextContent();
-            List<Comment> comments = new ArrayList<>();
-            NodeList commentList = postElement.getElementsByTagName("Comment");
-            for (int i = 0; i < commentList.getLength(); i++) {
-                Element commentElement = (Element) commentList.item(i);
-                String commentContent = commentElement.getElementsByTagName("Content").item(0).getTextContent();
-                String commentAuthor = commentElement.getElementsByTagName("Author").item(0).getTextContent();
-                String commentTime = commentElement.getElementsByTagName("Time").item(0).getTextContent();
-                Comment comment = new Comment(commentContent, commentAuthor, commentTime);
-                comments.add(comment);
-            }
-            Post post = new Post(postId, content, author, likes, createTime, comments);
-            posts.add(post);
-        }
-        return posts;
-    }
 }
