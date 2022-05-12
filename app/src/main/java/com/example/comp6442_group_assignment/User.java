@@ -117,7 +117,7 @@ public class User implements Serializable{
      * @return list of users registered in the system
      */
     public static List<User> readUsers() throws ParserConfigurationException, IOException, SAXException {
-        String address = "app/src/main/assets/user.xml";
+        String address = "src/main/assets/user.xml";
         File file = new File(address);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -172,7 +172,7 @@ public class User implements Serializable{
      * @throws SAXException
      */
     public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
-        String address = "app/src/main/assets/user.xml";
+        String address = "src/main/assets/user.xml";
         File file = new File(address);
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
