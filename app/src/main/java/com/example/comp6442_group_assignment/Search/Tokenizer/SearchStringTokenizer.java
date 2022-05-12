@@ -5,7 +5,7 @@ public class SearchStringTokenizer extends Tokenizer {
     private SearchToken currentToken;
     private int currentIndex;
 
-    static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':'};
+    static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':', '"', '/', '|', '_', '-', '+', '=', '~', '`', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '<', '>', '\r', '\f' };
 
     public SearchStringTokenizer(String searchString) {
         this.searchString = searchString;
@@ -71,13 +71,17 @@ public class SearchStringTokenizer extends Tokenizer {
      * Get the token string till a char that is in tokenEnd
      * @return
      */
-    private String getTokenString() {
+    public String getTokenString() {
         StringBuilder tokenValue = new StringBuilder();
         while (currentIndex < searchString.length() && !isEnd(searchString.charAt(currentIndex))) {
             tokenValue.append(searchString.charAt(currentIndex));
             currentIndex++;
         }
         return tokenValue.toString();
+    }
+
+    public SearchToken getCurrentToken() {
+        return currentToken;
     }
 
     /**

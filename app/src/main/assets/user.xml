@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Users>
     <User>
-        <UserName>user1</UserName>
-        <Password>qwerty</Password>
-        <Email>user1@dmail.com</Email>
-        <FirstName>First1</FirstName>
-        <LastName>Last1</LastName>
-        <PhoneNumber>12345678</PhoneNumber>
-    </User>
-    <User>
         <UserName>user2</UserName>
         <Password>qwerty</Password>
         <Email>user2@dmail.com</Email>
@@ -31,5 +23,13 @@
         <FirstName>First4</FirstName>
         <LastName>Last4</LastName>
         <PhoneNumber>987654321</PhoneNumber>
+    </User>
+    <User>
+        <UserName>user1</UserName>
+        <Password>qwerty</Password>
+        <Email>user1@mail.com</Email>
+        <FirstName>First1</FirstName>
+        <LastName>Last1</LastName>
+        <PhoneNumber>123456789</PhoneNumber>
     </User>
 </Users>

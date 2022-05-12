@@ -11,10 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,7 @@ import android.view.ContextThemeWrapper;
 
 import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
 
-public class Post {
+public class Post implements Serializable {
     private String postId; // Post ID.
     private String content;
     private String author;
@@ -321,6 +318,15 @@ public class Post {
         return false;
     }
 
+    /**
+     * Remove a user from the like list of a post, should be a server function
+     * @param postId
+     * @param userId
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     public static boolean unlikePost(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
@@ -361,11 +367,41 @@ public class Post {
         return false;
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    /**
+     * Add a comment to a post, should be a server function
+     * @param postId
+     * @param comment
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static boolean addToComment(String postId, Comment comment) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
-            System.out.println(post);
+            if (post.getPostId().equals(postId)) {
+                post.getComments().add(comment);
+                writeToPost(posts);
+                System.out.println("Comment added. " + comment);
+                return true;
+            }
         }
+        return false; // post not found
+    }
+
+    public static List<Post> getAllPosts(String username) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        List<Post> postsByUser = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getAuthor().equals(username)) {
+                postsByUser.add(post);
+            }
+        }
+        return postsByUser;
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+
     }
 }
 

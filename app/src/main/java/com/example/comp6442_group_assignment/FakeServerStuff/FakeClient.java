@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Fake client used for simulating a data stream between the server and another client.
+ */
 public class FakeClient {
     public static void main(String[] args) throws IOException {
         Socket socket = null;
@@ -13,7 +16,7 @@ public class FakeClient {
         BufferedWriter bufferedWriter = null;
 
         try {
-            socket = new Socket("localhost", 6060);
+            socket = new Socket("localhost", 6070);
             inputStreamReader = new InputStreamReader(socket.getInputStream());
             outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
 
@@ -23,16 +26,17 @@ public class FakeClient {
             Scanner scanner = new Scanner(System.in); // for user input
 
             while (true) {
-                String input = scanner.nextLine();
+                String input = scanner.nextLine(); // request value will be manually entered here, but automatically generated in the actual client
                 bufferedWriter.write(input);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
 
-                System.out.println("Server: " + bufferedReader.readLine());
-
-                if (input.equals("exit")) {
-                    break;
+                String receive = bufferedReader.readLine();
+                while (bufferedReader.ready()) {
+                    receive += "\n";
+                    receive += bufferedReader.readLine();
                 }
+                System.out.println("Server: " + receive);
             }
         } catch (IOException e) {
             e.printStackTrace();

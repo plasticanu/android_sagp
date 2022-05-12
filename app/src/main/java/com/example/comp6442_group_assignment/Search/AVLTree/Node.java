@@ -13,7 +13,7 @@ public class Node<T>{
     public T data;
     // Used for comparing object
     public int key;
-    public ArrayList<Integer> postID = new ArrayList<>();
+    public ArrayList<String> postID = new ArrayList<>();
     int height;
     Node<T> left;
     Node<T> right;
@@ -24,7 +24,7 @@ public class Node<T>{
         this.key = element.hashCode();
         height = 1;
     }
-    public Node(T element, int id){
+    public Node(T element, String id){
         this.data = element;
         this.key = element.hashCode();
         this.postID.add(id);
@@ -39,7 +39,7 @@ public class Node<T>{
         return key;
     }
 
-    public ArrayList<Integer> getPostID() {
+    public ArrayList<String> getPostID() {
         return postID;
     }
 

@@ -3,7 +3,9 @@ package com.example.comp6442_group_assignment.State;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import com.example.comp6442_group_assignment.Comment;
 import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.Search.Search;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +65,7 @@ public class LoggedInState extends UserState{
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void createPost(String content) throws ParserConfigurationException, IOException, SAXException {
+    public Post createPost(String content) throws ParserConfigurationException, IOException, SAXException {
         Post post = new Post(content, session.user.getUserName());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -72,63 +74,77 @@ public class LoggedInState extends UserState{
         post.setLikes(new ArrayList<>());
         post.setComments(new ArrayList<>());
         Post.addToPost(post);
+        return post;
     }
 
     @Override
-    public void deletePost(String postId) throws ParserConfigurationException, IOException, SAXException {
+    public boolean deletePost(String postId) throws ParserConfigurationException, IOException, SAXException {
         if (Post.belongToUser(postId, session.user.getUserName())) {
             Post.removeFromPost(postId);
             System.out.println("Delete Successful!");
+            return true; // delete successful
         } else {
             System.out.println("You cannot delete other people's post.");
+            return false; // delete failed
         }
     }
 
     @Override
-    public void editPost(String postId, String content) throws ParserConfigurationException, IOException, SAXException {
+    public boolean editPost(String postId, String content) throws ParserConfigurationException, IOException, SAXException {
         if (Post.belongToUser(postId, session.user.getUserName())) {
             Post.editPost(postId, content);
             System.out.println("Edit Successful!");
+            return true; // edit successful
         } else {
             System.out.println("You cannot edit other people's post.");
+            return false; // edit failed
         }
     }
 
     @Override
-    public void likePost(String postId) throws ParserConfigurationException, IOException, SAXException {
+    public boolean likePost(String postId) throws ParserConfigurationException, IOException, SAXException {
         if (Post.belongToUser(postId, session.user.getUserName())) {
             System.out.println("You cannot like your own post.");
+            return false; // like failed
         } else {
             if (Post.likePost(postId, session.user.getUserName())) {
                 System.out.println("Like Successful!");
+                return true; // like successful
             } else {
                 System.out.println("You have already liked this post.");
+                return false; // like failed
             }
         }
-
     }
 
     @Override
-    public void unlikePost(String postId) throws ParserConfigurationException, IOException, SAXException {
+    public boolean unlikePost(String postId) throws ParserConfigurationException, IOException, SAXException {
         if (Post.belongToUser(postId, session.user.getUserName())) {
             System.out.println("You cannot unlike your own post.");
+            return false; // unlike failed
         } else {
             if (Post.unlikePost(postId, session.user.getUserName())) {
                 System.out.println("Unlike Successful!");
+                return true; // unlike successful
             } else {
                 System.out.println("You have not liked this post.");
+                return false; // unlike failed
             }
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void commentPost(String postId, String content) {
-
-    }
-
-    @Override
-    public void deleteComment(String postId, String commentId) {
-
+    public boolean commentPost(String postId, String content) throws ParserConfigurationException, IOException, SAXException {
+        Comment comment = new Comment(content, session.user.getUserName());
+        comment.setTime(LocalDateTime.now().toString());
+        if (Post.addToComment(postId, comment)) {
+            System.out.println("Comment Successful!");
+            return true; // comment successful
+        } else {
+            System.out.println("Post not Exist.");
+            return false; // comment failed
+        }
     }
 
     @Override
@@ -137,10 +153,14 @@ public class LoggedInState extends UserState{
     }
 
     @Override
-    public List<Post> allPosts() { return null; }
+    public List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException {
+        return Post.getAllPosts(session.user.getUserName());
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public List<Post> search(String keyword) {
-        return null;
+    public List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException {
+        Search search = new Search();
+        return search.search(keyword);
     }
 }

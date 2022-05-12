@@ -75,39 +75,22 @@ public class GuestState extends UserState {
     }
 
     @Override
-    public void createPost(String content) {
-        System.out.println("Guest cannot create post.");
-    }
+    public Post createPost(String content) { System.out.println("Guest cannot create post."); return null; }
 
     @Override
-    public void deletePost(String postId) {
-        System.out.println("Guest cannot delete post.");
-    }
+    public boolean deletePost(String postId) { System.out.println("Guest cannot delete post."); return false; }
 
     @Override
-    public void editPost(String postId, String content) {
-        System.out.println("Guest cannot edit post.");
-    }
+    public boolean editPost(String postId, String content) { System.out.println("Guest cannot edit post."); return false; }
 
     @Override
-    public void likePost(String postId) {
-        System.out.println("Guest cannot like post.");
-    }
+    public boolean likePost(String postId) { System.out.println("Guest cannot like post."); return false; }
 
     @Override
-    public void unlikePost(String postId) {
-        System.out.println("Guest cannot unlike post.");
-    }
+    public boolean unlikePost(String postId) { System.out.println("Guest cannot unlike post."); return false; }
 
     @Override
-    public void commentPost(String postId, String content) {
-        System.out.println("Guest cannot comment post.");
-    }
-
-    @Override
-    public void deleteComment(String postId, String commentId) {
-        System.out.println("Guest cannot delete comment.");
-    }
+    public boolean commentPost(String postId, String content) { System.out.println("Guest cannot comment post."); return false; }
 
     @Override
     public User profile() {
