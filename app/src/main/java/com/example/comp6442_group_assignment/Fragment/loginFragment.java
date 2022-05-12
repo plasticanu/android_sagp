@@ -1,15 +1,11 @@
 package com.example.comp6442_group_assignment.Fragment;
 
-import android.app.ActionBar;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +15,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.MainActivity;
+import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.R;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +42,14 @@ public class loginFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //user's state and logging state.
+    public static boolean isLogged = false;
+    public static String loggedUsername = "";
+    public static String loggedFullname = "";
+    public static String loggedEmail = "";
+    public static String loggedPhone = "";
+
 
     public loginFragment() {
         // Required empty public constructor
@@ -77,19 +91,18 @@ public class loginFragment extends Fragment {
 
     /**
      * A override method for checking user's login identity.
-     * @Author Jiyuan Chen u7055573
+     * @Author Jiyuan Chen u7055573, Support by: Peicheng Liu u7294212
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String user = "admin@test.com";//test purpose username
-        String pass = "123456";// test purpose password
+
         EditText username,password;
         username = view.findViewById(R.id.username);
         password = view.findViewById(R.id.password);
 
 
-        Button loginButton = view.findViewById(R.id.login);
+        Button loginButton = view.findViewById(R.id.button_login);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,21 +110,90 @@ public class loginFragment extends Fragment {
                 String passString = password.getText().toString();
                 System.out.println(userString);
                 System.out.println(passString);
-                if(userString.compareTo(user) == 0 && passString.compareTo(pass) == 0){
-//                    ((MainActivity) getActivity()).setActionBarTitle("My Profile");
-                    MainActivity.isLogged = true;
-                    Fragment fragment = new profileFragment();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainerView,fragment);
-                    fragmentTransaction.commit();
-                }else{
 
-                    Toast.makeText(getActivity(), "Wrong Username or Password!", Toast.LENGTH_SHORT).show();
+                //check if username and password are not empty, then send
+                //logging details to server.
+                if(!userString.isEmpty() && !passString.isEmpty()){
+                    //li user1 qwerty
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "li " +userString+" "+ passString;
+                    action.execute(homeFragment.cmd);
+
                 }
+
             }
         });
     }
 
+
+
+
+    /**
+     * An AsyncTask class, used to make connection and,
+     * communicate with server.
+     * @Author Jiyuan Chen u7055573
+     */
+    private class AsyncAction extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... args) {
+
+            //response used to store the message from the server.
+            String response = "";
+
+            try {
+                if(homeFragment.socket == null){
+                    homeFragment.socket = new Socket("10.0.2.2", 6060);
+                }
+                if(homeFragment.inputStreamReader == null){
+                    homeFragment.inputStreamReader = new InputStreamReader(homeFragment.socket.getInputStream());
+                }
+                if(homeFragment.outputStreamWriter == null){
+                    homeFragment.outputStreamWriter = new OutputStreamWriter(homeFragment.socket.getOutputStream());
+                }
+                if(homeFragment.bufferedReader == null){
+                    homeFragment.bufferedReader = new BufferedReader(homeFragment.inputStreamReader);
+                }
+                if(homeFragment.bufferedWriter == null){
+                    homeFragment.bufferedWriter = new BufferedWriter(homeFragment.outputStreamWriter);
+                }
+
+                homeFragment.bufferedWriter.write(args[0]);
+                homeFragment.bufferedWriter.newLine();
+                homeFragment.bufferedWriter.flush();
+                response = homeFragment.bufferedReader.readLine();
+                System.out.println("Server: " + response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+
+        /**
+         * get login response from the server to check if logging success.
+         * If success, update the current user's details, and logging state.
+         * @Author Jiyuan Chen u7055573
+         */
+        protected void onPostExecute(String result) {
+            //resultis the data returned from doInbackground
+
+            //check the response from server to check if it contains
+            //flag that indicate if its a success logging action.
+            //If server return a success logging, then store user's details.
+            if(result.split(";")[0].compareTo("lis")==0){
+                ((MainActivity) getActivity()).replaceFragment(new profileFragment());
+                isLogged=true;
+                loggedUsername = result.split(";")[1];
+                loggedFullname = result.split(";")[3]+" "+result.split(";")[4];
+                loggedEmail = result.split(";")[5];
+                loggedPhone = result.split(";")[6];
+
+            }else{
+                Toast.makeText(getActivity(), "Wrong Username or Password!", Toast.LENGTH_SHORT).show();
+            }
+            System.out.println(result);
+        }
+    }
 
 }
