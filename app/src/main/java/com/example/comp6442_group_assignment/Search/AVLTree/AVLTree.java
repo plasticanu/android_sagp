@@ -112,7 +112,7 @@ public class AVLTree<T> {
         return n;
 
     }
-    public Node<T> insertWithPostID(Node<T> n, T e, int postID){
+    public Node<T> insertWithPostID(Node<T> n, T e, String postID){
         if(findNode(n, e) == null){
             n = insert(n, e);
         }
