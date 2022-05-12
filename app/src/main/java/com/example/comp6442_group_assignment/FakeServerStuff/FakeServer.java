@@ -187,6 +187,34 @@ public class FakeServer {
                                 }
                                 System.out.println("Profile response...");
                                 break;
+                            case "ap":
+                                System.out.println("All Posts request");
+                                String userName_ap = msgFromClient.substring(3);
+                                List<Post> posts_ap = userSession.allPosts();
+                                if (posts_ap != null) {
+                                    msgToClient = "aps";
+                                    for (Post post : posts_ap) {
+                                        msgToClient += ";" + post.toString();
+                                    }
+                                } else {
+                                    msgToClient = "apf;All Posts Failed.Not logged in or user not exists. ";
+                                }
+                                System.out.println("All Posts response...");
+                                break;
+                            case "sr":
+                                System.out.println("Search request");
+                                String search_sr = msgFromClient.substring(3);
+                                List<Post> posts_sr = userSession.search(search_sr);
+                                if (posts_sr != null) {
+                                    msgToClient = "srs";
+                                    for (Post post : posts_sr) {
+                                        msgToClient += ";" + post.toString();
+                                    }
+                                } else {
+                                    msgToClient = "srf;Search Failed.Not logged in. ";
+                                }
+                                System.out.println("Search response...");
+                                break;
 
 
 

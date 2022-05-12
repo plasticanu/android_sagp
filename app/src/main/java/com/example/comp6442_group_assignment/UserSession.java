@@ -98,4 +98,10 @@ public class UserSession {
         return state.profile();
     }
 
+    public List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException {
+        return state.allPosts();
+    }
+    public List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException {
+         return state.search(keyword);
+    }
 }

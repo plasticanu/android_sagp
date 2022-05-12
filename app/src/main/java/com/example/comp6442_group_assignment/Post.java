@@ -318,6 +318,15 @@ public class Post implements Serializable {
         return false;
     }
 
+    /**
+     * Remove a user from the like list of a post, should be a server function
+     * @param postId
+     * @param userId
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     public static boolean unlikePost(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
@@ -378,6 +387,17 @@ public class Post implements Serializable {
             }
         }
         return false; // post not found
+    }
+
+    public static List<Post> getAllPosts(String username) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        List<Post> postsByUser = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getAuthor().equals(username)) {
+                postsByUser.add(post);
+            }
+        }
+        return postsByUser;
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {

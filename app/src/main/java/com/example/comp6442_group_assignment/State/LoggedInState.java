@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import com.example.comp6442_group_assignment.Comment;
 import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.Search.Search;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
 import org.jetbrains.annotations.NotNull;
@@ -152,10 +153,14 @@ public class LoggedInState extends UserState{
     }
 
     @Override
-    public List<Post> allPosts() { return null; }
+    public List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException {
+        return Post.getAllPosts(session.user.getUserName());
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public List<Post> search(String keyword) {
-        return null;
+    public List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException {
+        Search search = new Search();
+        return search.search(keyword);
     }
 }
