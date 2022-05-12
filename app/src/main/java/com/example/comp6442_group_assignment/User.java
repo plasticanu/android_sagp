@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
 
-public class User implements Serializable{
+public class User implements Serializable {
     private String userName;
     private String password;
     private String email;
@@ -114,6 +114,7 @@ public class User implements Serializable{
 
     /**
      * Read a list of users from users.xml file, should be a server function
+     *
      * @return list of users registered in the system
      */
     public static List<User> readUsers() throws ParserConfigurationException, IOException, SAXException {
@@ -147,6 +148,7 @@ public class User implements Serializable{
 
     /**
      * Check if the user is already registered in the system, should be a server function
+     *
      * @param userName
      * @return
      * @throws ParserConfigurationException
@@ -166,6 +168,7 @@ public class User implements Serializable{
     /**
      * directly write to the user.xml file, server side initialization function. This should probably never be
      * called alone.
+     *
      * @param users
      * @throws ParserConfigurationException
      * @throws IOException
@@ -229,6 +232,7 @@ public class User implements Serializable{
 
     /**
      * Write a new user to users.xml file, should be a server function
+     *
      * @param userName
      * @param password
      * @param email
@@ -256,6 +260,7 @@ public class User implements Serializable{
 
     /**
      * Delete a user with @param userName from users.xml file, should be a server function
+     *
      * @param userName
      * @return
      * @throws ParserConfigurationException
@@ -274,10 +279,42 @@ public class User implements Serializable{
         return true;
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        List<User> users = readUsers();
-        for (User user : users) {
-            System.out.println(user.getUserName());
+    /**
+     * Update a user's information, should be a server function
+     *
+     * @param userName
+     * @param password
+     * @param email
+     * @param firstName
+     * @param lastName
+     * @param phoneNumber
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
+        if (!isRegistered(userName)) {
+            System.out.println("User not found");
+            return false;
+        } else {
+            List<User> users = readUsers();
+            for (User user : users) {
+                if (user.getUserName().equals(userName)) {
+                    user.setPassword(password);
+                    user.setEmail(email);
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    user.setPhoneNumber(phoneNumber);
+                    break;
+                }
+            }
+            writeToUser(users);
+            return true;
         }
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+
     }
 }

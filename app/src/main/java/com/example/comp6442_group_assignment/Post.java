@@ -401,12 +401,7 @@ public class Post implements Serializable {
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        Post post = new Post("123", "test", "test", new ArrayList<>(), "test", new ArrayList<>());
-        addToPost(post);
-        List<Post> posts = readFromPost();
-        for (Post p : posts) {
-            System.out.println(p.toString());
-        }
+
     }
 }
 

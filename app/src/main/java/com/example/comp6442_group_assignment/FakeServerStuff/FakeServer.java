@@ -202,7 +202,6 @@ public class FakeServer {
                                         break;
                                     case "ap":
                                         System.out.println("All Posts request");
-                                        String userName_ap = msgFromClient.substring(3);
                                         List<Post> posts_ap = userSession.allPosts();
                                         if (posts_ap != null) {
                                             msgToClient = "aps";
@@ -471,7 +470,6 @@ public class FakeServer {
                                         break;
                                     case "ap":
                                         System.out.println("All Posts request");
-                                        String userName_ap = msgFromClient.substring(3);
                                         List<Post> posts_ap = userSession.allPosts();
                                         if (posts_ap != null) {
                                             msgToClient = "aps";
