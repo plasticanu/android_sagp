@@ -6,40 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.loader.content.AsyncTaskLoader;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.SearchView;
 
-import com.example.comp6442_group_assignment.Fragment.forumFragment;
 import com.example.comp6442_group_assignment.Fragment.homeFragment;
 import com.example.comp6442_group_assignment.Fragment.loginFragment;
 import com.example.comp6442_group_assignment.Fragment.profileFragment;
 import com.example.comp6442_group_assignment.Fragment.searchFragment;
-import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
-    public static boolean isLogged = false;
 
     // Author Zhidong Piao u7139999
     // This field let other classes (non activity class) access the application context.
@@ -51,15 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         applicationContext = getApplicationContext();
-
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("Home");
         myNavigation();
 
-//        UserSession userSession = new UserSession();
-//        System.out.println(userSession.isLoggedIn);
-
-//        new SetupClient().execute();
     }
 
 
@@ -83,24 +56,16 @@ public class MainActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.homeFragment:
                         replaceFragment(new homeFragment());
-//                        actionBar.setTitle("Home");
-                        break;
-                    case R.id.forumFragment:
-                        replaceFragment(new forumFragment());
-//                        actionBar.setTitle("Forum");
                         break;
                     case R.id.searchFragment:
                         replaceFragment(new searchFragment());
-//                        actionBar.setTitle("Search");
                         break;
                     case R.id.profileFragment:
-                        if(isLogged == false){
+                        if(loginFragment.isLogged == false){
                             replaceFragment(new loginFragment());
-//                            actionBar.setTitle("Login");
                             break;
                         }else{
                             replaceFragment(new profileFragment());
-//                            actionBar.setTitle("My Profile");
                             break;
                         }
                     default:
@@ -119,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
      * @Author Jiyuan Chen u7055573
      * @param fragment new fragment that you want to change to
      */
-    private void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerView,fragment);
