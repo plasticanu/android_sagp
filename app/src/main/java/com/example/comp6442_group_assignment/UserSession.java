@@ -67,13 +67,35 @@ public class UserSession {
         return false;
     }
 
-    public boolean createPost(String content) throws ParserConfigurationException, IOException, SAXException {
+    public Post createPost(String content) throws ParserConfigurationException, IOException, SAXException {
         if (isLoggedIn) {
-            state.createPost(content);
-            return true;
+            return state.createPost(content);
         }
-        return false;
+        return null;
     }
 
+    public boolean deletePost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.deletePost(postId);
+    }
+
+    public boolean editPost(String postId, String content) throws ParserConfigurationException, IOException, SAXException {
+        return state.editPost(postId, content);
+    }
+
+    public boolean likePost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.likePost(postId);
+    }
+
+    public boolean unlikePost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.unlikePost(postId);
+    }
+
+    public boolean commentPost(String postId, String content) throws ParserConfigurationException, IOException, SAXException {
+        return state.commentPost(postId, content);
+    }
+
+    public User profile() throws ParserConfigurationException, IOException, SAXException {
+        return state.profile();
+    }
 
 }

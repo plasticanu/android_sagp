@@ -28,8 +28,12 @@ public class FakeClient {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
 
-                System.out.println("Server: " + bufferedReader.readLine());
-
+                String receive = bufferedReader.readLine();
+                while (bufferedReader.ready()) {
+                    receive += "\n";
+                    receive += bufferedReader.readLine();
+                }
+                System.out.println("Server: " + receive);
                 if (input.equals("exit")) {
                     break;
                 }

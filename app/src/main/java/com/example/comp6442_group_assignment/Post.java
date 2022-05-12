@@ -11,10 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,7 @@ import android.view.ContextThemeWrapper;
 
 import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
 
-public class Post {
+public class Post implements Serializable {
     private String postId; // Post ID.
     private String content;
     private String author;
@@ -361,10 +358,34 @@ public class Post {
         return false;
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    /**
+     * Add a comment to a post, should be a server function
+     * @param postId
+     * @param comment
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static boolean addToComment(String postId, Comment comment) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
-            System.out.println(post);
+            if (post.getPostId().equals(postId)) {
+                post.getComments().add(comment);
+                writeToPost(posts);
+                System.out.println("Comment added. " + comment);
+                return true;
+            }
+        }
+        return false; // post not found
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+        Post post = new Post("123", "test", "test", new ArrayList<>(), "test", new ArrayList<>());
+        addToPost(post);
+        List<Post> posts = readFromPost();
+        for (Post p : posts) {
+            System.out.println(p.toString());
         }
     }
 }
