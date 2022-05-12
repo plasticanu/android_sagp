@@ -6,10 +6,6 @@
         android:title="Home"
         android:icon="@drawable/ic_home" />
     <item
-        android:id="@+id/forumFragment"
-        android:title="Forum"
-        android:icon="@drawable/ic_forum"/>
-    <item
         android:id="@+id/searchFragment"
         android:title="Search"
         android:icon="@drawable/ic_search"/>

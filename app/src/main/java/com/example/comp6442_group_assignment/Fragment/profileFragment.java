@@ -1,15 +1,32 @@
 package com.example.comp6442_group_assignment.Fragment;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.comp6442_group_assignment.MainActivity;
+import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.R;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,4 +82,95 @@ public class profileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    /**
+     * Userd to handle the profile fragment.
+     * @Author Jiyuan Chen u7055573
+     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TextView userName,userEmail,userFullname;
+        Button loggout;
+
+        userName = view.findViewById(R.id.profile_username);
+        userName.setText(loginFragment.loggedUsername);
+
+        userEmail = view.findViewById(R.id.profile_email);
+        userEmail.setText(loginFragment.loggedEmail);
+
+        userFullname = view.findViewById(R.id.profile_fullname);
+        userFullname.setText(loginFragment.loggedFullname);
+
+        loggout = view.findViewById(R.id.button_logout);
+
+        //define a click listener to perform loggout action
+        loggout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncAction action = new AsyncAction();
+                homeFragment.cmd = "lo";
+                action.execute(homeFragment.cmd);
+            }
+        });
+
+    }
+
+
+
+    /**
+     * An AsyncTask class, used to make connection and,
+     * communicate with server.
+     * @Author Jiyuan Chen u7055573, Support by: Peicheng Liu u7294212
+     */
+    private class AsyncAction extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... args) {
+
+            //response used to store the message from the server.
+            String response = "";
+
+            try {
+                if(homeFragment.socket == null){
+                    homeFragment.socket = new Socket("10.0.2.2", 6060);
+                }
+                if(homeFragment.inputStreamReader == null){
+                    homeFragment.inputStreamReader = new InputStreamReader(homeFragment.socket.getInputStream());
+                }
+                if(homeFragment.outputStreamWriter == null){
+                    homeFragment.outputStreamWriter = new OutputStreamWriter(homeFragment.socket.getOutputStream());
+                }
+                if(homeFragment.bufferedReader == null){
+                    homeFragment.bufferedReader = new BufferedReader(homeFragment.inputStreamReader);
+                }
+                if(homeFragment.bufferedWriter == null){
+                    homeFragment.bufferedWriter = new BufferedWriter(homeFragment.outputStreamWriter);
+                }
+
+                homeFragment.bufferedWriter.write(args[0]);
+                homeFragment.bufferedWriter.newLine();
+                homeFragment.bufferedWriter.flush();
+                response = homeFragment.bufferedReader.readLine();
+                System.out.println("Server: " + response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+            //resultis the data returned from doInbackground
+
+            //reset the user information
+            loginFragment.isLogged=false;
+            loginFragment.loggedUsername = "";
+            loginFragment.loggedFullname = "";
+            loginFragment.loggedEmail = "";
+            loginFragment.loggedPhone = "";
+            //disable the profile fragment, return to login page.
+            ((MainActivity) getActivity()).replaceFragment(new loginFragment());
+        }
+    }
 }
