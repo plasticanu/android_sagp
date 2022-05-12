@@ -10,16 +10,17 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.view.ContextThemeWrapper;
-
-import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
-
-public class Post implements Serializable {
+public class Post implements Subject {
     private String postId; // Post ID.
     private String content;
     private String author;
@@ -28,15 +29,24 @@ public class Post implements Serializable {
     private List<Comment> comments;
     private List<String> likes;
 
-    public Post(String postId, String content, String author, List<String> likes, String createTime, List<Comment> comments) {
+    private List<String> observers; // observers list
+
+    public Post(String postId, String content, String author, List<String> likes, String createTime, List<Comment> comments, List<String> observers) {
         this.postId = postId;
         this.content = content;
         this.author = author;
         this.likes = likes;
         this.createTime = createTime;
         this.comments = comments;
+        this.observers = observers;
     }
 
+    /**
+     * This constructor is used to create a new post in the background of the server.
+     * It shoould be never be called alone, since all field must be initialized.
+     * @param content
+     * @param author
+     */
     public Post(String content, String author) {
         this.content = content;
         this.author = author;
@@ -78,11 +88,47 @@ public class Post implements Serializable {
         return likes;
     }
 
+    public List<String> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<String> observers) {
+        this.observers = observers;
+    }
+
     public void setLikes(List<String> likes) { this.likes = likes; }
 
     public String getPostId() { return postId; }
 
     public void setPostId(String postId) { this.postId = postId; }
+
+    @Override
+    public void registerObserver(String o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(String o) {
+        observers.remove(o);
+    }
+
+
+    /**
+     * Notify all observers that the post has been updated. Must be called when an update from server happens.
+     * i.e. calling methods in UserSession by the server.
+     */
+    @Override
+    public void notifyObservers() throws ParserConfigurationException, IOException, SAXException {
+        String message = "Update on post you followed:";
+        for (String o : observers) {
+            List<User> users = User.readUsers();
+            for (User user : users) {
+                if (user.getUserName().equals(o)) {
+                    user.update(postId, message);
+                }
+            }
+        }
+    }
 
     @NotNull
     public String toString() {
@@ -92,7 +138,8 @@ public class Post implements Serializable {
                 ", author='" + author + '\'' +
                 ", likes=" + likes +
                 ", createTime='" + createTime + '\'' +
-                ", comments=" + comments +
+                ", comments=" + comments + '\'' +
+                ", observers=" + observers + '\'' +
                 '}';
     }
 
@@ -163,6 +210,17 @@ public class Post implements Serializable {
                     commentElement.appendChild(commentTime);
                 }
             }
+
+            Element observers = doc.createElement("Observers");
+            postElement.appendChild(observers);
+
+            if (post.getObservers() != null) {
+                for (String observer : post.getObservers()) {
+                    Element observerElement = doc.createElement("Observer");
+                    observerElement.appendChild(doc.createTextNode(observer));
+                    observers.appendChild(observerElement);
+                }
+            }
         }
         // write dom document to a file
         try (FileOutputStream output =
@@ -212,7 +270,12 @@ public class Post implements Serializable {
                 Comment comment = new Comment(commentContent, commentAuthor, commentTime);
                 comments.add(comment);
             }
-            Post post = new Post(postId, content, author, likes, createTime, comments);
+            List<String> observers = new ArrayList<>();
+            NodeList observerList = postElement.getElementsByTagName("Observer");
+            for (int i = 0; i < observerList.getLength(); i++) {
+                observers.add(observerList.item(i).getTextContent());
+            }
+            Post post = new Post(postId, content, author, likes, createTime, comments, observers);
             posts.add(post);
         }
         return posts;
@@ -260,7 +323,12 @@ public class Post implements Serializable {
      */
     public static boolean addToPost(Post post) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
-        int Id = Integer.parseInt(posts.get(posts.size() - 1).getPostId()) + 1;
+        int Id;
+        if (posts.size() != 0) {
+            Id = Integer.parseInt(posts.get(posts.size() - 1).getPostId()) + 1;
+        } else {
+            Id = 1;
+        }
         @SuppressLint("DefaultLocale") String newPostId = String.format("%08d", Id);
         post.setPostId(newPostId);
         posts.add(post);
@@ -283,6 +351,7 @@ public class Post implements Serializable {
         for (Post post : posts) {
             if (post.getPostId().equals(postId)) {
                 post.setContent(content);
+                post.notifyObservers();
                 writeToPost(posts);
                 System.out.println("Post edited. " + post);
                 return true;
@@ -348,23 +417,21 @@ public class Post implements Serializable {
     /**
      * Delete a post from post.xml file, should be a server function
      * @param postId
-     * @return
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      */
-    public static boolean removeFromPost(String postId) throws ParserConfigurationException, SAXException, IOException {
+    public static void removeFromPost(String postId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
             if (post.getPostId().equals(postId)) {
                 posts.remove(post);
                 writeToPost(posts);
                 System.out.println("Post removed. " + postId);
-                return true;
+                return;
             }
         }
         System.out.println("Post not found. " + postId);
-        return false;
     }
 
     /**
@@ -381,6 +448,7 @@ public class Post implements Serializable {
         for (Post post : posts) {
             if (post.getPostId().equals(postId)) {
                 post.getComments().add(comment);
+                post.notifyObservers();
                 writeToPost(posts);
                 System.out.println("Comment added. " + comment);
                 return true;
@@ -389,6 +457,70 @@ public class Post implements Serializable {
         return false; // post not found
     }
 
+    /**
+     * Add a user to the observer list of a post, should be a server function
+     * @param postId
+     * @param username
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static boolean followPost(String postId, String username) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                if (!post.getObservers().contains(username)) {
+                    post.getObservers().add(username);
+                    writeToPost(posts);
+                    System.out.println("Post followed. " + post);
+                    return true;
+                    } else {
+                        System.out.println("Post already followed. " + post);
+                        return false;
+                    }
+            }
+        }
+        System.out.println("Post not found. " + postId);
+        return false;
+    }
+
+    /**
+     * Remove a user from the observer list of a post, should be a server function
+     * @param postId
+     * @param username
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static boolean unfollowPost(String postId, String username) throws ParserConfigurationException, SAXException, IOException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                if (post.getObservers().contains(username)) {
+                    post.getObservers().remove(username);
+                    writeToPost(posts);
+                    System.out.println("Post unfollowed. " + post);
+                    return true;
+                } else {
+                    System.out.println("Post already unfollowed. " + post);
+                    return false;
+                }
+            }
+        }
+        System.out.println("Post not found. " + postId);
+        return false;
+    }
+
+    /**
+     * get all post of a user, should be a server function
+     * @param username
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     public static List<Post> getAllPosts(String username) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         List<Post> postsByUser = new ArrayList<>();
@@ -400,9 +532,26 @@ public class Post implements Serializable {
         return postsByUser;
     }
 
+    public static void writeXml(Document doc,
+                                OutputStream output)
+            throws TransformerException {
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(output);
+
+        transformer.transform(source, result);
+
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
 
     }
+
 }
 
 

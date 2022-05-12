@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Users>
     <User>
-        <UserName>user2</UserName>
-        <Password>qwerty</Password>
-        <Email>user2@dmail.com</Email>
-        <FirstName>First2</FirstName>
-        <LastName>Last2</LastName>
-        <PhoneNumber>12345678</PhoneNumber>
-    </User>
-    <User>
-        <UserName>user3</UserName>
-        <Password>qwerty</Password>
-        <Email/>
-        <FirstName/>
-        <LastName/>
-        <PhoneNumber/>
-    </User>
-    <User>
-        <UserName>user4</UserName>
-        <Password>qwertyui</Password>
-        <Email>user4@mail.com</Email>
-        <FirstName>First4</FirstName>
-        <LastName>Last4</LastName>
-        <PhoneNumber>987654321</PhoneNumber>
-    </User>
-    <User>
         <UserName>user1</UserName>
         <Password>qwerty</Password>
         <Email>user1@mail.com</Email>
         <FirstName>First1</FirstName>
         <LastName>Last1</LastName>
         <PhoneNumber>123456789</PhoneNumber>
+        <Notifications/>
+    </User>
+    <User>
+        <UserName>user3</UserName>
+        <Password>qwerty</Password>
+        <Email>user3@mail.com</Email>
+        <FirstName>First3</FirstName>
+        <LastName>Last3</LastName>
+        <PhoneNumber>123456789</PhoneNumber>
+        <Notifications/>
+    </User>
+    <User>
+        <UserName>user4</UserName>
+        <Password>qwerty</Password>
+        <Email>user4@mail.com</Email>
+        <FirstName>First4</FirstName>
+        <LastName>Last4</LastName>
+        <PhoneNumber>987654321</PhoneNumber>
+        <Notifications>
+            <Notification>Update on post you followed:00000012</Notification>
+        </Notifications>
     </User>
 </Users>

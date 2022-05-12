@@ -202,10 +202,13 @@ public class FakeServer {
                                         break;
                                     case "ap":
                                         System.out.println("All Posts request");
+                                        String[] tokens_ap = msgFromClient.split(" ");
+                                        int postNum_ap = Integer.parseInt(tokens_ap[1]);
                                         List<Post> posts_ap = userSession.allPosts();
                                         if (posts_ap != null) {
+                                            List<Post> rtnPosts_ap = posts_ap.subList(postNum_ap, postNum_ap + 10);
                                             msgToClient = "aps";
-                                            for (Post post : posts_ap) {
+                                            for (Post post : rtnPosts_ap) {
                                                 msgToClient += ";" + post.toString();
                                             }
                                         } else {
@@ -227,6 +230,58 @@ public class FakeServer {
                                         }
                                         System.out.println("Search response...");
                                         break;
+                                    case "ua":
+                                        System.out.println("Update Account request");
+                                        String[] tokens_ua = msgFromClient.split(" ");
+                                        String userName_ua = tokens_ua[1];
+                                        String password_ua = tokens_ua[2];
+                                        String email_ua = tokens_ua[3];
+                                        String FirstName_ua = tokens_ua[4];
+                                        String LastName_ua = tokens_ua[5];
+                                        String PhoneNumber_ua = tokens_ua[6];
+                                        if (userSession.updateProfile(userName_ua, password_ua, email_ua, FirstName_ua, LastName_ua, PhoneNumber_ua)) {
+                                            msgToClient = "uas;" + userName_ua + ";" + FirstName_ua + ";" + LastName_ua + ";" + email_ua + ";" + PhoneNumber_ua;
+                                        } else {
+                                            msgToClient = "uaf;Update Account Failed.Not logged in or user not exists. ";
+                                        }
+                                        System.out.println("Update Account response...");
+                                        break;
+                                    case "fp":
+                                        System.out.println("Follow Post request");
+                                        String[] tokens_fp = msgFromClient.split(" ");
+                                        String postId_fp = tokens_fp[1];
+                                        if (userSession.followPost(postId_fp)) {
+                                            msgToClient = "fps;Post followed";
+                                        } else {
+                                            msgToClient = "fpf;Follow Post Failed.Not logged in or already followed. ";
+                                        }
+                                        System.out.println("Follow Post response...");
+                                        break;
+                                    case "uf":
+                                        System.out.println("Unfollow Post request");
+                                        String[] tokens_uf = msgFromClient.split(" ");
+                                        String postId_uf = tokens_uf[1];
+                                        if (userSession.unfollowPost(postId_uf)) {
+                                            msgToClient = "ufs;Post unfollowed";
+                                        } else {
+                                            msgToClient = "uff;Unfollow Post Failed.Not logged in or already unfollowed. ";
+                                        }
+                                        System.out.println("Unfollow Post response...");
+                                        break;
+                                    case "un":
+                                        System.out.println("Update Notification request");
+                                        if (userSession.updateNotifications() != null) {
+                                            msgToClient = "uns;";
+                                            for (String notification : userSession.updateNotifications()) {
+                                                msgToClient += notification + ";";
+                                            }
+                                        } else {
+                                            msgToClient = "unf;Update Notification Failed.Not logged in. ";
+                                        }
+                                        System.out.println("Update Notification response...");
+                                        break;
+
+
                                 }
                             }
 
@@ -316,7 +371,7 @@ public class FakeServer {
 
                         while (true) {
                             String msgFromClient = bufferedReader.readLine();
-                            System.out.println("Client2: " + msgFromClient);
+                            System.out.println("Client: " + msgFromClient);
                             String msgToClient = "";
 
                             if (msgFromClient != null && msgFromClient.length() >= 2) {
@@ -470,10 +525,13 @@ public class FakeServer {
                                         break;
                                     case "ap":
                                         System.out.println("All Posts request");
+                                        String[] tokens_ap = msgFromClient.split(" ");
+                                        int postNum_ap = Integer.parseInt(tokens_ap[1]);
                                         List<Post> posts_ap = userSession.allPosts();
                                         if (posts_ap != null) {
+                                            List<Post> rtnPosts_ap = posts_ap.subList(postNum_ap, postNum_ap + 10);
                                             msgToClient = "aps";
-                                            for (Post post : posts_ap) {
+                                            for (Post post : rtnPosts_ap) {
                                                 msgToClient += ";" + post.toString();
                                             }
                                         } else {
@@ -495,6 +553,58 @@ public class FakeServer {
                                         }
                                         System.out.println("Search response...");
                                         break;
+                                    case "ua":
+                                        System.out.println("Update Account request");
+                                        String[] tokens_ua = msgFromClient.split(" ");
+                                        String userName_ua = tokens_ua[1];
+                                        String password_ua = tokens_ua[2];
+                                        String email_ua = tokens_ua[3];
+                                        String FirstName_ua = tokens_ua[4];
+                                        String LastName_ua = tokens_ua[5];
+                                        String PhoneNumber_ua = tokens_ua[6];
+                                        if (userSession.updateProfile(userName_ua, password_ua, email_ua, FirstName_ua, LastName_ua, PhoneNumber_ua)) {
+                                            msgToClient = "uas;" + userName_ua + ";" + FirstName_ua + ";" + LastName_ua + ";" + email_ua + ";" + PhoneNumber_ua;
+                                        } else {
+                                            msgToClient = "uaf;Update Account Failed.Not logged in or user not exists. ";
+                                        }
+                                        System.out.println("Update Account response...");
+                                        break;
+                                    case "fp":
+                                        System.out.println("Follow Post request");
+                                        String[] tokens_fp = msgFromClient.split(" ");
+                                        String postId_fp = tokens_fp[1];
+                                        if (userSession.followPost(postId_fp)) {
+                                            msgToClient = "fps;Post followed";
+                                        } else {
+                                            msgToClient = "fpf;Follow Post Failed.Not logged in or already followed. ";
+                                        }
+                                        System.out.println("Follow Post response...");
+                                        break;
+                                    case "uf":
+                                        System.out.println("Unfollow Post request");
+                                        String[] tokens_uf = msgFromClient.split(" ");
+                                        String postId_uf = tokens_uf[1];
+                                        if (userSession.unfollowPost(postId_uf)) {
+                                            msgToClient = "ufs;Post unfollowed";
+                                        } else {
+                                            msgToClient = "uff;Unfollow Post Failed.Not logged in or already unfollowed. ";
+                                        }
+                                        System.out.println("Unfollow Post response...");
+                                        break;
+                                    case "un":
+                                        System.out.println("Update Notification request");
+                                        if (userSession.updateNotifications() != null) {
+                                            msgToClient = "uns;";
+                                            for (String notification : userSession.updateNotifications()) {
+                                                msgToClient += notification + ";";
+                                            }
+                                        } else {
+                                            msgToClient = "unf;Update Notification Failed.Not logged in. ";
+                                        }
+                                        System.out.println("Update Notification response...");
+                                        break;
+
+
                                 }
                             }
 

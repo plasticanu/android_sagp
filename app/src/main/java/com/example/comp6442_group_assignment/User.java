@@ -14,9 +14,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
+import static com.example.comp6442_group_assignment.Post.writeXml;
 
-public class User implements Serializable {
+public class User implements Observer {
     private String userName;
     private String password;
     private String email;
@@ -58,9 +58,26 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public User(String userName, String password, String email, String firstName, String lastName, String phoneNumber) {
+    public List<String> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<String> notifications) {
+        this.notifications = notifications;
+    }
+
+    public User(String userName, String password, String email, String firstName, String lastName, String phoneNumber, List<String> notifications) {
         this.userName = userName;
         this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.notifications = notifications;
+    }
+
+    public User(String userName, String email, String firstName, String lastName, String phoneNumber) {
+        this.userName = userName;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -89,6 +106,19 @@ public class User implements Serializable {
     }
 
     @Override
+    public void update(String postId, String message) throws ParserConfigurationException, IOException, SAXException {
+        String update = message + postId;
+        notifications.add(update);
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName)) {
+                user.getNotifications().add(update);
+            }
+        }
+        writeToUser(users);
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "userName='" + userName + '\'' +
@@ -97,6 +127,7 @@ public class User implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", notifications=" + notifications + '\'' +
                 '}';
     }
 
@@ -139,7 +170,12 @@ public class User implements Serializable {
                 String firstName = userElement.getElementsByTagName("FirstName").item(0).getTextContent();
                 String lastName = userElement.getElementsByTagName("LastName").item(0).getTextContent();
                 String phoneNumber = userElement.getElementsByTagName("PhoneNumber").item(0).getTextContent();
-                User currentUser = new User(userName, password, email, firstName, lastName, phoneNumber);
+                List<String> notifications = new ArrayList<>();
+                NodeList notificationList = userElement.getElementsByTagName("Notification");
+                for (int j = 0; j < notificationList.getLength(); j++) {
+                    notifications.add(notificationList.item(j).getTextContent());
+                }
+                User currentUser = new User(userName, password, email, firstName, lastName, phoneNumber, notifications);
                 users.add(currentUser);
             }
         }
@@ -219,6 +255,17 @@ public class User implements Serializable {
             Element phoneNumber1 = doc.createElement("PhoneNumber");
             phoneNumber1.appendChild(doc.createTextNode(u.getPhoneNumber()));
             user.appendChild(phoneNumber1);
+
+            // notification elements
+            Element notifications = doc.createElement("Notifications");
+            user.appendChild(notifications);
+            if (u.getNotifications() != null) {
+                for (String n : u.getNotifications()) {
+                    Element notification = doc.createElement("Notification");
+                    notification.appendChild(doc.createTextNode(n));
+                    notifications.appendChild(notification);
+                }
+            }
         }
 
         // write dom document to a file
@@ -251,7 +298,7 @@ public class User implements Serializable {
             return false;
         } else {
             List<User> users = readUsers();
-            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber);
+            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber, new ArrayList<>());
             users.add(newUser);
             writeToUser(users);
             return true;
@@ -314,7 +361,28 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * return the notification of the user with @param userName from users.xml file, should be a server function
+     * @param userName
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static List<String> updateNotification(String userName) throws ParserConfigurationException, IOException, SAXException {
+        List<String> notifications = new ArrayList<>();
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName)) {
+                notifications = user.getNotifications();
+            }
+        }
+        return notifications; //returns a list of notifications
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
 
     }
+
+
 }

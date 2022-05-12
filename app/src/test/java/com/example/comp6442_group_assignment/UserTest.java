@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -20,7 +21,7 @@ public class UserTest {
 
     User user1 = new User("user1", "qwerty");
     User invalidUser = new User("user", "qwerty1");
-    User newUser = new User("user5", "1234", "addedUser@dmail.com", "John", "Adam", "123");
+    User newUser = new User("user5", "1234", "addedUser@dmail.com", "John", "Adam", "123", new ArrayList<>());
 
     @Test
     public void isValidTest() throws ParserConfigurationException, IOException, SAXException {

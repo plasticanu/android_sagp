@@ -26,8 +26,11 @@ public abstract class UserState {
     public abstract boolean likePost(String postId) throws ParserConfigurationException, IOException, SAXException;
     public abstract boolean unlikePost(String postId) throws ParserConfigurationException, IOException, SAXException;
     public abstract boolean commentPost(String postId, String content) throws ParserConfigurationException, IOException, SAXException;
+    public abstract boolean followPost(String postId) throws ParserConfigurationException, IOException, SAXException;
+    public abstract boolean unfollowPost(String postId) throws ParserConfigurationException, IOException, SAXException;
     public abstract User profile(); // return the user profile
+    public abstract boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException;
     public abstract List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException; // return all posts
     public abstract List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException; // search the database for the keyword
-
+    public abstract List<String> updateNotification() throws ParserConfigurationException, IOException, SAXException; // update the notification
 }

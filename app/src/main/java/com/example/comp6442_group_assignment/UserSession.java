@@ -94,14 +94,31 @@ public class UserSession {
         return state.commentPost(postId, content);
     }
 
+    public boolean followPost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.followPost(postId);
+    }
+
+    public boolean unfollowPost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.unfollowPost(postId);
+    }
+
     public User profile() throws ParserConfigurationException, IOException, SAXException {
         return state.profile();
+    }
+
+    public boolean updateProfile(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
+        return state.updateAccount(userName, password, email, firstName, lastName, phoneNumber);
     }
 
     public List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException {
         return state.allPosts();
     }
+
     public List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException {
          return state.search(keyword);
+    }
+
+    public List<String> updateNotifications() throws ParserConfigurationException, IOException, SAXException {
+        return state.updateNotification();
     }
 }
