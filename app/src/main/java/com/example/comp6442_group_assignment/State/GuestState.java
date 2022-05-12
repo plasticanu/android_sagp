@@ -105,11 +105,6 @@ public class GuestState extends UserState {
     }
 
     @Override
-    public void deleteComment(String postId, String commentId) {
-        System.out.println("Guest cannot delete comment.");
-    }
-
-    @Override
     public User profile() {
         System.out.println("Guest cannot view profile.");
         return null;

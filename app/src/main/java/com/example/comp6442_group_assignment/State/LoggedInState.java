@@ -127,11 +127,6 @@ public class LoggedInState extends UserState{
     }
 
     @Override
-    public void deleteComment(String postId, String commentId) {
-
-    }
-
-    @Override
     public User profile() {
         return session.user;
     }

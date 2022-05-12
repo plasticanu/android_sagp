@@ -26,7 +26,6 @@ public abstract class UserState {
     public abstract void likePost(String postId) throws ParserConfigurationException, IOException, SAXException;
     public abstract void unlikePost(String postId) throws ParserConfigurationException, IOException, SAXException;
     public abstract void commentPost(String postId, String content);
-    public abstract void deleteComment(String postId, String commentId);
     public abstract User profile(); // return the user profile
     public abstract List<Post> allPosts(); // return all posts
     public abstract List<Post> search(String keyword); // search the database for the keyword

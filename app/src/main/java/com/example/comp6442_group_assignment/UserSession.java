@@ -67,8 +67,13 @@ public class UserSession {
         return false;
     }
 
-    public void createPost(String content) throws ParserConfigurationException, IOException, SAXException {
-        state.createPost(content);
+    public boolean createPost(String content) throws ParserConfigurationException, IOException, SAXException {
+        if (isLoggedIn) {
+            state.createPost(content);
+            return true;
+        }
+        return false;
     }
+
 
 }
