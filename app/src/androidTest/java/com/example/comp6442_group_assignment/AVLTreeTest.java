@@ -80,8 +80,8 @@ public class AVLTreeTest {
     @Test
     public void sameElementInsertionTest(){
         avl.tree = avl.insert(avl.tree, 1);
-        avl.tree = avl.insertWithPostID(avl.tree, 1, 20);
-        avl.tree = avl.insertWithPostID(avl.tree, 2, 30);
-        avl.tree = avl.insertWithPostID(avl.tree, 2, 25);
+        avl.tree = avl.insertWithPostID(avl.tree, 1, "20");
+        avl.tree = avl.insertWithPostID(avl.tree, 2, "30");
+        avl.tree = avl.insertWithPostID(avl.tree, 2, "25");
     }
 }
