@@ -20,10 +20,18 @@ public class UserTest {
 
     User user1 = new User("user1", "qwerty");
     User invalidUser = new User("user", "qwerty1");
+    User newUser = new User("user5", "1234", "addedUser@dmail.com", "John", "Adam", "123");
 
     @Test
     public void isValidTest() throws ParserConfigurationException, IOException, SAXException {
         assertTrue(user1.isValid());
         assertFalse(invalidUser.isValid());
+    }
+
+    @Test
+    public void registerTest() throws ParserConfigurationException, IOException, SAXException {
+        assertTrue(User.register(newUser.getUserName(), newUser.getPassword(), newUser.getEmail(),
+                newUser.getFirstName(), newUser.getLastName(), newUser.getPhoneNumber()));
+        assertFalse(User.isRegistered("user5"));
     }
 }
