@@ -5,7 +5,7 @@ public class SearchStringTokenizer extends Tokenizer {
     private SearchToken currentToken;
     private int currentIndex;
 
-    static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':'};
+    static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':', '"', '/', '|', '_', '-', '+', '=', '~', '`', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '<', '>', '\r', '\f' };
 
     public SearchStringTokenizer(String searchString) {
         this.searchString = searchString;

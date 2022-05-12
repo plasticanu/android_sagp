@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
 
-public class User {
+public class User implements Serializable{
     private String userName;
     private String password;
     private String email;
@@ -272,5 +272,12 @@ public class User {
         }
         writeToUser(users);
         return true;
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        for (User user : users) {
+            System.out.println(user.getUserName());
+        }
     }
 }
