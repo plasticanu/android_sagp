@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class GuestStateFunctionTest {
+public class StateFunctionTest {
     private UserSession userSession;
 
     @Test
@@ -129,6 +129,7 @@ public class GuestStateFunctionTest {
         assertFalse(userSession.isLoggedIn);
         assertNull(userSession.user);
     }
+    //TODO: to complete this as much as possible, and the other test cases.
 
 
 }
