@@ -24,7 +24,9 @@ public class User implements Observer {
     private String lastName;
     private String phoneNumber;
 
-    private List<String> notifications; //TODO: ADD this to writer and reader
+    private List<String> notifications;
+
+    private boolean publicProfile;
 
     public String getEmail() {
         return email;
@@ -66,7 +68,11 @@ public class User implements Observer {
         this.notifications = notifications;
     }
 
-    public User(String userName, String password, String email, String firstName, String lastName, String phoneNumber, List<String> notifications) {
+    public boolean isPublicProfile() { return publicProfile; }
+
+    public void setPublicProfile(boolean publicProfile) { this.publicProfile = publicProfile; }
+
+    public User(String userName, String password, String email, String firstName, String lastName, String phoneNumber, List<String> notifications, boolean publicProfile) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -74,6 +80,7 @@ public class User implements Observer {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.notifications = notifications;
+        this.publicProfile = publicProfile;
     }
 
     public User(String userName, String email, String firstName, String lastName, String phoneNumber) {
@@ -128,6 +135,7 @@ public class User implements Observer {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", notifications=" + notifications + '\'' +
+                ", publicProfile=" + publicProfile + '\'' +
                 '}';
     }
 
@@ -179,7 +187,8 @@ public class User implements Observer {
                 for (int j = 0; j < notificationList.getLength(); j++) {
                     notifications.add(notificationList.item(j).getTextContent());
                 }
-                User currentUser = new User(userName, password, email, firstName, lastName, phoneNumber, notifications);
+                boolean publicProfile = Boolean.parseBoolean(userElement.getElementsByTagName("PublicProfile").item(0).getTextContent());
+                User currentUser = new User(userName, password, email, firstName, lastName, phoneNumber, notifications, publicProfile);
                 users.add(currentUser);
             }
         }
@@ -275,6 +284,11 @@ public class User implements Observer {
                     notifications.appendChild(notification);
                 }
             }
+
+            // public profile elements
+            Element publicProfile = doc.createElement("PublicProfile");
+            publicProfile.appendChild(doc.createTextNode(Boolean.toString(u.isPublicProfile())));
+            user.appendChild(publicProfile);
         }
 
         // write dom document to a file
@@ -312,7 +326,7 @@ public class User implements Observer {
             return false;
         } else {
             List<User> users = readUsers();
-            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber, new ArrayList<>());
+            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber, new ArrayList<>(), true);
             users.add(newUser);
             writeToUser(users);
             return true;
@@ -413,6 +427,24 @@ public class User implements Observer {
             }
         }
         return false;
+    }
+
+    /**
+     * request profile of another user, should be a server function
+     * @param userName
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName) && user.isPublicProfile()) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {

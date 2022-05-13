@@ -133,4 +133,10 @@ public class GuestState extends UserState {
         System.out.println("Guest cannot clear notification.");
         return false;
     }
+
+    @Override
+    public User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("Guest cannot request profile.");
+        return null;
+    }
 }

@@ -80,7 +80,7 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), "user2");
         assertTrue(userSession.isLoggedIn);
         assertNotNull(userSession.user);
-        User expected = new User("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>());
+        User expected = new User("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>(), true);
         assertEquals(userSession.user.toString(), expected.toString());
     }
 
@@ -100,7 +100,7 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), "user2");
         assertTrue(userSession.isLoggedIn);
         assertNotNull(userSession.user);
-        User expected = new User("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>());
+        User expected = new User("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>(), true);
         assertEquals(userSession.user.toString(), expected.toString());
         // update back to original
         userSession.updateProfile("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789");
@@ -108,7 +108,7 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), "user2");
         assertTrue(userSession.isLoggedIn);
         assertNotNull(userSession.user);
-        expected = new User("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>());
+        expected = new User("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>(), true);
         assertEquals(userSession.user.toString(), expected.toString());
     }
 

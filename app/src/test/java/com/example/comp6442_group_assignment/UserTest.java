@@ -22,7 +22,7 @@ public class UserTest {
 
     User user1 = new User("user1", "qwerty");
     User invalidUser = new User("user", "qwerty1");
-    User newUser = new User("user5", "1234", "addedUser@dmail.com", "John", "Adam", "123", new ArrayList<>());
+    User newUser = new User("user5", "1234", "addedUser@dmail.com", "John", "Adam", "123", new ArrayList<>(), true);
 
     @Test
     public void isValidTest() throws ParserConfigurationException, IOException, SAXException {

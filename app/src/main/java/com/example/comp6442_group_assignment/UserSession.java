@@ -125,4 +125,8 @@ public class UserSession {
     public boolean clearNotifications() throws ParserConfigurationException, IOException, SAXException {
         return state.clearNotification();
     }
+
+    public User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        return state.requestProfile(userName);
+    }
 }

@@ -222,4 +222,9 @@ public class LoggedInState extends UserState{
             return false; // clear failed
         }
     }
+
+    @Override
+    public User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        return User.requestProfile(userName);
+    }
 }

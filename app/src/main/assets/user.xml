@@ -8,6 +8,7 @@
         <LastName>Last1</LastName>
         <PhoneNumber>123456789</PhoneNumber>
         <Notifications/>
+        <PublicProfile>true</PublicProfile>
     </User>
     <User>
         <UserName>user3</UserName>
@@ -17,6 +18,7 @@
         <LastName>Last3</LastName>
         <PhoneNumber>123456789</PhoneNumber>
         <Notifications/>
+        <PublicProfile>true</PublicProfile>
     </User>
     <User>
         <UserName>user4</UserName>
@@ -24,7 +26,8 @@
         <Email>user4@mail.com</Email>
         <FirstName>First4</FirstName>
         <LastName>Last4</LastName>
-        <PhoneNumber>987654321</PhoneNumber>
+        <PhoneNumber>123456789</PhoneNumber>
         <Notifications/>
+        <PublicProfile>true</PublicProfile>
     </User>
 </Users>

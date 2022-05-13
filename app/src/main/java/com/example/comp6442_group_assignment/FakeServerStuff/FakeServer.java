@@ -289,6 +289,18 @@ public class FakeServer {
                                         }
                                         System.out.println("Clear Notification response...");
                                         break;
+                                    case "rp":
+                                        System.out.println("Request Profile request");
+                                        String[] tokens_rp = msgFromClient.split(" ");
+                                        String userName_rp = tokens_rp[1];
+                                        User user_rp = userSession.requestProfile(userName_rp);
+                                        if (user_rp != null) {
+                                            msgToClient = "rps;" + user_rp.getUserName() + ";" + user_rp.getFirstName() + ";" + user_rp.getLastName() + ";" + user_rp.getEmail() + ";" + user_rp.getPhoneNumber();
+                                        } else {
+                                            msgToClient = "rpf;Request Profile Failed.Not logged in or user not exists or not public. ";
+                                        }
+                                        System.out.println("Request Profile response...");
+                                        break;
 
 
                                 }
@@ -620,6 +632,18 @@ public class FakeServer {
                                             msgToClient = "cnf;Clear Notification Failed.Not logged in. ";
                                         }
                                         System.out.println("Clear Notification response...");
+                                        break;
+                                    case "rp":
+                                        System.out.println("Request Profile request");
+                                        String[] tokens_rp = msgFromClient.split(" ");
+                                        String userName_rp = tokens_rp[1];
+                                        User user_rp = userSession.requestProfile(userName_rp);
+                                        if (user_rp != null) {
+                                            msgToClient = "rps;" + user_rp.getUserName() + ";" + user_rp.getFirstName() + ";" + user_rp.getLastName() + ";" + user_rp.getEmail() + ";" + user_rp.getPhoneNumber();
+                                        } else {
+                                            msgToClient = "rpf;Request Profile Failed.Not logged in or user not exists or not public. ";
+                                        }
+                                        System.out.println("Request Profile response...");
                                         break;
 
 
