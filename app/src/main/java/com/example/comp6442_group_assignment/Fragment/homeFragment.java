@@ -180,7 +180,7 @@ public class homeFragment extends Fragment {
 
             }
 
-            Post post = new Post(postId, content, author, likes, createTime, comments, null);
+            Post post = new Post(postId, content, author, likes, createTime, comments, null); //FIXME: read observer
             pModels.add(post);
         }
 
