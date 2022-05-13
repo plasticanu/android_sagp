@@ -53,6 +53,8 @@ public class Parser {
             if (tokenizer.getCurrentToken().getType() == SearchToken.Type.AuthorTag) {
                 result.add(tokenizer.getCurrentToken().getString());
             }
+            tokenizer.next();
+
         }
         return result;
     }
