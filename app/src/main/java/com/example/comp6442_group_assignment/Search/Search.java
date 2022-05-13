@@ -53,7 +53,7 @@ public class Search {
         for(Post p : allPosts){
             SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
             while(stt.hasNext()){
-                contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
+                contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString().toLowerCase(), p.getPostId());
                 stt.next();
             }
 
@@ -64,7 +64,7 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private HashMap<Post, Integer> rankContent(String input){
 
-        SearchStringTokenizer tokenizer = new SearchStringTokenizer(input);
+        SearchStringTokenizer tokenizer = new SearchStringTokenizer(input.toLowerCase());
         ArrayList<String> postIDs = new ArrayList<>();
         HashMap<String,Integer> idWithScore = new HashMap<>();
         while(tokenizer.hasNext()){
@@ -174,7 +174,7 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Search s = new Search();
-        System.out.println(s.search("where are you?"));
+        System.out.println(s.search("fndsajlknfewalnfdsa").get(0));
     }
 
 
