@@ -121,4 +121,8 @@ public class UserSession {
     public List<String> updateNotifications() throws ParserConfigurationException, IOException, SAXException {
         return state.updateNotification();
     }
+
+    public boolean clearNotifications() throws ParserConfigurationException, IOException, SAXException {
+        return state.clearNotification();
+    }
 }

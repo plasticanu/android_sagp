@@ -380,6 +380,27 @@ public class User implements Observer {
         return notifications; //returns a list of notifications
     }
 
+    /**
+     * Empty the notification list of a user, should be a server function
+     * @param username
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static boolean clearNotification(String username) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        List<String> empty = new ArrayList<>();
+        for (User user : users) {
+            if (user.getUserName().equals(username)) {
+                user.setNotifications(empty);
+                writeToUser(users);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
 
     }

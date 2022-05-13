@@ -25,8 +25,6 @@
         <FirstName>First4</FirstName>
         <LastName>Last4</LastName>
         <PhoneNumber>987654321</PhoneNumber>
-        <Notifications>
-            <Notification>Update on post you followed:00000012</Notification>
-        </Notifications>
+        <Notifications/>
     </User>
 </Users>

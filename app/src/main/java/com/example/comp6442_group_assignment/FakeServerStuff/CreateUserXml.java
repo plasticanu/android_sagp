@@ -1,3 +1,9 @@
+/**
+ * This class was used for creating the XML file. It is officially abandoned.
+ * The commented code is kept for future reference.
+ * Nobody should use this class.
+ */
+
 //package com.example.comp6442_group_assignment.FakeServerStuff;
 //
 //import com.example.comp6442_group_assignment.User;

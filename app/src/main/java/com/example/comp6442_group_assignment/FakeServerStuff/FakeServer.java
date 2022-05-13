@@ -280,6 +280,15 @@ public class FakeServer {
                                         }
                                         System.out.println("Update Notification response...");
                                         break;
+                                    case "cn":
+                                        System.out.println("Clear Notification request");
+                                        if (userSession.clearNotifications()) {
+                                            msgToClient = "cns;Notifications cleared";
+                                        } else {
+                                            msgToClient = "cnf;Clear Notification Failed.Not logged in. ";
+                                        }
+                                        System.out.println("Clear Notification response...");
+                                        break;
 
 
                                 }
@@ -602,6 +611,15 @@ public class FakeServer {
                                             msgToClient = "unf;Update Notification Failed.Not logged in. ";
                                         }
                                         System.out.println("Update Notification response...");
+                                        break;
+                                    case "cn":
+                                        System.out.println("Clear Notification request");
+                                        if (userSession.clearNotifications()) {
+                                            msgToClient = "cns;Notifications cleared";
+                                        } else {
+                                            msgToClient = "cnf;Clear Notification Failed.Not logged in. ";
+                                        }
+                                        System.out.println("Clear Notification response...");
                                         break;
 
 

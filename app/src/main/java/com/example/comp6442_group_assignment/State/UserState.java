@@ -33,4 +33,5 @@ public abstract class UserState {
     public abstract List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException; // return all posts
     public abstract List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException; // search the database for the keyword
     public abstract List<String> updateNotification() throws ParserConfigurationException, IOException, SAXException; // update the notification
+    public abstract boolean clearNotification() throws ParserConfigurationException, IOException, SAXException; // clear the notification
 }

@@ -1,4 +1,4 @@
-# [Team Name] Report
+# [Team 70's] Report
 
 The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
 
@@ -31,9 +31,9 @@ The following is a report template to help your team successfully provide all th
 
 | UID | Name | Role |
 | :--- | :----: | ---: |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
+| u7294212 | Peicheng | Team Leader & Backend lead coder |
+| u7055573 | Jiyuan Chen | UI design & Frontend coder |
+| u7139999 | Zhidong Piao | Backend co-coder |
 | [uid] | [name] | [role] |
 
 ## Summary of Individual Contributions
@@ -49,6 +49,28 @@ The following is a report template to help your team successfully provide all th
 * B.class: function1(), function2(), ...
 * ....
 
+*u7294212, Peicheng Liu, I contribute __% of the code. Here are my contributions:* 
+* Fundamental project structure design
+* Server-client model
+* CreatePostXml.java
+* CreateUserXml.java
+* FakeClient.java
+* FakeServer.java
+* PostTokenizer.java
+* SearchStringTokenizer.java
+* SearchToken.java
+* Tokenizer.java
+* GuestState.java
+* LoggedInState.java
+* UserState.java
+* Comment.java
+* Observer.java
+* Post.java
+* Subject.java
+* User.java
+* UserSession.java
+* projectUML.png
+
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
 *[UI Design. Specify what design did the involved member propose? What tools were used for the design?]*
@@ -60,10 +82,20 @@ The following is a report template to help your team successfully provide all th
 *[Miscellaneous contributions. You are welcome to provide anything that you consider as a contribution to the project or team.]*
 
 ## Conflict Resolution Protocol
+The team remained conflictless for most of the project period. When conflicts arose, the team generally agree on the opinion of the team leader. 
+For the rest of conflicts, the team resolve them by talking through the problem in our regular online meetings on MS Teams and Wechat. 
 
 *[Write a well defined protocol your team can use to handle conflicts. That is, if your group has problems, what is the procedure for reaching consensus or solving a problem? (If you choose to make this an external document, link to it here)]*
 
 ## Application Description
+The ANU Courtyard is designed as a communication platform for students and alumni of ANU to connect to each other. It has the characteristics of a social media platform where users can post and comment on posts, and also can search for posts based on keywords. 
+The user group should be limited to ANU students and alumni, however, this involves checking if the user email is valid ANU email, thus, the feature is not implemented. 
+Users of the application could exchange experience over the future career of certain majors and specializations, asking questions regarding these areas and so on. 
+Of course, users could just share their own thoughts on certain topic or even just share their daily life as an ANU student or alumni. 
+The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or SCHOOL Courtyard to be honest.
+
+*One simple example of the application usage is as follows:*
+* 
 
 *[What is your application, what does it do? Include photos or diagrams if necessary]*
 
@@ -101,7 +133,7 @@ The following is a report template to help your team successfully provide all th
 
 ## Application UML
 
-![ClassDiagramExample](./images/ClassDiagramExample.png)
+![ClassDiagramExample](./app/src/main/java/projectUML.png)
 *[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
 
 ## Application Design and Decisions

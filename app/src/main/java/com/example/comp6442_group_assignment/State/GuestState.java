@@ -127,4 +127,10 @@ public class GuestState extends UserState {
         System.out.println("Guest cannot update notification.");
         return null;
     }
+
+    @Override
+    public boolean clearNotification() throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("Guest cannot clear notification.");
+        return false;
+    }
 }

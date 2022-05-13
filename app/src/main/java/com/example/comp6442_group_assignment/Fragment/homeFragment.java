@@ -180,8 +180,8 @@ public class homeFragment extends Fragment {
 
             }
 
-            Post post = new Post(postId, content, author, likes, createTime, comments);
-            pModels.add(post);
+//            Post post = new Post(postId, content, author, likes, createTime, comments);
+//            pModels.add(post);
         }
 
         return pModels;

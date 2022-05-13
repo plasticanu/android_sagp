@@ -203,4 +203,16 @@ public class LoggedInState extends UserState{
     public List<String> updateNotification() throws ParserConfigurationException, IOException, SAXException {
         return User.updateNotification(session.user.getUserName());
     }
+
+    @Override
+    public boolean clearNotification() throws ParserConfigurationException, IOException, SAXException {
+        String username = session.user.getUserName();
+        if(User.clearNotification(username)){
+            System.out.println("Clear Successful!");
+            return true; // clear successful
+        } else {
+            System.out.println("Clear failed.");
+            return false; // clear failed
+        }
+    }
 }
