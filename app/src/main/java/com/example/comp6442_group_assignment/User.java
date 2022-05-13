@@ -149,8 +149,12 @@ public class User implements Observer {
      * @return list of users registered in the system
      */
     public static List<User> readUsers() throws ParserConfigurationException, IOException, SAXException {
+        String testPath = "src/main/assets/user.xml";
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
+        if (!file.exists()) {
+            file = new File(testPath);
+        }
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -211,8 +215,13 @@ public class User implements Observer {
      * @throws SAXException
      */
     public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
+        boolean useTestPath = false;
+        String testPath = "src/main/assets/user.xml";
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
+        if (!file.exists()) {
+            useTestPath = true;
+        }
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -269,8 +278,13 @@ public class User implements Observer {
         }
 
         // write dom document to a file
-        try (FileOutputStream output =
-                     new FileOutputStream(address)) {
+        try {
+            FileOutputStream output = null;
+            if (useTestPath) {
+                output = new FileOutputStream(testPath);
+            } else {
+                output = new FileOutputStream(address);
+            }
             writeXml(doc, output);
         } catch (IOException | TransformerException e) {
             e.printStackTrace();

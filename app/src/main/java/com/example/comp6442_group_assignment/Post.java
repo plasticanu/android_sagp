@@ -150,8 +150,13 @@ public class Post implements Subject {
      * @throws ParserConfigurationException
      */
     public static void writeToPost(List<Post> posts) throws ParserConfigurationException {
+        boolean useTestPath = false;
+        String testPath = "src/main/assets/post.xml";
         String address = "app/src/main/assets/post.xml";
         File file = new File(address);
+        if (!file.exists()) {
+            useTestPath = true;
+        }
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -223,8 +228,13 @@ public class Post implements Subject {
             }
         }
         // write dom document to a file
-        try (FileOutputStream output =
-                     new FileOutputStream(address)) {
+        try {
+            FileOutputStream output = null;
+            if (useTestPath) {
+                output = new FileOutputStream(testPath);
+            } else {
+                output = new FileOutputStream(address);
+            }
             writeXml(doc, output);
         } catch (IOException | TransformerException e) {
             e.printStackTrace();
@@ -240,8 +250,12 @@ public class Post implements Subject {
      */
     public static List<Post> readFromPost() throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = new ArrayList<>();
+        String testPath = "src/main/assets/post.xml";
         String address = "app/src/main/assets/post.xml";
         File file = new File(address);
+        if (!file.exists()) {
+            file = new File(testPath);
+        }
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

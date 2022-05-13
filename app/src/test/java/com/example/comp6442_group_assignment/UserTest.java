@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -30,7 +31,7 @@ public class UserTest {
     }
 
     @Test
-    public void registerTest() throws ParserConfigurationException, IOException, SAXException {
+    public void registerTest() throws ParserConfigurationException, IOException, SAXException, TransformerException {
         assertTrue(User.register(newUser.getUserName(), newUser.getPassword(), newUser.getEmail(),
                 newUser.getFirstName(), newUser.getLastName(), newUser.getPhoneNumber()));
         assertFalse(User.isRegistered("user5"));

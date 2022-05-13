@@ -180,6 +180,13 @@ public class LoggedInState extends UserState{
     public boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
         if(User.updateAccount(userName, password, email, firstName, lastName, phoneNumber)){
             System.out.println("Update Successful!");
+            List<User> users = User.readUsers();
+            for (User user : users) {
+                if (user.getUserName().equals(userName)) {
+                    session.user = user;
+                    break;
+                }
+            }
             return true; // update successful
         } else {
             System.out.println("Update failed.");

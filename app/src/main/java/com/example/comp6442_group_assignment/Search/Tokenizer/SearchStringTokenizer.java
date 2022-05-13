@@ -3,6 +3,7 @@ package com.example.comp6442_group_assignment.Search.Tokenizer;
 public class SearchStringTokenizer extends Tokenizer {
     private String searchString;
     private SearchToken currentToken;
+
     private int currentIndex;
 
     static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':', '"', '/', '|', '_', '-', '+', '=', '~', '`', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '<', '>', '\r', '\f' };
@@ -11,6 +12,10 @@ public class SearchStringTokenizer extends Tokenizer {
         this.searchString = searchString;
         this.currentIndex = 0;
         next(); // initialize currentToken
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
     }
 
     @Override
