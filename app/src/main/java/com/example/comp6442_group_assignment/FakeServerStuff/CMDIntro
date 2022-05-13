@@ -1,0 +1,12 @@
+1. for case "hm"
+hm 0 stand for initialization or refresh
+hm 10 stand for load 10 more after 10
+2.
+Client should send an "hm" request immediately after request that will update post.xml. Such as "cp" or "ep" or "dp".
+3.
+Client could use "pf" request for own user profile.
+4.
+Client could use "rp" request for other user profile, if the user set profile as public.
+5.
+The client should regularly send "un" request to update the notification, such as every 5 seconds.
+Once the response list has a length of 2 or more, notify the user in the frontend and immediately send "cn" request so the server will remove the notification from the list.
