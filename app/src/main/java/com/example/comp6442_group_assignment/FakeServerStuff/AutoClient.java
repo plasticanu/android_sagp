@@ -2,12 +2,10 @@ package com.example.comp6442_group_assignment.FakeServerStuff;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
 
-/**
- * Fake client used for simulating a data stream between the server and another client.
- */
-public class FakeClient {
+public class AutoClient {
     public static void main(String[] args) throws IOException {
         Socket socket = null;
         InputStreamReader inputStreamReader = null;
@@ -15,18 +13,30 @@ public class FakeClient {
         BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
 
+        InputStreamReader textStreamReader = null;
+        BufferedReader textBufferedReader = null;
+
         try {
-            socket = new Socket("localhost", 6070);
+            socket = new Socket("localhost", 6080);
             inputStreamReader = new InputStreamReader(socket.getInputStream());
             outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
 
             bufferedReader = new BufferedReader(inputStreamReader);
             bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-            Scanner scanner = new Scanner(System.in); // for user input
+            String address = "app/src/main/assets/DataStream";
+            File file = new File(address);
+
+            textStreamReader = new InputStreamReader(new FileInputStream(file));
+            textBufferedReader = new BufferedReader(textStreamReader);
 
             while (true) {
-                String input = scanner.nextLine(); // request value will be manually entered here, but automatically generated in the actual client
+                int sleepTime = new Random().nextInt(5000) + 5000;
+                Thread.sleep(sleepTime); // sleep for a random time between 5 and 10 seconds
+
+                String input = textBufferedReader.readLine(); // read request command line from file
+                if (input == null) { continue; }
+
                 bufferedWriter.write(input);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
@@ -38,7 +48,7 @@ public class FakeClient {
                 }
                 System.out.println("Server: " + receive);
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {
             if (bufferedReader != null) {

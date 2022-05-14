@@ -1,4 +1,4 @@
-li user4 qwerty
+li user1 qwerty
 cp testing content0
 lp 00000000
 lp 00000001
@@ -2002,7 +2002,7 @@ cm 00000397 testing comment397
 cm 00000398 testing comment398
 cm 00000399 testing comment399
 lo
-li user1 qwerty
+li user4 qwerty
 cp testing content0
 lp 00000000
 lp 00000001

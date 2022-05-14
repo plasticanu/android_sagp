@@ -25,7 +25,7 @@ public class DataStreamFileGenerator {
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 4; i > 0; i--) {
             if (i == 2) { continue; }
 
             outputStreamWriter.write("li user" + i + " qwerty\n");
