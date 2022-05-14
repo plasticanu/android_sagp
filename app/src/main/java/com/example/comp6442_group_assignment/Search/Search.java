@@ -38,7 +38,7 @@ public class Search {
     private AVLTree<Post> postAVL = new AVLTree<>();
     private List<Post> allPosts = new ArrayList<>();
     private HashMap<Post, Integer> postsRank = new HashMap<>();
-    // Percentage of error chars allowed. The maximum number allowed is 100, the lowest number is 0.
+    // Percentage of error letters for a word allowed.
     private Integer fuzzyExtent = 0;
 
     public Search(Integer fuzzyExtent){
@@ -60,7 +60,8 @@ public class Search {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankContent(String input, ArrayList<String> exact, ArrayList<String> exclude) {
-
+        input = input.trim();
+        int onlyExcludeTag = 0;
         // FuzzyScore is used for determine how similar is the input against the content.
         FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
 
@@ -71,6 +72,10 @@ public class Search {
 
             //if the exclude string input is not empty:
             if (!exclude.isEmpty()) {
+                // case: there is only a exclude tag and no input:
+                if(input.equals("") && exact.isEmpty()){
+                    onlyExcludeTag = 1;
+                }
                 // if there is any string matched to the content, skip the following code of postLoop
                 for (String ex : exclude) {
                     if (p.getContent().contains(ex)) {
@@ -82,6 +87,7 @@ public class Search {
                 }
             }
 
+
             // Recognize the exact matching tags.
             // If detected, and the string is found in the post, add the post with a score 200.
             // the exact string input is not empty:
@@ -89,7 +95,7 @@ public class Search {
                 for (String e : exact) {
                     // Check if the input matches any content of the post
                     if (p.getContent().contains(e)) {
-                        postsRank.put(p, postsRank.getOrDefault(p, 0) + 200);
+                        postsRank.put(p, postsRank.getOrDefault(p, 0) + 200 + onlyExcludeTag);
                         // skip the following code because this only searches the exactly matched posts.
                         continue postLoop;
                     }
@@ -97,16 +103,42 @@ public class Search {
             }
 
             // Rank the normal text input. Based on fuzzy score.
-            if (p.getContent().contains(input.trim())) {
-                postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input));
+            if (p.getContent().toLowerCase().contains(input.toLowerCase())) {
+                postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) + onlyExcludeTag);
             } else {
                 LevenshteinDistance ld = new LevenshteinDistance();
-                float fuzzyScore = (float) ( (float) ld.apply(p.getContent(), input)
-                        / (float) p.getContent().trim().length() ) * 100;
+                SearchStringTokenizer inputT = new SearchStringTokenizer(input);
+                SearchStringTokenizer contentT = new SearchStringTokenizer(p.getContent());
+                float fuzzyScore = 0;
 
-                if (fuzzyScore <= fuzzyExtent) {
+                ArrayList<String> contentTokens = new ArrayList<>();
+                ArrayList<String> inputTokens = new ArrayList<>();
+
+                while(inputT.hasNext()){
+                    inputTokens.add(inputT.getCurrentToken().getString());
+                    inputT.next();
+                }
+                while(contentT.hasNext()){
+
+                    contentTokens.add(contentT.getCurrentToken().getString());
+                    contentT.next();
+                }
+
+                int correctInputCount = 0;
+                for(String i : inputTokens){
+                    for(String c: contentTokens){
+                        fuzzyScore = (float) ((float) ld.apply(c,i) / (float) Math.max(i.length(),c.length()));
+                        if(fuzzyScore*100 <= fuzzyExtent){
+                            correctInputCount ++;
+                            break;
+                        }
+                    }
+                }
+
+                if(correctInputCount == inputTokens.size()){
                     postsRank.put(p,
-                            postsRank.getOrDefault(p, 0) + Math.round(100 - fuzzyScore));
+                            postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input)  - Math.round(fuzzyScore) + onlyExcludeTag);
+
                 }
             }
         }
@@ -143,8 +175,8 @@ public class Search {
                         if (stt.getCurrentToken().getString().equals(s)) {
                             postsRank.put(p, postsRank.getOrDefault(p, 0) + 100);
                         } else {
-                            LevenshteinDetailedDistance ldd = new LevenshteinDetailedDistance();
-                            float fuzzyScore = (float) ( ldd.apply(stt.getCurrentToken().getString(), s).getDistance()
+                            LevenshteinDistance ldd = new LevenshteinDistance();
+                            float fuzzyScore = (float) ( ldd.apply(stt.getCurrentToken().getString(), s)
                                     / stt.getCurrentToken().getString().length() ) * 100;
                             if (fuzzyScore <= fuzzyExtent) {
                                 postsRank.put(p,
@@ -233,7 +265,7 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Search s = new Search(30);
-        System.out.println(s.search("content"));
+        System.out.println(s.search("contant").size());
 
     }
 
