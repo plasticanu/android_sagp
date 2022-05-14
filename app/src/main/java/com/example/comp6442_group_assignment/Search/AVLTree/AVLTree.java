@@ -1,5 +1,9 @@
 package com.example.comp6442_group_assignment.Search.AVLTree;
 
+import com.example.comp6442_group_assignment.Post;
+
+import java.util.ArrayList;
+
 /**
  * AVLTree implementation, not immutable.
  * @Author Zhidong Piao u7139999
@@ -23,7 +27,7 @@ public class AVLTree<T> {
     }
 
     private void updateHeight(Node<T> n){
-        n.height = 1 + Math.max(getHeight(n.left), getHeight(n.right));
+        n.setHeight(1 + Math.max(getHeight(n.getLeft()), getHeight(n.getRight())));
     }
 
     private int getHeight(Node<T> n){
@@ -31,7 +35,7 @@ public class AVLTree<T> {
             return 0;
         }
         else{
-            return n.height;
+            return n.getHeight();
         }
     }
     private int getBalance(Node<T> n){
@@ -39,29 +43,28 @@ public class AVLTree<T> {
             return 0;
         }
         else{
-            return getHeight(n.left) - getHeight(n.right);
+            return getHeight(n.getLeft()) - getHeight(n.getRight());
         }
     }
 
     private Node<T> rightRotate(Node<T> n){
-        Node left = n.left;
-        Node lr = left.right;
+        Node left = n.getLeft();
+        Node lr = left.getRight();
 
-        left.right = n;
-        n.left = lr;
+        left.setRight(n);
+        n.setLeft(lr);
 
-        //TODO: change the code format the same as rotateLeft.
-        n.height = Math.max(getHeight(n.left), getHeight(n.right) + 1);
-        left.height = Math.max(getHeight(left.left), getHeight(left.right) + 1);
+        updateHeight(n);
+        updateHeight(left);
         return left;
     }
 
     private Node<T> leftRotate(Node<T> n){
         //The node type is not specified to avoid nullPointerException.
-        Node right = n.right;
-        Node rl = right.left;
-        right.left = n;
-        n.right = rl;
+        Node right = n.getRight();
+        Node rl = right.getLeft();
+        right.setLeft(n);
+        n.setRight(rl);
 
         updateHeight(n);
         updateHeight(right);
@@ -78,31 +81,31 @@ public class AVLTree<T> {
             updateHeight(n);
             return n;
         }
-        if(e.hashCode() > n.key){
-            n.right = insert(n.right,e);
+        if(e.hashCode() > n.getKey()){
+            n.setRight(insert(n.getRight(),e));
         }
-        else if(e.hashCode() < n.key){
-            n.left = insert(n.left,e);
+        else if(e.hashCode() < n.getKey()){
+            n.setLeft(insert(n.getLeft(),e));
         }
         if(getBalance(n) > 1){
-            if(e.hashCode() < n.left.key){
+            if(e.hashCode() < n.getLeft().getKey()){
                 n = rightRotate(n);
                 return n;
             }
-            if(e.hashCode() > n.left.key){
-                n.left = leftRotate(n.left);
+            if(e.hashCode() > n.getLeft().getKey()){
+                n.setLeft(leftRotate(n.getLeft()));
                 n = rightRotate(n);
 
                 return n;
             }
         }
         else if(getBalance(n) < -1){
-            if(e.hashCode() > n.right.key){
+            if(e.hashCode() > n.getRight().getKey()){
                 n = leftRotate(n);
                 return n;
             }
-            if(e.hashCode() < n.right.key){
-                n.right = rightRotate(n.right);
+            if(e.hashCode() < n.getRight().getKey()){
+                n.setRight(rightRotate(n.getRight()));
                 n = leftRotate(n);
 
                 return n;
@@ -126,10 +129,10 @@ public class AVLTree<T> {
             return n;
 
         // BST deletion method
-        if(e.hashCode() < n.key)
-            n.left = delete(n.left, e);
-        else if(e.hashCode() > n.key)
-            n.right = delete(n.right, e);
+        if(e.hashCode() < n.getKey())
+            n.setLeft(delete(n.left, e));
+        else if(e.hashCode() > n.getKey())
+            n.setRight(delete(n.getRight(), e));
         // Case: needs rotation
         // TODO: balance
         return n;
@@ -139,10 +142,10 @@ public class AVLTree<T> {
         if(n == null){
             return null;
         }
-        else if(n.key == e.hashCode()){
+        else if(n.getKey() == e.hashCode()){
             return n;
         }
-        else if(e.hashCode() > n.key){
+        else if(e.hashCode() > n.getKey()){
             return findNode(n.getRight(), e);
         }else{
             return findNode(n.getLeft(), e);

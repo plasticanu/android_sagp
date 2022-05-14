@@ -12,7 +12,12 @@ public class ExcludeTag extends Tag{
     }
 
     @Override
-    public Tag evaluate() {
-        return new ExcludeTag(expression);
+    public String evaluate() {
+        return expression;
+    }
+
+    @Override
+    public String getType() {
+        return "Ex";
     }
 }
