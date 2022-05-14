@@ -1,8 +1,10 @@
 package com.example.comp6442_group_assignment.FakeServerStuff;
+import android.annotation.SuppressLint;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.example.comp6442_group_assignment.Backup_Search.Search_N;
 import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.Search.Search;
 import com.example.comp6442_group_assignment.State.LoggedInState;
 import com.example.comp6442_group_assignment.State.UserState;
 import com.example.comp6442_group_assignment.User;
@@ -20,11 +22,11 @@ import java.util.List;
  * client that will simulate a stream of data being sent to the server by other users.
  */
 public class FakeServer {
-    public static Search_N searchEngine;
+    public static Search searchEngine;
     public static List<Post> posts;
 
     private FakeServer() throws ParserConfigurationException, IOException, SAXException {
-        searchEngine = new Search_N();
+        searchEngine = new Search();
         posts = Post.readFromPost();
     }
 
@@ -338,7 +340,7 @@ public class FakeServer {
      * @throws SAXException
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private static String getResponse(String request, UserSession userSession, Search_N searchEngine, List<Post> posts) throws IOException, ParserConfigurationException, SAXException {
+    private static String getResponse(String request, UserSession userSession, Search searchEngine, List<Post> posts) throws IOException, ParserConfigurationException, SAXException {
         String response = "";
         if (request != null && request.length() >= 2) {
             switch (request.substring(0, 2)) {
@@ -509,13 +511,9 @@ public class FakeServer {
                     String search_sr = request.substring(3);
                     if (userSession.user != null) {
                         response = "srs";
-                        List<String> posts_sr = searchEngine.search(search_sr);
-                        for (String postId : posts_sr) {
-                            for (Post post : posts) {
-                                if (post.getPostId().equals(postId)) {
-                                    response += ";" + post.toString();
-                                }
-                            }
+                        @SuppressLint({"NewApi", "LocalSuppress"}) List<Post> posts_sr = searchEngine.search(search_sr);
+                        for (Post postId : posts_sr) {
+                            response += ";" + postId.toString();
                         }
                     }else {
                         response = "srf;Search Failed.Not logged in. ";
