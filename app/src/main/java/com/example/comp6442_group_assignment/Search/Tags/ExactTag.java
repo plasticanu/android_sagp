@@ -1,8 +1,8 @@
 package com.example.comp6442_group_assignment.Search.Tags;
 
-public class ExactMathTag extends Tag{
+public class ExactTag extends Tag{
     String expression;
-    public ExactMathTag(String s){
+    public ExactTag(String s){
         this.expression = s;
 
     }
@@ -14,7 +14,12 @@ public class ExactMathTag extends Tag{
     }
 
     @Override
-    public Tag evaluate() {
-        return new ExactMathTag(expression);
+    public String evaluate() {
+        return expression;
+    }
+
+    @Override
+    public String getType() {
+        return "E";
     }
 }

@@ -55,23 +55,13 @@ public class Node<T>{
         return data;
     }
 
-    public void setData(T data) {
-        this.data = data;
-    }
-
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
     }
 
     public void setLeft(Node<T> left) {
         this.left = left;
     }
-
-
     public void setRight(Node<T> right) {
         this.right = right;
     }

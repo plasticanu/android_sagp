@@ -14,7 +14,12 @@ public class SharpTag extends Tag{
     }
 
     @Override
-    public Tag evaluate() {
-        return new SharpTag(expression);
+    public String evaluate() {
+        return expression;
+    }
+
+    @Override
+    public String getType() {
+        return "S";
     }
 }
