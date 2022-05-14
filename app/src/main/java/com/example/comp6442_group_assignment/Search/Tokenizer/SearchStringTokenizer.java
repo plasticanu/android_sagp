@@ -108,7 +108,7 @@ public class SearchStringTokenizer extends Tokenizer {
 
     public static void main(String[] args) {
         String test = "Hello world, this is a test. @test, #test, \\test, 'test'";
-        test = "'test";
+        test = "'test, test";
         SearchStringTokenizer tokenizer = new SearchStringTokenizer(test);
         int counter = 0;
         while (tokenizer.hasNext() && counter < 10) {

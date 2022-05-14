@@ -1,5 +1,7 @@
 package com.example.comp6442_group_assignment.Search.Tokenizer;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * SearchToken class is used to store the token and its type from the search string.
  */
@@ -32,5 +34,14 @@ public class SearchToken {
             rtn = token.substring(1);
         }
         return rtn;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "SearchToken{" +
+                "token='" + token + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

@@ -17,7 +17,7 @@ public class PostTokenizer extends Tokenizer {
     private String currentToken; // The current token.
     private int currentIndex; // The current index.
 
-    static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':'};
+    static final char[] tokenEnd = { ' ', '\n', '\t', '.' , '?' , '!', ',', ';', ':', '"', '/', '|', '_', '-', '+', '=', '~', '`', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '<', '>', '\r', '\f' };
 
     public PostTokenizer(Post post) {
         content = post.getContent();
@@ -96,7 +96,7 @@ public class PostTokenizer extends Tokenizer {
     }
 
     public static void main(String[] args) {
-        String content = "Hello, I am a test post.\n";
+        String content = "DISTRIBUTED SO LONG AS SUCH COPIES (1) ARE FOR YOUR OR OTHERS|        PERSONAL USE ONLY, AND (2) ARE NOT DISTRIBUTED OR USED|        COMMERCIALLY.  PROHIBITED COMMERCIAL DISTRIBUTION INCLUDES BY ANY|        SERVICE THAT CHARGES FOR DOWNLOAD TIME OR FOR MEMBERSHIP.&gt;&gt;|        ACT IV. SCENE I.|        ";
         Post post = new Post(content, "test_user");
         PostTokenizer tokenizer = new PostTokenizer(post);
         List<String> tokens = tokenizer.getAllTokens();

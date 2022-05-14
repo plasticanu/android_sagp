@@ -1,5 +1,10 @@
 package com.example.comp6442_group_assignment.FakeServerStuff;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
+import com.example.comp6442_group_assignment.Backup_Search.Search_N;
 import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.State.LoggedInState;
+import com.example.comp6442_group_assignment.State.UserState;
 import com.example.comp6442_group_assignment.User;
 import com.example.comp6442_group_assignment.UserSession;
 import org.xml.sax.SAXException;
@@ -15,9 +20,21 @@ import java.util.List;
  * client that will simulate a stream of data being sent to the server by other users.
  */
 public class FakeServer {
-    public static void main(String[] args) throws IOException {
+    public static Search_N searchEngine;
+    public static List<Post> posts;
+
+    private FakeServer() throws ParserConfigurationException, IOException, SAXException {
+        searchEngine = new Search_N();
+        posts = Post.readFromPost();
+    }
+
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+        // Initialize the search engine and posts list
+        FakeServer server = new FakeServer();
+
         // Three threads are currently identical to each other but their connecting socket.
         Thread thread1 = new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
                 Socket socket = null;
@@ -51,7 +68,7 @@ public class FakeServer {
                         while (true) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
-                            String msgToClient = getResponse(msgFromClient, userSession);
+                            String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
 
                             bufferedWriter.write(msgToClient);
                             bufferedWriter.newLine();
@@ -106,6 +123,7 @@ public class FakeServer {
         });
 
         Thread thread2 = new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
                 Socket socket = null;
@@ -139,7 +157,7 @@ public class FakeServer {
                         while (true) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
-                            String msgToClient = getResponse(msgFromClient, userSession);
+                            String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
 
                             bufferedWriter.write(msgToClient);
                             bufferedWriter.newLine();
@@ -194,6 +212,7 @@ public class FakeServer {
         });
 
         Thread thread3 = new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
                 Socket socket = null;
@@ -227,7 +246,7 @@ public class FakeServer {
                         while (true) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
-                            String msgToClient = getResponse(msgFromClient, userSession);
+                            String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
 
                             bufferedWriter.write(msgToClient);
                             bufferedWriter.newLine();
@@ -281,6 +300,27 @@ public class FakeServer {
             }
         });
 
+        Thread thread4 = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        posts = Post.readFromPost();
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();
+                    } catch (SAXException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
 
 
         thread1.start();
@@ -297,7 +337,8 @@ public class FakeServer {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    private static String getResponse(String request, UserSession userSession) throws IOException, ParserConfigurationException, SAXException {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private static String getResponse(String request, UserSession userSession, Search_N searchEngine, List<Post> posts) throws IOException, ParserConfigurationException, SAXException {
         String response = "";
         if (request != null && request.length() >= 2) {
             switch (request.substring(0, 2)) {
@@ -336,7 +377,6 @@ public class FakeServer {
                     String[] tokens_hm = request.split(" ");
                     int postNum_hm = Integer.parseInt(tokens_hm[1]); // post number
                     response = "hms";
-                    List<Post> posts = Post.readFromPost();
                     List<Post> rtn_hm = posts.subList(posts.size() - postNum_hm - 10, posts.size() - postNum_hm);
                     for (Post post : rtn_hm) {
                         response += ";" + post.toString();
@@ -467,13 +507,17 @@ public class FakeServer {
                 case "sr":
                     System.out.println("Search request");
                     String search_sr = request.substring(3);
-                    List<Post> posts_sr = userSession.search(search_sr);
-                    if (posts_sr != null) {
+                    if (userSession.user != null) {
                         response = "srs";
-                        for (Post post : posts_sr) {
-                            response += ";" + post.toString();
+                        List<String> posts_sr = searchEngine.search(search_sr);
+                        for (String postId : posts_sr) {
+                            for (Post post : posts) {
+                                if (post.getPostId().equals(postId)) {
+                                    response += ";" + post.toString();
+                                }
+                            }
                         }
-                    } else {
+                    }else {
                         response = "srf;Search Failed.Not logged in. ";
                     }
                     System.out.println("Search response...");
