@@ -8,6 +8,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * UserSession class, should be initialized on the server each time a client connects.
+ * The default state is GuestState.
+ */
 public class UserSession {
     UserState state; // current state of the user
     String userName; // username

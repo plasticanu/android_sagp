@@ -2,6 +2,10 @@ package com.example.comp6442_group_assignment;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Comment class. This class is used to store comments. Comments are objects that will be stored as variables in the
+ * Post class.
+ */
 public class Comment {
     private String content;
     private String author;

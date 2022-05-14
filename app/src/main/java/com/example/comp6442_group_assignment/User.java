@@ -16,6 +16,10 @@ import java.util.List;
 
 import static com.example.comp6442_group_assignment.Post.writeXml;
 
+/**
+ * User class. This class is used to store the user information. It includes methods that read and write the user
+ * information from and to persistent data.
+ */
 public class User implements Observer {
     private String userName;
     private String password;

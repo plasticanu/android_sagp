@@ -11,6 +11,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * GuestState is the default state of a user session. Most functions are not available to the guest and will return
+ * false or null.
+ */
 public class GuestState extends UserState {
 
     public GuestState(UserSession session) {

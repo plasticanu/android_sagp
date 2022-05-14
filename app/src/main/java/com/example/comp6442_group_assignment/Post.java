@@ -20,6 +20,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Post class. This class is used to store the post information. It includes methods that read and write the user
+ * information from and to persistent data.
+ */
 public class Post implements Subject {
     private String postId; // Post ID.
     private String content;

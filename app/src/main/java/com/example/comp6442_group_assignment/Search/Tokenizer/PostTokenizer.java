@@ -6,6 +6,10 @@ import com.example.comp6442_group_assignment.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This method is used to tokenize the post content. The tokenizer comes with a method of getAllTokens() which will
+ * return the whole token list of the post starting with the author.
+ */
 public class PostTokenizer extends Tokenizer {
     private String content; // The content of the post.
     private String author; // The author of the post.

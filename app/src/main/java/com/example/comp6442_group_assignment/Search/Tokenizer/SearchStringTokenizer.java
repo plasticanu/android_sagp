@@ -1,5 +1,9 @@
 package com.example.comp6442_group_assignment.Search.Tokenizer;
 
+/**
+ * This method is used to tokenize the searchString. The tokenizer will tokenize the search string into SearchTokens.
+ * SearchTokens have 5 types.
+ */
 public class SearchStringTokenizer extends Tokenizer {
     private String searchString;
     private SearchToken currentToken;
@@ -50,7 +54,7 @@ public class SearchStringTokenizer extends Tokenizer {
             currentToken = new SearchToken(getTokenString(), SearchToken.Type.ExcludeTag);
         } else if (firstChar == '\'') {
             boolean paired = false; // ' symbol need to be paired to be exact search
-            while (currentIndex < searchString.length()) { // go through the searchString
+            while (currentIndex < searchString.length() - 1) { // go through the searchString
                 currentIndex++;
                 if (searchString.charAt(currentIndex) == '\'') { // if paired, set paired to true and break
                     paired = true;
@@ -104,6 +108,7 @@ public class SearchStringTokenizer extends Tokenizer {
 
     public static void main(String[] args) {
         String test = "Hello world, this is a test. @test, #test, \\test, 'test'";
+        test = "'test";
         SearchStringTokenizer tokenizer = new SearchStringTokenizer(test);
         int counter = 0;
         while (tokenizer.hasNext() && counter < 10) {

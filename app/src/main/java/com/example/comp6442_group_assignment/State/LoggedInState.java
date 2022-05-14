@@ -18,6 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The logged-in user session state.
+ */
 public class LoggedInState extends UserState{
 
     public LoggedInState(UserSession session) {

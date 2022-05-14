@@ -10,11 +10,13 @@ import java.net.*;
 import java.util.List;
 
 /**
- * FakeServer class is used to simulate the server. It is totally runnable but only two thread can be run at a time for now.
- * One for android testing and one fake client will be run in pc to simulate new data stream.
+ * FakeServer class is used to simulate the server. It is totally runnable but only three threads can be run at a time for now.
+ * One for android testing, one fake client will be run in pc to simulate other user input, and one is the automatic
+ * client that will simulate a stream of data being sent to the server by other users.
  */
 public class FakeServer {
     public static void main(String[] args) throws IOException {
+        // Three threads are currently identical to each other but their connecting socket.
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
