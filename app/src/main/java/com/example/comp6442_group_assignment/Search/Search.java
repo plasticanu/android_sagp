@@ -59,24 +59,24 @@ public class Search {
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void rankContent(String input, ArrayList<String> exact, ArrayList<String> exclude){
+    private void rankContent(String input, ArrayList<String> exact, ArrayList<String> exclude) {
 
         // FuzzyScore is used for determine how similar is the input against the content.
         FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
 
         // Label for the post loop.
         postLoop:
-        for(Post p : allPosts){
+        for (Post p : allPosts) {
             // Recognize the exclude tag. If detected, the post will not be put into the hashmap(postsRank)
 
             //if the exclude string input is not empty:
-            if(!exclude.isEmpty()){
+            if (!exclude.isEmpty()) {
                 // if there is any string matched to the content, skip the following code of postLoop
-                for(String ex : exclude){
-                    if(p.getContent().contains(ex)){
+                for (String ex : exclude) {
+                    if (p.getContent().contains(ex)) {
                         // skip the code inside the post loop
                         // set the score to negative.
-                        postsRank.put(p , postsRank.getOrDefault(p,0) - 10000);
+                        postsRank.put(p, postsRank.getOrDefault(p, 0) - 10000);
                         continue postLoop;
                     }
                 }
@@ -85,11 +85,11 @@ public class Search {
             // Recognize the exact matching tags.
             // If detected, and the string is found in the post, add the post with a score 200.
             // the exact string input is not empty:
-            if(!exact.isEmpty()){
-                for(String e : exact){
+            if (!exact.isEmpty()) {
+                for (String e : exact) {
                     // Check if the input matches any content of the post
-                    if(p.getContent().contains(e)){
-                        postsRank.put(p, postsRank.getOrDefault(p,0) + 200);
+                    if (p.getContent().contains(e)) {
+                        postsRank.put(p, postsRank.getOrDefault(p, 0) + 200);
                         // skip the following code because this only searches the exactly matched posts.
                         continue postLoop;
                     }
@@ -97,11 +97,20 @@ public class Search {
             }
 
             // Rank the normal text input. Based on fuzzy score.
-            postsRank.put(p,
-                    postsRank.getOrDefault(p,0) + fs.fuzzyScore(p.getContent(),input));
+            if (p.getContent().contains(input.trim())) {
+                postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input));
+            } else {
+                LevenshteinDistance ld = new LevenshteinDistance();
+                float fuzzyScore = (float) ( (float) ld.apply(p.getContent(), input)
+                        / (float) p.getContent().trim().length() ) * 100;
+
+                if (fuzzyScore <= fuzzyExtent) {
+                    postsRank.put(p,
+                            postsRank.getOrDefault(p, 0) + Math.round(100 - fuzzyScore));
+                }
+            }
         }
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankUser(ArrayList<String> users) {
@@ -139,7 +148,7 @@ public class Search {
                                     / stt.getCurrentToken().getString().length() ) * 100;
                             if (fuzzyScore <= fuzzyExtent) {
                                 postsRank.put(p,
-                                        postsRank.getOrDefault(p, 0) + Math.round(100 - 10 * fuzzyScore));
+                                        postsRank.getOrDefault(p, 0) + Math.round(100 - fuzzyScore));
                             }
                         }
                     }
@@ -224,7 +233,8 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Search s = new Search(30);
-        System.out.println(s.search("england").size());
+        System.out.println(s.search("content"));
+
     }
 
 
