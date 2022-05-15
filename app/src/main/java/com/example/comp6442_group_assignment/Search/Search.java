@@ -265,7 +265,7 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Search s = new Search(30);
-        System.out.println(s.search("contant").size());
+        System.out.println(s.search("king most").size());
 
     }
 

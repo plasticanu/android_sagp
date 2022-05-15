@@ -1,0 +1,43 @@
+# for information & examples on how to fill this out correctly, see
+# https://cs.anu.edu.au/courses/comp1720/resources/faq/#statement-of-originality
+# this document has been modified for the purpose of the COMP2100/6442 group assignment.
+
+declaration: >-
+  I declare that everything I have submitted in this assignment is entirely our
+  own work, with the following exceptions:
+
+
+# add as many "name+comment" entries as necessary
+# (or remove it altogether if you haven't collaborated with anyone outside your group)
+collaboration:
+  - name:
+    comment: >-
+
+
+# add as many "url+licence+comment" entries as necessary
+# (or remove it altogether if you haven't used any external code)
+code:
+  - comment: Used for sorting a map by value.
+    url: https://stackoverflow.com/questions/2864840/treemap-sort-by-value
+    licence: CC BY-SA 4.0
+
+
+# add as many "url+licence+comment" entries as necessary
+# (or remove it altogether if you haven't used any external assets)
+assets:
+  # NOTE: "Bliss" is just here as an example, you should remove it
+  - comment: "macbeth.txt"
+    url: https://github.com/cs109/2015/blob/master/Lectures/Lecture15b/sparklect/shakes/macbeth.txt
+    licence: not commercial
+
+# for each member, write your name and uid here
+# remove any empty "name+uid" entries
+members:
+  - name: Peicheng Liu
+    uid: u7294212
+  - name:
+    uid:
+  - name:
+    uid:
+  - name:
+    uid:

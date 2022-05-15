@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.comp6442_group_assignment.Post.writeXml;
@@ -173,7 +174,7 @@ public class User implements Observer {
         Document doc = builder.parse(file);
         doc.getDocumentElement().normalize();
 
-        List<User> users = new ArrayList<>(); // rtn list of users
+        List<User> users = new LinkedList<>(); // rtn list of users
 
         NodeList userList = doc.getElementsByTagName("User");
         for (int i = 0; i < userList.getLength(); i++) {
@@ -186,7 +187,7 @@ public class User implements Observer {
                 String firstName = userElement.getElementsByTagName("FirstName").item(0).getTextContent();
                 String lastName = userElement.getElementsByTagName("LastName").item(0).getTextContent();
                 String phoneNumber = userElement.getElementsByTagName("PhoneNumber").item(0).getTextContent();
-                List<String> notifications = new ArrayList<>();
+                List<String> notifications = new LinkedList<>();
                 NodeList notificationList = userElement.getElementsByTagName("Notification");
                 for (int j = 0; j < notificationList.getLength(); j++) {
                     notifications.add(notificationList.item(j).getTextContent());
@@ -330,7 +331,7 @@ public class User implements Observer {
             return false;
         } else {
             List<User> users = readUsers();
-            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber, new ArrayList<>(), true);
+            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber, new LinkedList<>(), true);
             users.add(newUser);
             writeToUser(users);
             return true;
@@ -402,7 +403,7 @@ public class User implements Observer {
      * @throws SAXException
      */
     public static List<String> updateNotification(String userName) throws ParserConfigurationException, IOException, SAXException {
-        List<String> notifications = new ArrayList<>();
+        List<String> notifications = new LinkedList<>();
         List<User> users = readUsers();
         for (User user : users) {
             if (user.getUserName().equals(userName)) {
@@ -422,7 +423,7 @@ public class User implements Observer {
      */
     public static boolean clearNotification(String username) throws ParserConfigurationException, IOException, SAXException {
         List<User> users = readUsers();
-        List<String> empty = new ArrayList<>();
+        List<String> empty = new LinkedList<>();
         for (User user : users) {
             if (user.getUserName().equals(username)) {
                 user.setNotifications(empty);
@@ -452,7 +453,10 @@ public class User implements Observer {
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-
+        List<User> users = readUsers();
+        for (User user : users) {
+            System.out.println(user.getUserName());
+        }
     }
 
 

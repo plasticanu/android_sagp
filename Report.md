@@ -33,7 +33,7 @@ The following is a report template to help your team successfully provide all th
 | :--- | :----: | ---: |
 | u7294212 | Peicheng | Team Leader & Backend lead coder |
 | u7055573 | Jiyuan Chen | UI design & Frontend coder |
-| u7139999 | Zhidong Piao | Backend co-coder |
+| u7139999 | Zhidong Piao | Backend co-coder & Search function coder |
 | [uid] | [name] | [role] |
 
 ## Summary of Individual Contributions
@@ -83,7 +83,7 @@ The following is a report template to help your team successfully provide all th
 
 ## Conflict Resolution Protocol
 The team remained conflictless for most of the project period. When conflicts arose, the team generally agree on the opinion of the team leader. 
-For the rest of conflicts, the team resolve them by talking through the problem in our regular online meetings on MS Teams and Wechat. 
+For the rest of conflicts, the team resolve them by talking through the problem in our regular online meetings on MS Teams and Wechat.
 
 *[Write a well defined protocol your team can use to handle conflicts. That is, if your group has problems, what is the procedure for reaching consensus or solving a problem? (If you choose to make this an external document, link to it here)]*
 
@@ -140,32 +140,60 @@ The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or S
 
 *Please give clear and concise descriptions for each subsections of this part. It would be better to list all the concrete items for each subsection and give no more than `5` concise, crucial reasons of your design. Here is an example for the subsection `Data Structures`:*
 
-*I used the following data structures in my project:*
-
-1. *LinkedList*
-
-   * *Objective: It is used for storing xxxx for xxx feature.*
-
-   * *Locations: line xxx in XXX.java, ..., etc.*
-
-   * *Reasons:*
-
-     * *It is more efficient than Arraylist for insertion with a time complexity O(1)*
-
-     * *We don't need to access the item by index for this feature*
-
-2. ...
-
-3. ...
-
 **Data Structures**
 
-*[What data structures did your team utilise? Where and why?]*
+1. *AVLTree*
+
+   * Objective: AVLTree is used to store post tokens in a dynamic manner.
+   * Locations: Line 38 in Search.java
+   * Reasons:
+     * The main reason of using AVL Tree is to search through the post tokens. The worst case searching time complexity O(log n) is much faster than other data structures.
+     * Another reason of using AVL Tree is to dynamically update the post tokens. The worst case updating time complexity O(log n) is much faster than other data structures.
+
+2. *List*
+
+   * Objective: Return value of many methods that involves returning a series of objects. Being used as a way to transfer data among methods.
+   * Locations: Input of writeToUser() method in User.java, output of readUsers() method in User.java, ..., etc.
+   * Reasons:
+     * Comparing to Arrays, lists are much more flexible to manipulate.
+     * The team do need to have an efficient way to iterate through data and being able to add or remove items from a series of objects.
+
+3. *LinkedList*
+   * Objective: It is used for reading data from a file.
+   * Locations: line 177 in User.java, Line 257 in Post.java, etc.
+   * Reasons:
+     * Inserting items takes O(1) time which is faster than the potential O(n) time complexity of ArrayList.
+     * The both User (Username) and Post (PostId) data have unique identifier for each item so accessing by index is not needed. 
+     
+4. *HashMap*
+
+   * Objective: Hash map is used to map the searching weight to the posts.
+   * Locations: line 40 in Search.java.
+   * Reasons:
+     * Hashmap allows the team to store post and weight pair.
+     * Both put() and get() methods are O(1) time complexity.
+     
 
 **Design Patterns**
 
-*[What design patterns did your team utilise? Where and why?]*
+1. *State* 
 
+    * Objective: State design pattern is used to handle the state of the user.
+    * Locations: UserState.java, GuestState.java, LoggedInState.java, UserSession.java, etc.
+    * Reasons: 
+      * State design pattern allows the server respond the client different regarding the state of the user.
+      * The app is designed in a way guest users could not access many functions. 
+
+
+2. *Observer* 
+
+    * Objective: Observer design pattern is used to handle the notification of the user. 
+    * Locations: Observer.java, Post.java, Subject.java, User.java, etc.
+    * Reason: 
+      * Observer design pattern allows the user to follow or un follow certain posts. 
+      * Observer design pattern allows the server to store and notify users when their followed posts are updated.
+
+3.
 **Grammar(s)**
 
 <br> *Production Rules* <br>

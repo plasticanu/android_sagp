@@ -18,6 +18,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -253,7 +254,7 @@ public class Post implements Subject {
      * @throws IOException
      */
     public static List<Post> readFromPost() throws ParserConfigurationException, SAXException, IOException {
-        List<Post> posts = new ArrayList<>();
+        List<Post> posts = new LinkedList<>();
         String testPath = "src/main/assets/post.xml";
         String address = "app/src/main/assets/post.xml";
         File file = new File(address);
@@ -273,12 +274,12 @@ public class Post implements Subject {
             String content = postElement.getElementsByTagName("Content").item(0).getTextContent();
             String author = postElement.getElementsByTagName("Author").item(0).getTextContent();
             String createTime = postElement.getElementsByTagName("CreateTime").item(0).getTextContent();
-            List<String> likes = new ArrayList<>();
+            List<String> likes = new LinkedList<>();
             NodeList likeList = postElement.getElementsByTagName("User");
             for (int i = 0; i < likeList.getLength(); i++) {
                 likes.add(likeList.item(i).getTextContent());
             }
-            List<Comment> comments = new ArrayList<>();
+            List<Comment> comments = new LinkedList<>();
             NodeList commentList = postElement.getElementsByTagName("Comment");
             for (int i = 0; i < commentList.getLength(); i++) {
                 Element commentElement = (Element) commentList.item(i);
@@ -288,7 +289,7 @@ public class Post implements Subject {
                 Comment comment = new Comment(commentContent, commentAuthor, commentTime);
                 comments.add(comment);
             }
-            List<String> observers = new ArrayList<>();
+            List<String> observers = new LinkedList<>();
             NodeList observerList = postElement.getElementsByTagName("Observer");
             for (int i = 0; i < observerList.getLength(); i++) {
                 observers.add(observerList.item(i).getTextContent());
@@ -541,7 +542,7 @@ public class Post implements Subject {
      */
     public static List<Post> getAllPosts(String username) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
-        List<Post> postsByUser = new ArrayList<>();
+        List<Post> postsByUser = new LinkedList<>();
         for (Post post : posts) {
             if (post.getAuthor().equals(username)) {
                 postsByUser.add(post);
@@ -567,7 +568,10 @@ public class Post implements Subject {
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            System.out.println(post);
+        }
     }
 
 }
