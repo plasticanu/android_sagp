@@ -268,16 +268,24 @@ For other grammar used in other parsers, they will be introduced by language des
 
 *Here is an example:*
 
-*Privacy*
-1. *Featue 1: Users may ... . (easy)*
-2. *Feature 2: A user must ... . (easy)*
-3. *Feature 3: A user can only ... . (medium)*
+*UI Design and Testing*
+1. *Feature 1: Users may use portrait and landscape layout or different sized screens to access the app. (easy)*
 
-*Firebase Integration*
-1. *Feature 1: Use Firebase to implement ... . (easy)*
-2. *Feature 2: Use Firebase to persist ... .(medium)*
+*User Interactivity*
+1. *Feature 1: Users may micro-interact with items such as like/dislike a post. (easy)*
+2. *Feature 2: Users may follow/unfollow a post, and this information will be stored in server. (medium)*
+3. *Feature 3: Users will be notified when their followed posts are updated. (medium)* 
 
-*List all features you have completed in their separate categories with their difficulty classification. If they are features that are suggested and approved, please state this somewhere as well.*
+*Privacy* 
+1. *Feature 1: Users may only see other's profile if the profile is public. (easy)*
+
+*Greater Data Usage, Handling and Sophistication* 
+1. *Feature 1: Read and write data instances from multiple local files in different formats (XML and Bespoke)*
+2. *Feature 2: Users could delete their own posts and its content will be deleted from the server side search Tree (AVL deletion). (hard)*
+
+*Search* 
+1. *Feature 1: Users may search for posts by keywords, partially errored keyword would also be handled. (medium)*
+
 
 ## Team Meetings
 

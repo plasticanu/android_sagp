@@ -8,5 +8,10 @@ import java.io.IOException;
 public interface Subject {
     public void registerObserver(String o);
     public void removeObserver(String o);
-    public void notifyObservers() throws ParserConfigurationException, IOException, SAXException;
+
+    void notifyObserversEdit() throws ParserConfigurationException, IOException, SAXException;
+
+    void notifyObserversComment() throws ParserConfigurationException, IOException, SAXException;
+
+    void notifyObserversLike() throws ParserConfigurationException, IOException, SAXException;
 }

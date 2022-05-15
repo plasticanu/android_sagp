@@ -123,8 +123,42 @@ public class Post implements Subject {
      * i.e. calling methods in UserSession by the server.
      */
     @Override
-    public void notifyObservers() throws ParserConfigurationException, IOException, SAXException {
+    public void notifyObserversEdit() throws ParserConfigurationException, IOException, SAXException {
         String message = "Update on post you followed:";
+        for (String o : observers) {
+            List<User> users = User.readUsers();
+            for (User user : users) {
+                if (user.getUserName().equals(o)) {
+                    user.update(postId, message);
+                }
+            }
+        }
+    }
+
+    /**
+     * Notify all observers that the post has been updated. Must be called when an update from server happens.
+     * i.e. calling methods in UserSession by the server.
+     */
+    @Override
+    public void notifyObserversComment() throws ParserConfigurationException, IOException, SAXException {
+        String message = "Someone commented a post you followed:";
+        for (String o : observers) {
+            List<User> users = User.readUsers();
+            for (User user : users) {
+                if (user.getUserName().equals(o)) {
+                    user.update(postId, message);
+                }
+            }
+        }
+    }
+
+    /**
+     * Notify all observers that the post has been updated. Must be called when an update from server happens.
+     * i.e. calling methods in UserSession by the server.
+     */
+    @Override
+    public void notifyObserversLike() throws ParserConfigurationException, IOException, SAXException {
+        String message = "Someone liked a post you followed:";
         for (String o : observers) {
             List<User> users = User.readUsers();
             for (User user : users) {
@@ -370,7 +404,7 @@ public class Post implements Subject {
         for (Post post : posts) {
             if (post.getPostId().equals(postId)) {
                 post.setContent(content);
-                post.notifyObservers();
+                post.notifyObserversEdit();
                 writeToPost(posts);
                 System.out.println("Post edited. " + post);
                 return true;
@@ -421,6 +455,7 @@ public class Post implements Subject {
             if (post.getPostId().equals(postId)) {
                 if (post.getLikes().contains(userId)) {
                     post.getLikes().remove(userId);
+                    post.notifyObserversLike();
                     writeToPost(posts);
                     System.out.println("Post unliked. " + post);
                     return true;
@@ -467,7 +502,7 @@ public class Post implements Subject {
         for (Post post : posts) {
             if (post.getPostId().equals(postId)) {
                 post.getComments().add(comment);
-                post.notifyObservers();
+                post.notifyObserversComment();
                 writeToPost(posts);
                 System.out.println("Comment added. " + comment);
                 return true;
