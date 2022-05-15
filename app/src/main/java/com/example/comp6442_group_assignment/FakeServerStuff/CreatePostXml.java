@@ -37,7 +37,7 @@ public class CreatePostXml {
         for (String part : parts) {
             counter++;
             content = content + part;
-            if (counter == 5) {
+            if (counter == 1) {
                 counter = 0;
                 contents.add(content);
                 content = "";
