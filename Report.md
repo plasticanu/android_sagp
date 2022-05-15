@@ -134,7 +134,6 @@ The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or S
 ## Application UML
 
 ![ClassDiagramExample](./app/src/main/java/projectUML.png)
-*[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
 
 ## Application Design and Decisions
 
@@ -193,17 +192,33 @@ The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or S
       * Observer design pattern allows the user to follow or un follow certain posts. 
       * Observer design pattern allows the server to store and notify users when their followed posts are updated.
 
-3.
+3. *Singleton* 
+
+    * Objective: Singleton design pattern is used to make sure there is only one instance of the search engine. 
+    * Locations: Search.java. 
+    * Reasons: 
+      * Singleton design pattern keeps the server to have only one instance of the search engine. 
+      * The search engine contains the AVL tree if multiple instances are created it is potentially very stressful for the memory. 
+
+4. *Factory* 
+
+    * Objective: Built-in factory design pattern DocumentBuilderFactory is being invoked when reading and writing data from/to a file.
+    * Locations: Line 172 in User.java, etc.
+
 **Grammar(s)**
 
+Multiple parsers are used in this project. One very significantly related to the course material is the searchString Parser used in search function. 
+Since it parse the user input which could be generally random, it uses a generalized formal grammar. 
+For other grammar used in other parsers, they will be introduced by language description since most of them are hard coded grammar, and some of them may take too much space be written in a formal grammar representation.
+
+* Grammar used in searchString Parser
 <br> *Production Rules* <br>
 \<Non-Terminal> ::= \<some output>
 <br>
 \<Non-Terminal> ::= \<some output>
-
-*[How do you design the grammar? What are the advantages of your designs?]*
-
-*If there are several grammars, list them all under this section and what they relate to.*
+* Grammar used in client request message 
+* Grammar used in server response message 
+* Grammar used for client to parse server response message
 
 **Tokenizer and Parsers**
 
@@ -268,7 +283,10 @@ The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or S
 
 *Here is an example:*
 
-- *[Team Meeting 1](./MeetingTemplate.md)*
-- ...
+- *[Team Meeting 1](ReportStuff/meeting2022-4-10.docx)*
+- *[Team Meeting 2](ReportStuff/meeting2022-4-23.docx)*
+- *[Team Meeting 3](ReportStuff/meeting2022-4-27.docx)*
+- *[Team Meeting 4](ReportStuff/meeting2022-5-12.docx)*
+- *[Team Meeting 5](ReportStuff/meeting2022-5-15.md)*
 
-*Either write your meeting minutes here or link to documents that contain them. There must be at least 4 team meetings. Note that you must commit your minute meetings shortly after your meeting has taken place (e.g., within 24h), otherwise your meeting minute will not be accepted.*
+

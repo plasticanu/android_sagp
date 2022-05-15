@@ -17,14 +17,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -35,19 +28,37 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 @SuppressWarnings("ConstantConditions")
 public class Search {
+    private static Search instance = null;
+
+    public static Search getInstance() throws ParserConfigurationException, IOException, SAXException {
+        if (instance == null) {
+            instance = new Search();
+        }
+        return instance;
+    }
+    public Search getInstance(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
+        if (instance == null) {
+            instance = new Search(fuzzyExtent);
+        } if (!fuzzyExtent.equals(instance.fuzzyExtent)) {
+            instance.fuzzyExtent = fuzzyExtent;
+        }
+        return instance;
+    }
     private AVLTree<Post> postAVL = new AVLTree<>();
     private List<Post> allPosts = new ArrayList<>();
     private HashMap<Post, Integer> postsRank = new HashMap<>();
     // Percentage of error letters for a word allowed.
     private Integer fuzzyExtent = 0;
 
-    public Search(Integer fuzzyExtent){
+    public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
         this.fuzzyExtent = fuzzyExtent;
+        allPosts = Post.readFromPost();
     }
 
-    public Search(){
+    public Search() throws ParserConfigurationException, IOException, SAXException {
         // Default fuzzy extent.
         this.fuzzyExtent = 30;
+        allPosts = Post.readFromPost();
     }
 
     private void insertPostToTree() throws ParserConfigurationException, IOException, SAXException {
@@ -217,7 +228,7 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Post> search(String input) throws ParserConfigurationException, IOException, SAXException {
         // read all posts.
-        allPosts = Post.readFromPost();
+
 
         // Insert posts to AVLTree.
         insertPostToTree();
@@ -264,7 +275,7 @@ public class Search {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        Search s = new Search(30);
+        Search s = getInstance();
 //        System.out.println(s.search("contant").size());
 
         for (Post post: s.search("good Fleance")) {

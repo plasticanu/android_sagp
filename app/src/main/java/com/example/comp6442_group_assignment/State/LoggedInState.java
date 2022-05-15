@@ -205,7 +205,7 @@ public class LoggedInState extends UserState{
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException {
-        Search search = new Search();
+        Search search = Search.getInstance();
         return search.search(keyword);
     }
 

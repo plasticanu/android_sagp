@@ -13,7 +13,19 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class SearchTest {
-    Search search = new Search(30);
+    Search search;
+
+    {
+        try {
+            search = new Search();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testSearch() throws ParserConfigurationException, IOException, SAXException {
@@ -32,24 +44,18 @@ public class SearchTest {
         assertEquals("00000267", search5.get(1).getPostId());
 //        List<Post> search6 =  search.search("Tarquin");
 //        assertEquals("00000141", search6.get(1).getPostId());
-
-
     }
 
     @Test
     public void testSearchPhrases() throws ParserConfigurationException, IOException, SAXException {
         List<Post> firstPostSearch =  search.search("This is the very first content of the app.");
         assertEquals("00000000", firstPostSearch.get(0).getPostId());
-
-
     }
 
     @Test
     public void testSearchSentences() throws ParserConfigurationException, IOException, SAXException {
         List<Post> firstPostSearch =  search.search("This is the very first content of the app.");
         assertEquals("00000000", firstPostSearch.get(0).getPostId());
-
-
     }
 
 

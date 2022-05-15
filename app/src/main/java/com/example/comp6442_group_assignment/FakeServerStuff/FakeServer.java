@@ -26,7 +26,7 @@ public class FakeServer {
     public static List<Post> posts;
 
     private FakeServer() throws ParserConfigurationException, IOException, SAXException {
-        searchEngine = new Search();
+        searchEngine = Search.getInstance();
         posts = Post.readFromPost();
     }
 
