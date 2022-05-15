@@ -11,12 +11,10 @@ import com.example.comp6442_group_assignment.Search.Tokenizer.SearchStringTokeni
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchToken;
 
 import org.apache.commons.text.similarity.FuzzyScore;
-import org.apache.commons.text.similarity.LevenshteinDetailedDistance;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -265,7 +263,17 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Search s = new Search(30);
-        System.out.println(s.search("contant").size());
+//        System.out.println(s.search("contant").size());
+
+        for (Post post: s.search("good Fleance")) {
+            System.out.println("1," + post.getPostId());
+        }
+//        for (Post post: s.search("surfeited grooms")) {
+//            System.out.println(post.getPostId());
+//        }
+        for (Post post: s.search("good Fleance")) {
+            System.out.println("2," + post.getPostId());
+        }
 
     }
 

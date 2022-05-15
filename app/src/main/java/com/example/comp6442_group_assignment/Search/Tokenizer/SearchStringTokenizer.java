@@ -111,6 +111,8 @@ public class SearchStringTokenizer extends Tokenizer {
         test = "'test";
         SearchStringTokenizer tokenizer = new SearchStringTokenizer(test);
         int counter = 0;
+        tokenizer.setCurrentIndex(1);
+        System.out.println(tokenizer.getTokenString());
         while (tokenizer.hasNext() && counter < 10) {
             System.out.println(tokenizer.currentToken.getToken() + "--" + tokenizer.currentToken.getType() + "--" + tokenizer.currentToken.getString());
             tokenizer.next();
