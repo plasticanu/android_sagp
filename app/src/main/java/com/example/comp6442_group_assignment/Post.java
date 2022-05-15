@@ -177,8 +177,8 @@ public class Post implements Subject, Serializable{
                 ", author='" + author + '\'' +
                 ", likes=" + likes +
                 ", createTime='" + createTime + '\'' +
-                ", comments=" + comments + '\'' +
-                ", observers=" + observers + '\'' +
+                ", comments=" + comments +
+                ", observers=" + observers +
                 '}';
     }
 
