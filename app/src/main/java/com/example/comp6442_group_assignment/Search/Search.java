@@ -228,12 +228,14 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Post> search(String input) throws ParserConfigurationException, IOException, SAXException {
         // read all posts.
-
-
+        allPosts = Post.readFromPost();
         // Insert posts to AVLTree.
-        insertPostToTree();
-        // Parser used to recognize whether the input has tags.
 
+        insertPostToTree();
+        // clear the previous result
+        postsRank.clear();
+
+        // Parser used to recognize whether the input has tags.
         Parser parser = new Parser(new SearchStringTokenizer(input));
 
         // Analyse the user input and sort them into the categories.
