@@ -25,7 +25,7 @@ import java.util.List;
  * Post class. This class is used to store the post information. It includes methods that read and write the user
  * information from and to persistent data.
  */
-public class Post implements Subject {
+public class Post implements Subject, Serializable{
     private String postId; // Post ID.
     private String content;
     private String author;
