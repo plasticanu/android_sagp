@@ -16,10 +16,12 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
 
     Context context;
     List<Post> postModels;
+    private final RecyclerViewInterface recyclerViewInterface;
 
-    public Post_RecyclerViewAdapter(Context context, List<Post> postModels){
+    public Post_RecyclerViewAdapter(Context context, List<Post> postModels, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
         this.postModels = postModels;
+        this.recyclerViewInterface = recyclerViewInterface;
 
     }
     @NonNull
@@ -27,7 +29,7 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
     public Post_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_view_row,parent,false);
-        return new Post_RecyclerViewAdapter.MyViewHolder(view);
+        return new Post_RecyclerViewAdapter.MyViewHolder(view,recyclerViewInterface);
     }
 
     @Override
@@ -51,13 +53,25 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
         TextView tvAuthor,tvDate,tvContent,tvLike,tvComment;
 
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             tvAuthor = itemView.findViewById(R.id.textView_user);
             tvDate = itemView.findViewById(R.id.textView_date);
             tvContent = itemView.findViewById(R.id.textView_content);
             tvLike = itemView.findViewById(R.id.textView_like_count);
             tvComment = itemView.findViewById(R.id.textView_comment_count);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewInterface!=null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }

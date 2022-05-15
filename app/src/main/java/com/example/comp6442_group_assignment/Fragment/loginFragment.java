@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.comp6442_group_assignment.MainActivity;
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -102,6 +103,7 @@ public class loginFragment extends Fragment {
         password = view.findViewById(R.id.password);
 
 
+        //Take user's login identities, and then pass to server.
         Button loginButton = view.findViewById(R.id.button_login);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,13 +116,22 @@ public class loginFragment extends Fragment {
                 //check if username and password are not empty, then send
                 //logging details to server.
                 if(!userString.isEmpty() && !passString.isEmpty()){
-                    //li user1 qwerty
                     AsyncAction action = new AsyncAction();
                     homeFragment.cmd = "li " +userString+" "+ passString;
                     action.execute(homeFragment.cmd);
 
                 }
 
+            }
+        });
+
+
+        //A button will take user to register page.
+        Button regiButton = view.findViewById(R.id.button_register);
+        regiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).replaceFragment(new registerFragment());
             }
         });
     }
@@ -185,9 +196,9 @@ public class loginFragment extends Fragment {
                 ((MainActivity) getActivity()).replaceFragment(new profileFragment());
                 isLogged=true;
                 loggedUsername = result.split(";")[1];
-                loggedFullname = result.split(";")[3]+" "+result.split(";")[4];
-                loggedEmail = result.split(";")[5];
-                loggedPhone = result.split(";")[6];
+                loggedFullname = result.split(";")[2]+" "+result.split(";")[3];
+                loggedEmail = result.split(";")[4];
+                loggedPhone = result.split(";")[5];
 
             }else{
                 Toast.makeText(getActivity(), "Wrong Username or Password!", Toast.LENGTH_SHORT).show();

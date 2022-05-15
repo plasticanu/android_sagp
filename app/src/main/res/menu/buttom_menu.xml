@@ -6,6 +6,10 @@
         android:title="Home"
         android:icon="@drawable/ic_home" />
     <item
+        android:id="@+id/postFragment"
+        android:title="New"
+        android:icon="@drawable/ic_new_post" />
+    <item
         android:id="@+id/searchFragment"
         android:title="Search"
         android:icon="@drawable/ic_search"/>

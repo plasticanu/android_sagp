@@ -1,5 +1,6 @@
 package com.example.comp6442_group_assignment.Fragment;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,10 @@ public class splashFragment extends Fragment {
         }
     }
 
+    /**
+     * Used to handle the splash screen.
+     * @Author Jiyuan Chen u7055573
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

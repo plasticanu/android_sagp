@@ -1,5 +1,6 @@
 package com.example.comp6442_group_assignment.Fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -8,18 +9,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.Comment;
+import com.example.comp6442_group_assignment.MainActivity;
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.Post_RecyclerViewAdapter;
 import com.example.comp6442_group_assignment.R;
+import com.example.comp6442_group_assignment.RecyclerViewInterface;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +57,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * Use the {@link homeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFragment extends Fragment {
+public class homeFragment extends Fragment implements RecyclerViewInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -88,9 +96,17 @@ public class homeFragment extends Fragment {
     public static BufferedReader bufferedReader = null;
     public static BufferedWriter bufferedWriter = null;
     public static String cmd="";
-    public static List<Post> postModels;
-    private static RecyclerView recyclerView;
-    private static Post_RecyclerViewAdapter adapter;
+    public static List<Post> postModels= null;
+    private static LinearLayoutManager linearLayoutManager;
+    private static RecyclerView recyclerView;;
+    public static Post_RecyclerViewAdapter adapter;
+    private static SwipeRefreshLayout swipeRefreshLayout;
+    private static boolean isInitial = false;
+
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +121,7 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -119,10 +136,59 @@ public class homeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AsyncAction action = new AsyncAction();
-        cmd = "hm";
-        action.execute(cmd);
+        //use to perform swipe to refresh action.
+        //everytime you swipe you will get 10 older posts.
+        swipeRefreshLayout = getActivity().findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                AsyncAction action = new AsyncAction();
+                cmd = "hm 10";
+                action.execute(cmd);
 
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        System.out.println("State pause...");
+    }
+
+    /**
+     * A override onResume method.
+     * Use to save the fragment state,
+     * and initialize when the fragment created first time.
+     * @Author Jiyuan Chen u7055573
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(postModels == null){
+            System.out.println("first initial...");
+            AsyncAction action = new AsyncAction();
+            cmd = "hm 0";
+            action.execute(cmd);
+        }else{
+            System.out.println("post model is not null on resume");
+            setupRecyclerView();
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("postModels",(Serializable) postModels);
+        System.out.println("State saved...");
     }
 
 
@@ -132,7 +198,7 @@ public class homeFragment extends Fragment {
      * then return it to the recyclerView.
      * @Author Jiyuan Chen u7055573
      */
-    private List<Post> setupPost(String response){
+    public List<Post> setupPost(String response){
         List<Post> pModels = new ArrayList<>();
         String regexC = "(?![^)(]*\\([^)(]*?\\)\\)),(?![^\\[]*\\])";
         String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
@@ -183,9 +249,71 @@ public class homeFragment extends Fragment {
             Post post = new Post(postId, content, author, likes, createTime, comments);
             pModels.add(post);
         }
-
-        return pModels;
+        List<Post> postCopy = pModels.subList(0, pModels.size());
+        Collections.reverse(postCopy);
+        return postCopy;
     }
+
+    /**
+     * A Custom method used to setup evertything,
+     * that a RecyclerView needs.
+     * @Author Jiyuan Chen u7055573
+     */
+    private void setupRecyclerView(){
+        recyclerView = getActivity().findViewById(R.id.mRecyclerView);
+        //custom recyclerView adapter.
+        //This onItemClick used to pass bundle to details page.
+        adapter = new Post_RecyclerViewAdapter(getActivity(), postModels, new RecyclerViewInterface() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(getActivity(), "Item clicked!", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).replaceFragment(new detailsFragment());
+                Bundle bundle = new Bundle();
+                Post post = postModels.get(position);
+                bundle.putSerializable("post",post);
+                getParentFragmentManager().setFragmentResult("dataForm1",bundle);
+            }
+        });
+//        adapter.setStateRestorationPolicy(recyclerView.getAdapter().setStateRestorationPolicy());
+
+        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    /**
+     * A Custom method used to perform deletion from the local environment.
+     * It will be called once server confirms the post deleted from the server end.
+     * Then the method will perform client end deletion.
+     * Use to change the fragment view.
+     * @Author Jiyuan Chen u7055573
+     */
+    public void findFromRecyclerView(int postId) {
+        for (int i = 0; i < postModels.size(); i++) {
+            if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
+                postModels.remove(i);
+                adapter.notifyItemRemoved(i);
+            }
+        }
+    }
+
+    /**
+     * Use to insert new post to the local environment.
+     * It will be called once the new post has been created from the server end.
+     * @Author Jiyuan Chen u7055573
+     */
+    public void updateRecyclerView(Post post){
+        postModels.add(0,post);
+        adapter.notifyItemInserted(0);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
     /**
      * An AsyncTask class, used to make connection and,
      * communicate with server.
@@ -230,18 +358,19 @@ public class homeFragment extends Fragment {
 
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
-            //define the recyclerView in fragment_home.xml.
-            recyclerView = getActivity().findViewById(R.id.mRecyclerView);
+
 
             //setup the list models for posts.
-            postModels = setupPost(result);
+            if(postModels== null){
+                postModels= setupPost(result);
+            }else if(postModels != null){
+                List<Post> tempList = setupPost(result);
+                for(int i =0; i<tempList.size();i++){
+                    postModels.add(tempList.get(i));
+                }
 
-            //custom recyclerView adapter.
-            adapter = new Post_RecyclerViewAdapter(getActivity(),postModels);
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(adapter);
-
+            }
+            setupRecyclerView();
         }
     }
 }

@@ -30,4 +30,19 @@
         android:name="com.example.comp6442_group_assignment.Fragment.splashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.comp6442_group_assignment.Fragment.detailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.comp6442_group_assignment.Fragment.postFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.comp6442_group_assignment.Fragment.registerFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>
