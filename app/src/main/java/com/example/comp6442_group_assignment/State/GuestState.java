@@ -11,6 +11,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * GuestState is the default state of a user session. Most functions are not available to the guest and will return
+ * false or null.
+ */
 public class GuestState extends UserState {
 
     public GuestState(UserSession session) {
@@ -93,9 +97,21 @@ public class GuestState extends UserState {
     public boolean commentPost(String postId, String content) { System.out.println("Guest cannot comment post."); return false; }
 
     @Override
+    public boolean followPost(String postId) throws ParserConfigurationException, IOException, SAXException { System.out.println("Guest cannot follow post."); return false; }
+
+    @Override
+    public boolean unfollowPost(String postId) throws ParserConfigurationException, IOException, SAXException { System.out.println("Guest cannot unfollow post."); return false; }
+
+    @Override
     public User profile() {
         System.out.println("Guest cannot view profile.");
         return null;
+    }
+
+    @Override
+    public boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) {
+        System.out.println("Guest cannot update account.");
+        return false;
     }
 
     @Override
@@ -107,6 +123,24 @@ public class GuestState extends UserState {
     @Override
     public List<Post> search(String keyword) {
         System.out.println("Guest cannot search.");
+        return null;
+    }
+
+    @Override
+    public List<String> updateNotification() throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("Guest cannot update notification.");
+        return null;
+    }
+
+    @Override
+    public boolean clearNotification() throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("Guest cannot clear notification.");
+        return false;
+    }
+
+    @Override
+    public User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("Guest cannot request profile.");
         return null;
     }
 }

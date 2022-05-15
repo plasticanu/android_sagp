@@ -246,7 +246,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
             }
 
-            Post post = new Post(postId, content, author, likes, createTime, comments);
+            Post post = new Post(postId, content, author, likes, createTime, comments, null); //FIXME: read observer
             pModels.add(post);
         }
         List<Post> postCopy = pModels.subList(0, pModels.size());

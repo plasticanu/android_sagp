@@ -32,7 +32,7 @@ public class FakeClient {
                 bufferedWriter.flush();
 
                 String receive = bufferedReader.readLine();
-                while (bufferedReader.ready()) {
+                while (bufferedReader.ready()) { // This will handle the case where post content contains multiple lines
                     receive += "\n";
                     receive += bufferedReader.readLine();
                 }

@@ -2,12 +2,18 @@ package com.example.comp6442_group_assignment;
 
 import com.example.comp6442_group_assignment.State.GuestState;
 import com.example.comp6442_group_assignment.State.UserState;
+
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+/**
+ * UserSession class, should be initialized on the server each time a client connects.
+ * The default state is GuestState.
+ */
 public class UserSession {
     UserState state; // current state of the user
     String userName; // username
@@ -94,14 +100,47 @@ public class UserSession {
         return state.commentPost(postId, content);
     }
 
+    public boolean followPost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.followPost(postId);
+    }
+
+    public boolean unfollowPost(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return state.unfollowPost(postId);
+    }
+
     public User profile() throws ParserConfigurationException, IOException, SAXException {
         return state.profile();
+    }
+
+    public boolean updateProfile(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
+        return state.updateAccount(userName, password, email, firstName, lastName, phoneNumber);
     }
 
     public List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException {
         return state.allPosts();
     }
+
     public List<Post> search(String keyword) throws ParserConfigurationException, IOException, SAXException {
          return state.search(keyword);
+    }
+
+    public List<String> updateNotifications() throws ParserConfigurationException, IOException, SAXException {
+        return state.updateNotification();
+    }
+
+    public boolean clearNotifications() throws ParserConfigurationException, IOException, SAXException {
+        return state.clearNotification();
+    }
+
+    public User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        return state.requestProfile(userName);
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+        UserSession userSession = new UserSession();
+        List<Post> posts = userSession.search("contant");
+        for (Post post: posts) {
+            System.out.println(post.getPostId());
+        }
     }
 }

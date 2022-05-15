@@ -1,42 +1,24 @@
 package com.example.comp6442_group_assignment.Search;
 
-import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.comp6442_group_assignment.MainActivity;
 import com.example.comp6442_group_assignment.Post;
-import com.example.comp6442_group_assignment.R;
 import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
+import com.example.comp6442_group_assignment.Search.Tags.Tag;
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchStringTokenizer;
-import com.example.comp6442_group_assignment.Search.Tokenizer.Tokenizer;
-import com.example.comp6442_group_assignment.User;
+import com.example.comp6442_group_assignment.Search.Tokenizer.SearchToken;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.apache.commons.text.similarity.FuzzyScore;
+import org.apache.commons.text.similarity.LevenshteinDetailedDistance;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
@@ -44,69 +26,179 @@ import javax.xml.parsers.ParserConfigurationException;
  * TODO: complete the code and comment.
  * @Author Zhidong Piao u7139999
  */
+@SuppressWarnings("ConstantConditions")
 public class Search {
-    private AVLTree<String> contentAVL = new AVLTree<>();
+    private static Search instance = null;
+
+    public static Search getInstance() throws ParserConfigurationException, IOException, SAXException {
+        if (instance == null) {
+            instance = new Search();
+        }
+        return instance;
+    }
+    public Search getInstance(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
+        if (instance == null) {
+            instance = new Search(fuzzyExtent);
+        } if (!fuzzyExtent.equals(instance.fuzzyExtent)) {
+            instance.fuzzyExtent = fuzzyExtent;
+        }
+        return instance;
+    }
+    private AVLTree<Post> postAVL = new AVLTree<>();
     private List<Post> allPosts = new ArrayList<>();
-    private List<User> allUsers = new ArrayList<>();
-    private void insertToContentTree() throws ParserConfigurationException, IOException, SAXException {
+    private HashMap<Post, Integer> postsRank = new HashMap<>();
+    // Percentage of error letters for a word allowed.
+    private Integer fuzzyExtent = 0;
+
+    public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
+        this.fuzzyExtent = fuzzyExtent;
         allPosts = Post.readFromPost();
-        for(Post p : allPosts){
+    }
+
+    public Search() throws ParserConfigurationException, IOException, SAXException {
+        // Default fuzzy extent.
+        this.fuzzyExtent = 30;
+        allPosts = Post.readFromPost();
+    }
+
+    private void insertPostToTree() throws ParserConfigurationException, IOException, SAXException {
+        for (Post p : allPosts) {
+            postAVL.tree = postAVL.insert(postAVL.tree, p);
+        }
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void rankContent(String input, ArrayList<String> exact, ArrayList<String> exclude) {
+        input = input.trim();
+        int onlyExcludeTag = 0;
+        // FuzzyScore is used for determine how similar is the input against the content.
+        FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+
+        // Label for the post loop.
+        postLoop:
+        for (Post p : allPosts) {
+            // Recognize the exclude tag. If detected, the post will not be put into the hashmap(postsRank)
+
+            //if the exclude string input is not empty:
+            if (!exclude.isEmpty()) {
+                // case: there is only a exclude tag and no input:
+                if(input.equals("") && exact.isEmpty()){
+                    onlyExcludeTag = 1;
+                }
+                // if there is any string matched to the content, skip the following code of postLoop
+                for (String ex : exclude) {
+                    if (p.getContent().contains(ex)) {
+                        // skip the code inside the post loop
+                        // set the score to negative.
+                        postsRank.put(p, postsRank.getOrDefault(p, 0) - 10000);
+                        continue postLoop;
+                    }
+                }
+            }
+
+
+            // Recognize the exact matching tags.
+            // If detected, and the string is found in the post, add the post with a score 200.
+            // the exact string input is not empty:
+            if (!exact.isEmpty()) {
+                for (String e : exact) {
+                    // Check if the input matches any content of the post
+                    if (p.getContent().contains(e)) {
+                        postsRank.put(p, postsRank.getOrDefault(p, 0) + 200 + onlyExcludeTag);
+                        // skip the following code because this only searches the exactly matched posts.
+                        continue postLoop;
+                    }
+                }
+            }
+
+            // Rank the normal text input. Based on fuzzy score.
+            if (p.getContent().toLowerCase().contains(input.toLowerCase())) {
+                postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) + onlyExcludeTag);
+            } else {
+                LevenshteinDistance ld = new LevenshteinDistance();
+                SearchStringTokenizer inputT = new SearchStringTokenizer(input);
+                SearchStringTokenizer contentT = new SearchStringTokenizer(p.getContent());
+                float fuzzyScore = 0;
+
+                ArrayList<String> contentTokens = new ArrayList<>();
+                ArrayList<String> inputTokens = new ArrayList<>();
+
+                while(inputT.hasNext()){
+                    inputTokens.add(inputT.getCurrentToken().getString());
+                    inputT.next();
+                }
+                while(contentT.hasNext()){
+
+                    contentTokens.add(contentT.getCurrentToken().getString());
+                    contentT.next();
+                }
+
+                int correctInputCount = 0;
+                for(String i : inputTokens){
+                    for(String c: contentTokens){
+                        fuzzyScore = (float) ((float) ld.apply(c,i) / (float) Math.max(i.length(),c.length()));
+                        if(fuzzyScore*100 <= fuzzyExtent){
+                            correctInputCount ++;
+                            break;
+                        }
+                    }
+                }
+
+                if(correctInputCount == inputTokens.size()){
+                    postsRank.put(p,
+                            postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input)  - Math.round(fuzzyScore) + onlyExcludeTag);
+
+                }
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void rankUser(ArrayList<String> users) {
+        // TODO: use avl tree
+        for(Post p : allPosts) {
+            for (String u : users) {
+                if (p.getAuthor().equals(u)) {
+                    postsRank.put(p, postsRank.getOrDefault(p, 0) + 100);
+                } else {
+                    LevenshteinDistance ld = new LevenshteinDistance();
+                    float fuzzyScore = (float) ( (float) ld.apply(p.getAuthor(), u)
+                            / (float) p.getAuthor().length() ) * 100;
+
+                    if (fuzzyScore <= fuzzyExtent) {
+                        postsRank.put(p,
+                                postsRank.getOrDefault(p, 0) + Math.round(100 - fuzzyScore));
+                    }
+                }
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void rankSharp(ArrayList<String> sharps) {
+        for (Post p : allPosts) {
             SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
-            while(stt.hasNext()){
-                contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
-                stt.next();
-            }
-
-        }
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private HashMap<Post, Integer> rankContent(String input){
-
-        SearchStringTokenizer tokenizer = new SearchStringTokenizer(input);
-        ArrayList<String> postIDs = new ArrayList<>();
-        HashMap<String,Integer> idWithScore = new HashMap<>();
-        while(tokenizer.hasNext()){
-            com.example.comp6442_group_assignment.Search.AVLTree.Node<String> n = contentAVL.findNode(contentAVL.tree,tokenizer.getCurrentToken().getString());
-            postIDs.addAll(n.getPostID());
-            tokenizer.next();
-        }
-        // Make hashmap from postIds.
-        // The key is the post id, the value is its frequency.
-        for(String i : postIDs){
-            if(idWithScore.containsKey(i)){
-                int score = idWithScore.get(i);
-                idWithScore.put(i,  score + 1);
-           }
-           else{
-                idWithScore.put(i, 1);
+            for (String s : sharps) {
+                while ( stt.hasNext() ) {
+                    if (stt.getCurrentToken().getType().equals(SearchToken.Type.HashTag)) {
+                        if (stt.getCurrentToken().getString().equals(s)) {
+                            postsRank.put(p, postsRank.getOrDefault(p, 0) + 100);
+                        } else {
+                            LevenshteinDistance ldd = new LevenshteinDistance();
+                            float fuzzyScore = (float) ( ldd.apply(stt.getCurrentToken().getString(), s)
+                                    / stt.getCurrentToken().getString().length() ) * 100;
+                            if (fuzzyScore <= fuzzyExtent) {
+                                postsRank.put(p,
+                                        postsRank.getOrDefault(p, 0) + Math.round(100 - fuzzyScore));
+                            }
+                        }
+                    }
+                    stt.next();
+                }
             }
         }
-
-        List<Map.Entry<String,Integer>> list =
-                new LinkedList<Map.Entry<String, Integer>>(idWithScore.entrySet());
-
-
-        HashMap<Post,Integer> result =
-                new LinkedHashMap<Post,Integer>();
-
-        for(Map.Entry<String,Integer> e : list){
-            Post resultPost = allPosts.stream().filter(x -> x.getPostId().equals(e.getKey())).findAny().orElse(null);
-            result.put(resultPost, e.getValue());
-        }
-        return result;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private HashMap<Post, Integer> rankUser(ArrayList<User> input){
-
-        HashMap<Post, Integer> result = new HashMap<>();
-        for(User u : input){
-            Post r = allPosts.stream().filter(x -> x.getAuthor().equals(u.getUserName())).findAny().orElse(null);
-            result.put(r,100);
-        }
-        return result;
     }
 
     private List<Post> rankResult(HashMap<Post, Integer> input){
@@ -115,7 +207,7 @@ public class Search {
         List<Map.Entry<Post,Integer>> list =
                 new LinkedList<Map.Entry<Post, Integer>>(input.entrySet());
 
-        // Sorting
+        // Sort
         Collections.sort(list, new Comparator<Map.Entry<Post, Integer>>() {
             @Override
             public int compare(Map.Entry<Post, Integer> i1, Map.Entry<Post, Integer> i2) {
@@ -123,59 +215,84 @@ public class Search {
             }
         });
 
-        HashMap<Post,Integer> resultHashMap =
-                new LinkedHashMap<Post,Integer>();
-
-        for(Map.Entry<Post,Integer> e : list){
-            resultHashMap.put(e.getKey(), e.getValue());
+        List<Post> result = new ArrayList<>();
+        for(Map.Entry<Post, Integer> entry : list){
+            if(entry.getValue() > 0){
+                result.add(entry.getKey());
+            }
         }
-        List<Post> result = new ArrayList<>(resultHashMap.keySet());
-        result.addAll(resultHashMap.keySet());
         return result;
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Post> search(String input) throws ParserConfigurationException, IOException, SAXException {
-        insertToContentTree();
-        Parser parser = new Parser(new SearchStringTokenizer(input));
-        String content = parser.parseWord();
-        HashMap<Post,Integer> searchResult = new HashMap<>();
-        if(content != null){
-            HashMap<Post, Integer> contentResult = rankContent(content);
-            searchResult.putAll(contentResult);
-        }
-        ArrayList<String> authorTags = parser.parseAuthorTag();
-        if( !authorTags.isEmpty()){
-            allUsers = User.readUsers();
-            List<User> authors = allUsers;
-            ArrayList<User> users = new ArrayList<>();
-            for(String s : authorTags){
-                for(User u : allUsers){
-                    if(u.getUserName().equals(s)){
-                        users.add(u);
-                    }
-                }
-            }
-            HashMap<Post,Integer> userResult = rankUser(users);
-            if(searchResult.isEmpty()){
-                searchResult.putAll(userResult);
-            }
-            else{
-                for(Map.Entry<Post, Integer> e : userResult.entrySet()){
-                    searchResult.merge(e.getKey(),e.getValue(), Integer::sum);
-                }
-            }
-        }
-        return rankResult(searchResult);
+        // read all posts.
+        allPosts = Post.readFromPost();
+        // Insert posts to AVLTree.
 
+        insertPostToTree();
+        // clear the previous result
+        postsRank.clear();
+
+        // Parser used to recognize whether the input has tags.
+        Parser parser = new Parser(new SearchStringTokenizer(input));
+
+        // Analyse the user input and sort them into the categories.
+        String content = parser.parseWord();
+        ArrayList<String> authors = new ArrayList<>();
+        ArrayList<String> exclude = new ArrayList<>();
+        ArrayList<String> sharps = new ArrayList<>();
+        ArrayList<String> exact = new ArrayList<>();
+
+        parser = new Parser(new SearchStringTokenizer(input));
+        // update the categories.
+        ArrayList<Tag> allTags = parser.parseTags();
+        for(Tag t : allTags){
+            switch(t.getType()){
+                case "A":
+                    authors.add(t.evaluate());
+                    break;
+                case "E":
+                    exact.add(t.evaluate());
+                    break;
+                case "Ex":
+                    exclude.add(t.evaluate());
+                    break;
+                case "S":
+                    sharps.add(t.evaluate());
+                    break;
+            }
+        }
+
+        // Ranking for posts
+        rankUser(authors);
+        rankSharp(sharps);
+        rankContent(content,exact,exclude);
+
+
+        return rankResult(postsRank);
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        Search s = new Search();
-        System.out.println(s.search("where are you?"));
+        Search s = getInstance();
+//        System.out.println(s.search("contant").size());
+
+        for (Post post: s.search("good Fleance")) {
+            System.out.println("1," + post.getPostId());
+        }
+//        for (Post post: s.search("surfeited grooms")) {
+//            System.out.println(post.getPostId());
+//        }
+        for (Post post: s.search("good Fleance")) {
+            System.out.println("2," + post.getPostId());
+        }
+        System.out.println(s.search("king most").size());
+
     }
+
 
 
 

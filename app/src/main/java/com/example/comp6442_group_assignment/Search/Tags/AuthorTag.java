@@ -12,7 +12,12 @@ public class AuthorTag extends Tag{
     }
 
     @Override
-    public Tag evaluate() {
-        return new AuthorTag(expression);
+    public String evaluate() {
+        return expression;
+    }
+
+    @Override
+    public String getType() {
+        return "A";
     }
 }

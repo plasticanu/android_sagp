@@ -8,14 +8,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.comp6442_group_assignment.Fragment.homeFragment;
 import com.example.comp6442_group_assignment.Fragment.loginFragment;
-import com.example.comp6442_group_assignment.Fragment.postFragment;
 import com.example.comp6442_group_assignment.Fragment.profileFragment;
 import com.example.comp6442_group_assignment.Fragment.searchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     /**
      * A Custom fragment navigation controller.
      * Use to change the fragment view.
@@ -59,23 +57,17 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.homeFragment:
                         replaceFragment(new homeFragment());
                         break;
-                    case R.id.postFragment:
-                        if(loginFragment.isLogged == false){
-                            replaceFragment(new loginFragment());
-                        }else{
-                            replaceFragment(new postFragment());
-                        }
-                        break;
                     case R.id.searchFragment:
                         replaceFragment(new searchFragment());
                         break;
                     case R.id.profileFragment:
                         if(loginFragment.isLogged == false){
                             replaceFragment(new loginFragment());
+                            break;
                         }else{
                             replaceFragment(new profileFragment());
+                            break;
                         }
-                        break;
                     default:
                         return true;
                 };

@@ -1,4 +1,4 @@
-# [Team Name] Report
+# [Team 70's] Report
 
 The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
 
@@ -31,9 +31,9 @@ The following is a report template to help your team successfully provide all th
 
 | UID | Name | Role |
 | :--- | :----: | ---: |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
+| u7294212 | Peicheng | Team Leader & Backend lead coder |
+| u7055573 | Jiyuan Chen | UI design & Frontend coder |
+| u7139999 | Zhidong Piao | Backend co-coder & Search function coder |
 | [uid] | [name] | [role] |
 
 ## Summary of Individual Contributions
@@ -49,6 +49,28 @@ The following is a report template to help your team successfully provide all th
 * B.class: function1(), function2(), ...
 * ....
 
+*u7294212, Peicheng Liu, I contribute __% of the code. Here are my contributions:* 
+* Fundamental project structure design
+* Server-client model
+* CreatePostXml.java
+* CreateUserXml.java
+* FakeClient.java
+* FakeServer.java
+* PostTokenizer.java
+* SearchStringTokenizer.java
+* SearchToken.java
+* Tokenizer.java
+* GuestState.java
+* LoggedInState.java
+* UserState.java
+* Comment.java
+* Observer.java
+* Post.java
+* Subject.java
+* User.java
+* UserSession.java
+* projectUML.png
+
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
 *[UI Design. Specify what design did the involved member propose? What tools were used for the design?]*
@@ -60,10 +82,20 @@ The following is a report template to help your team successfully provide all th
 *[Miscellaneous contributions. You are welcome to provide anything that you consider as a contribution to the project or team.]*
 
 ## Conflict Resolution Protocol
+The team remained conflictless for most of the project period. When conflicts arose, the team generally agree on the opinion of the team leader. 
+For the rest of conflicts, the team resolve them by talking through the problem in our regular online meetings on MS Teams and Wechat.
 
 *[Write a well defined protocol your team can use to handle conflicts. That is, if your group has problems, what is the procedure for reaching consensus or solving a problem? (If you choose to make this an external document, link to it here)]*
 
 ## Application Description
+The ANU Courtyard is designed as a communication platform for students and alumni of ANU to connect to each other. It has the characteristics of a social media platform where users can post and comment on posts, and also can search for posts based on keywords. 
+The user group should be limited to ANU students and alumni, however, this involves checking if the user email is valid ANU email, thus, the feature is not implemented. 
+Users of the application could exchange experience over the future career of certain majors and specializations, asking questions regarding these areas and so on. 
+Of course, users could just share their own thoughts on certain topic or even just share their daily life as an ANU student or alumni. 
+The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or SCHOOL Courtyard to be honest.
+
+*One simple example of the application usage is as follows:*
+* 
 
 *[What is your application, what does it do? Include photos or diagrams if necessary]*
 
@@ -101,49 +133,92 @@ The following is a report template to help your team successfully provide all th
 
 ## Application UML
 
-![ClassDiagramExample](./images/ClassDiagramExample.png)
-*[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
+![ClassDiagramExample](./app/src/main/java/projectUML.png)
 
 ## Application Design and Decisions
 
 *Please give clear and concise descriptions for each subsections of this part. It would be better to list all the concrete items for each subsection and give no more than `5` concise, crucial reasons of your design. Here is an example for the subsection `Data Structures`:*
 
-*I used the following data structures in my project:*
-
-1. *LinkedList*
-
-   * *Objective: It is used for storing xxxx for xxx feature.*
-
-   * *Locations: line xxx in XXX.java, ..., etc.*
-
-   * *Reasons:*
-
-     * *It is more efficient than Arraylist for insertion with a time complexity O(1)*
-
-     * *We don't need to access the item by index for this feature*
-
-2. ...
-
-3. ...
-
 **Data Structures**
 
-*[What data structures did your team utilise? Where and why?]*
+1. *AVLTree*
+
+   * Objective: AVLTree is used to store post tokens in a dynamic manner.
+   * Locations: Line 38 in Search.java
+   * Reasons:
+     * The main reason of using AVL Tree is to search through the post tokens. The worst case searching time complexity O(log n) is much faster than other data structures.
+     * Another reason of using AVL Tree is to dynamically update the post tokens. The worst case updating time complexity O(log n) is much faster than other data structures.
+
+2. *List*
+
+   * Objective: Return value of many methods that involves returning a series of objects. Being used as a way to transfer data among methods.
+   * Locations: Input of writeToUser() method in User.java, output of readUsers() method in User.java, ..., etc.
+   * Reasons:
+     * Comparing to Arrays, lists are much more flexible to manipulate.
+     * The team do need to have an efficient way to iterate through data and being able to add or remove items from a series of objects.
+
+3. *LinkedList*
+   * Objective: It is used for reading data from a file.
+   * Locations: line 177 in User.java, Line 257 in Post.java, etc.
+   * Reasons:
+     * Inserting items takes O(1) time which is faster than the potential O(n) time complexity of ArrayList.
+     * The both User (Username) and Post (PostId) data have unique identifier for each item so accessing by index is not needed. 
+     
+4. *HashMap*
+
+   * Objective: Hash map is used to map the searching weight to the posts.
+   * Locations: line 40 in Search.java.
+   * Reasons:
+     * Hashmap allows the team to store post and weight pair.
+     * Both put() and get() methods are O(1) time complexity.
+     
 
 **Design Patterns**
 
-*[What design patterns did your team utilise? Where and why?]*
+1. *State* 
+
+    * Objective: State design pattern is used to handle the state of the user.
+    * Locations: UserState.java, GuestState.java, LoggedInState.java, UserSession.java, etc.
+    * Reasons: 
+      * State design pattern allows the server respond the client different regarding the state of the user.
+      * The app is designed in a way guest users could not access many functions. 
+
+
+2. *Observer* 
+
+    * Objective: Observer design pattern is used to handle the notification of the user. 
+    * Locations: Observer.java, Post.java, Subject.java, User.java, etc.
+    * Reason: 
+      * Observer design pattern allows the user to follow or un follow certain posts. 
+      * Observer design pattern allows the server to store and notify users when their followed posts are updated.
+
+3. *Singleton* 
+
+    * Objective: Singleton design pattern is used to make sure there is only one instance of the search engine. 
+    * Locations: Search.java. 
+    * Reasons: 
+      * Singleton design pattern keeps the server to have only one instance of the search engine. 
+      * The search engine contains the AVL tree if multiple instances are created it is potentially very stressful for the memory. 
+
+4. *Factory* 
+
+    * Objective: Built-in factory design pattern DocumentBuilderFactory is being invoked when reading and writing data from/to a file.
+    * Locations: Line 172 in User.java, etc.
 
 **Grammar(s)**
 
+Multiple parsers are used in this project. One very significantly related to the course material is the searchString Parser used in search function. 
+Since it parse the user input which could be generally random, it uses a generalized formal grammar. 
+For other grammar used in other parsers, they will be introduced by language description since most of them are hard coded grammar, and some of them may take too much space be written in a formal grammar representation.
+
+* Grammar used in searchString Parser
 <br> *Production Rules* <br>
 \<Non-Terminal> ::= \<some output>
 <br>
 \<Non-Terminal> ::= \<some output>
-
-*[How do you design the grammar? What are the advantages of your designs?]*
-
-*If there are several grammars, list them all under this section and what they relate to.*
+* Grammar used in client request message 
+* Grammar used in server response message 
+* Grammar used for client to parse server response message
 
 **Tokenizer and Parsers**
 
@@ -193,22 +268,33 @@ The following is a report template to help your team successfully provide all th
 
 *Here is an example:*
 
-*Privacy*
-1. *Featue 1: Users may ... . (easy)*
-2. *Feature 2: A user must ... . (easy)*
-3. *Feature 3: A user can only ... . (medium)*
+*UI Design and Testing*
+1. *Feature 1: Users may use portrait and landscape layout or different sized screens to access the app. (easy)*
 
-*Firebase Integration*
-1. *Feature 1: Use Firebase to implement ... . (easy)*
-2. *Feature 2: Use Firebase to persist ... .(medium)*
+*User Interactivity*
+1. *Feature 1: Users may micro-interact with items such as like/dislike a post. (easy)*
+2. *Feature 2: Users may follow/unfollow a post, and this information will be stored in server. (medium)*
+3. *Feature 3: Users will be notified when their followed posts are updated. (medium)* 
 
-*List all features you have completed in their separate categories with their difficulty classification. If they are features that are suggested and approved, please state this somewhere as well.*
+*Privacy* 
+1. *Feature 1: Users may only see other's profile if the profile is public. (easy)*
+
+*Greater Data Usage, Handling and Sophistication* 
+1. *Feature 1: Read and write data instances from multiple local files in different formats (XML and Bespoke)*
+2. *Feature 2: Users could delete their own posts and its content will be deleted from the server side search Tree (AVL deletion). (hard)*
+
+*Search* 
+1. *Feature 1: Users may search for posts by keywords, partially errored keyword would also be handled. (medium)*
+
 
 ## Team Meetings
 
 *Here is an example:*
 
-- *[Team Meeting 1](./MeetingTemplate.md)*
-- ...
+- *[Team Meeting 1](ReportStuff/meeting2022-4-10.docx)*
+- *[Team Meeting 2](ReportStuff/meeting2022-4-23.docx)*
+- *[Team Meeting 3](ReportStuff/meeting2022-4-27.docx)*
+- *[Team Meeting 4](ReportStuff/meeting2022-5-12.docx)*
+- *[Team Meeting 5](ReportStuff/meeting2022-5-14.md)*
 
-*Either write your meeting minutes here or link to documents that contain them. There must be at least 4 team meetings. Note that you must commit your minute meetings shortly after your meeting has taken place (e.g., within 24h), otherwise your meeting minute will not be accepted.*
+

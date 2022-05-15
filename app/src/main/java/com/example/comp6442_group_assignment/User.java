@@ -12,11 +12,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import static com.example.comp6442_group_assignment.FakeServerStuff.CreateUserXml.writeXml;
+import static com.example.comp6442_group_assignment.Post.writeXml;
 
-public class User implements Serializable {
+/**
+ * User class. This class is used to store the user information. It includes methods that read and write the user
+ * information from and to persistent data.
+ */
+public class User implements Observer {
     private String userName;
     private String password;
     private String email;
@@ -24,7 +29,9 @@ public class User implements Serializable {
     private String lastName;
     private String phoneNumber;
 
-    private List<String> notifications; //TODO: ADD this to writer and reader
+    private List<String> notifications;
+
+    private boolean publicProfile;
 
     public String getEmail() {
         return email;
@@ -58,9 +65,31 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public User(String userName, String password, String email, String firstName, String lastName, String phoneNumber) {
+    public List<String> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<String> notifications) {
+        this.notifications = notifications;
+    }
+
+    public boolean isPublicProfile() { return publicProfile; }
+
+    public void setPublicProfile(boolean publicProfile) { this.publicProfile = publicProfile; }
+
+    public User(String userName, String password, String email, String firstName, String lastName, String phoneNumber, List<String> notifications, boolean publicProfile) {
         this.userName = userName;
         this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.notifications = notifications;
+        this.publicProfile = publicProfile;
+    }
+
+    public User(String userName, String email, String firstName, String lastName, String phoneNumber) {
+        this.userName = userName;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -89,6 +118,19 @@ public class User implements Serializable {
     }
 
     @Override
+    public void update(String postId, String message) throws ParserConfigurationException, IOException, SAXException {
+        String update = message + postId;
+        notifications.add(update);
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName)) {
+                user.getNotifications().add(update);
+            }
+        }
+        writeToUser(users);
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "userName='" + userName + '\'' +
@@ -97,6 +139,8 @@ public class User implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", notifications=" + notifications + '\'' +
+                ", publicProfile=" + publicProfile + '\'' +
                 '}';
     }
 
@@ -118,15 +162,19 @@ public class User implements Serializable {
      * @return list of users registered in the system
      */
     public static List<User> readUsers() throws ParserConfigurationException, IOException, SAXException {
+        String testPath = "src/main/assets/user.xml";
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
+        if (!file.exists()) {
+            file = new File(testPath);
+        }
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(file);
         doc.getDocumentElement().normalize();
 
-        List<User> users = new ArrayList<>(); // rtn list of users
+        List<User> users = new LinkedList<>(); // rtn list of users
 
         NodeList userList = doc.getElementsByTagName("User");
         for (int i = 0; i < userList.getLength(); i++) {
@@ -139,7 +187,13 @@ public class User implements Serializable {
                 String firstName = userElement.getElementsByTagName("FirstName").item(0).getTextContent();
                 String lastName = userElement.getElementsByTagName("LastName").item(0).getTextContent();
                 String phoneNumber = userElement.getElementsByTagName("PhoneNumber").item(0).getTextContent();
-                User currentUser = new User(userName, password, email, firstName, lastName, phoneNumber);
+                List<String> notifications = new LinkedList<>();
+                NodeList notificationList = userElement.getElementsByTagName("Notification");
+                for (int j = 0; j < notificationList.getLength(); j++) {
+                    notifications.add(notificationList.item(j).getTextContent());
+                }
+                boolean publicProfile = Boolean.parseBoolean(userElement.getElementsByTagName("PublicProfile").item(0).getTextContent());
+                User currentUser = new User(userName, password, email, firstName, lastName, phoneNumber, notifications, publicProfile);
                 users.add(currentUser);
             }
         }
@@ -175,8 +229,13 @@ public class User implements Serializable {
      * @throws SAXException
      */
     public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
+        boolean useTestPath = false;
+        String testPath = "src/main/assets/user.xml";
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
+        if (!file.exists()) {
+            useTestPath = true;
+        }
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -219,11 +278,32 @@ public class User implements Serializable {
             Element phoneNumber1 = doc.createElement("PhoneNumber");
             phoneNumber1.appendChild(doc.createTextNode(u.getPhoneNumber()));
             user.appendChild(phoneNumber1);
+
+            // notification elements
+            Element notifications = doc.createElement("Notifications");
+            user.appendChild(notifications);
+            if (u.getNotifications() != null) {
+                for (String n : u.getNotifications()) {
+                    Element notification = doc.createElement("Notification");
+                    notification.appendChild(doc.createTextNode(n));
+                    notifications.appendChild(notification);
+                }
+            }
+
+            // public profile elements
+            Element publicProfile = doc.createElement("PublicProfile");
+            publicProfile.appendChild(doc.createTextNode(Boolean.toString(u.isPublicProfile())));
+            user.appendChild(publicProfile);
         }
 
         // write dom document to a file
-        try (FileOutputStream output =
-                     new FileOutputStream(address)) {
+        try {
+            FileOutputStream output = null;
+            if (useTestPath) {
+                output = new FileOutputStream(testPath);
+            } else {
+                output = new FileOutputStream(address);
+            }
             writeXml(doc, output);
         } catch (IOException | TransformerException e) {
             e.printStackTrace();
@@ -251,7 +331,7 @@ public class User implements Serializable {
             return false;
         } else {
             List<User> users = readUsers();
-            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber);
+            User newUser = new User(userName, password, email, firstName, lastName, phoneNumber, new LinkedList<>(), true);
             users.add(newUser);
             writeToUser(users);
             return true;
@@ -314,7 +394,70 @@ public class User implements Serializable {
         }
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-
+    /**
+     * return the notification of the user with @param userName from users.xml file, should be a server function
+     * @param userName
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static List<String> updateNotification(String userName) throws ParserConfigurationException, IOException, SAXException {
+        List<String> notifications = new LinkedList<>();
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName)) {
+                notifications = user.getNotifications();
+            }
+        }
+        return notifications; //returns a list of notifications
     }
+
+    /**
+     * Empty the notification list of a user, should be a server function
+     * @param username
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static boolean clearNotification(String username) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        List<String> empty = new LinkedList<>();
+        for (User user : users) {
+            if (user.getUserName().equals(username)) {
+                user.setNotifications(empty);
+                writeToUser(users);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * request profile of another user, should be a server function
+     * @param userName
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName) && user.isPublicProfile()) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = readUsers();
+        for (User user : users) {
+            System.out.println(user.getUserName());
+        }
+    }
+
+
 }
