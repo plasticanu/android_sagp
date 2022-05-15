@@ -1,5 +1,9 @@
 package com.example.comp6442_group_assignment;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,17 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.MenuItem;
-
 import com.example.comp6442_group_assignment.Fragment.homeFragment;
 import com.example.comp6442_group_assignment.Fragment.loginFragment;
 import com.example.comp6442_group_assignment.Fragment.profileFragment;
 import com.example.comp6442_group_assignment.Fragment.searchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,27 +102,6 @@ public class MainActivity extends AppCompatActivity {
     public void setActionBarTitle(String title){
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
-    }
-
-    /**
-     * A method used to read data from a file in the assets folder
-     * @Author Jun Cheng Zhang u7297753
-     * @param fileName the file's name
-     * @return the data in the file
-     */
-    public String loadData(String fileName){
-        String data = "";
-        try {
-            InputStream inputStream = getAssets().open(fileName);
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            data = new String(buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
     }
 
 

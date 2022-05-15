@@ -1,16 +1,22 @@
 package com.example.comp6442_group_assignment;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.example.comp6442_group_assignment.State.GuestState;
 import com.example.comp6442_group_assignment.State.LoggedInState;
+
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class StateFunctionTest {
     private UserSession userSession;
@@ -130,6 +136,17 @@ public class StateFunctionTest {
         assertNull(userSession.user);
     }
     //TODO: to complete this as much as possible, and the other test cases.
+
+    @Test
+    public void testCreatePost() throws ParserConfigurationException, IOException, SAXException {
+        userSession = new UserSession();
+        assertNull(userSession.createPost("test post"));
+
+        userSession.login("user1", "qwerty");
+        assertNotNull(userSession.createPost("test post"));
+        assertTrue(userSession.deletePost("00000535"));
+        assertFalse(userSession.deletePost("00000536"));
+    }
 
 
 }

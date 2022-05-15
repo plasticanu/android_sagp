@@ -265,6 +265,17 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Search s = new Search(30);
+//        System.out.println(s.search("contant").size());
+
+        for (Post post: s.search("good Fleance")) {
+            System.out.println("1," + post.getPostId());
+        }
+//        for (Post post: s.search("surfeited grooms")) {
+//            System.out.println(post.getPostId());
+//        }
+        for (Post post: s.search("good Fleance")) {
+            System.out.println("2," + post.getPostId());
+        }
         System.out.println(s.search("king most").size());
 
     }

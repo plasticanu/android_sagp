@@ -2,11 +2,13 @@ package com.example.comp6442_group_assignment;
 
 import com.example.comp6442_group_assignment.State.GuestState;
 import com.example.comp6442_group_assignment.State.UserState;
+
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * UserSession class, should be initialized on the server each time a client connects.
@@ -132,5 +134,13 @@ public class UserSession {
 
     public User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
         return state.requestProfile(userName);
+    }
+
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+        UserSession userSession = new UserSession();
+        List<Post> posts = userSession.search("contant");
+        for (Post post: posts) {
+            System.out.println(post.getPostId());
+        }
     }
 }
