@@ -293,7 +293,9 @@ public class Search {
 
     }
 
+    public void delete(Post p){
 
+    }
 
 
 
