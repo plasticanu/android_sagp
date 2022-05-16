@@ -130,12 +130,68 @@ public class AVLTree<T> {
 
         // BST deletion method
         if(e.hashCode() < n.getKey())
-            n.setLeft(delete(n.left, e));
+            n.setLeft(delete(n.getLeft(), e));
         else if(e.hashCode() > n.getKey())
             n.setRight(delete(n.getRight(), e));
         // Case: needs rotation
-        // TODO: balance
+        else{
+            if((n.getLeft() == null) || (n.getRight() == null)){
+                Node<T> res = null;
+                if(n.getLeft() == null){
+                    res = n.getRight();
+                }
+                else {
+                    res = n.getLeft();
+                    if(res == null){
+                        res = n;
+                        n = null;
+                    }
+                    else{
+                        n = res;
+                    }
+                }
+            }
+            // two children
+            else{
+                Node<T> temp = min(n.getRight());
+                n.setData(temp.getData());
+
+                n.setRight(delete(n.getRight(), temp.getData()));
+            }
+
+        }
+        if( n == null){
+            return n;
+        }
+
+        updateHeight(n);
+
+        if((getBalance(n) > 1) && (getBalance(n.getLeft()) >= 0)){
+            return rightRotate(n);
+        }
+
+        if((getBalance(n) > 1) && getBalance(n.getLeft()) < 0){
+            n.setLeft(leftRotate(n.getLeft()));
+            return rightRotate(n);
+        }
+
+        // right right case
+        if((getBalance(n) < -1) && (getBalance(n.getRight()) <= 0)){
+            return leftRotate(n);
+        }
+        if((getBalance(n) < -1) && (getBalance(n.getRight()) > 0)){
+            n.setRight(rightRotate(n.getRight()));
+        }
+
         return n;
+    }
+
+    private Node<T> min(Node<T> n) {
+        Node<T> current = n;
+        while(current.getLeft() != null){
+            current = current.getLeft();
+        }
+        return current;
     }
 
     public Node<T> findNode(Node<T> n, T e){
