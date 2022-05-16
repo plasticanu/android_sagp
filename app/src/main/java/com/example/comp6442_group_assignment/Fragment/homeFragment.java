@@ -200,11 +200,13 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
      */
     public List<Post> setupPost(String response){
         List<Post> pModels = new ArrayList<>();
-        String regexC = "(?![^)(]*\\([^)(]*?\\)\\)),(?![^\\[]*\\])";
+//        String regexC = "(?![^)(]*\\([^)(]*?\\)\\)),(?![^\\[]*\\])";
+        String regexC = "\\s*,\\s*(?=(?:(?:(?:[^']|\\b'\\b)*'){2})*(?:[^']|\\b'\\b)*$)";
         String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
         String regexCC = "(,)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
 //        String str = "hms;Post{postId='00000001', content='This is a test post', author='user1', likes=[user1,user2,user6], createTime='2020-01-01', comments=[Comment{content='comment1', author='user1', time='2020-01-01'}, Comment{content='comment2', author='user2', time='2020-01-02'}]};Post{postId='00000002', content='This is a test post', author='user1', likes=[], createTime='2020-01-01', comments=[]};Post{postId='00000003', content='This is a test post', author='user2', likes=[user1, user2], createTime='2020-01-01', comments=[]};Post{postId='00000004', content='This is a test post', author='user3', likes=[], createTime='2020-01-01', comments=[]};Post{postId='00000005', content='This is a test post', author='user1', likes=[], createTime='2020-01-01', comments=[]};Post{postId='00000006', content='This is a test post', author='user1', likes=[], createTime='2020-01-01', comments=[]}";
         String str = response;
+//        String str = "hms;Post{postId='00000525', content='the other Thanes, and Soldiers.|          MALCOLM. I would the friends we miss were safe arrived.|          SIWARD. Some must go off, and yet, by these I see,|            So great a day as this is cheaply bought.|          MALCOLM. Macduff is missing, and your noble son.|        ', author='user3', likes=[], createTime='2022-05-13T23:57:52.660341500', comments=[], observers=[user3]}";
         String[] newStr = str.split(";");
         for(int i = 1;i<newStr.length;i++){
 
@@ -219,13 +221,21 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             author=author.substring(1,author.length()-1);
             String createTime = temp[4].split(regexE)[1];
             createTime=createTime.substring(1,createTime.length()-1);
-
             String[] likeString = temp[3].split(regexE)[1].substring(1,temp[3].split(regexE)[1].length()-1).split(",");
 
             List<String> likes = new ArrayList<>();
 
             for (int j=0;j<likeString.length;j++){
                 likes.add(likeString[j].trim());
+            }
+            String[] observersString = temp[6].split(regexE)[1].substring(1,temp[6].split(regexE)[1].length()-1).split(",");
+
+
+
+            List<String> observers = new ArrayList<>();
+            for(int k = 0;k<observersString.length;k++){
+                observers.add(observersString[k].trim());
+                System.out.println(observersString[k]);
             }
 
 
@@ -246,7 +256,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
             }
 
-            Post post = new Post(postId, content, author, likes, createTime, comments, null); //FIXME: read observer
+            Post post = new Post(postId, content, author, likes, createTime, comments, observers); //FIXME: read observer
             pModels.add(post);
         }
         List<Post> postCopy = pModels.subList(0, pModels.size());
