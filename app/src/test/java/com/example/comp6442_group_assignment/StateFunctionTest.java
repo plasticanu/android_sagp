@@ -140,13 +140,76 @@ public class StateFunctionTest {
     @Test
     public void testCreatePost() throws ParserConfigurationException, IOException, SAXException {
         userSession = new UserSession();
+        // test create post when not logged in
         assertNull(userSession.createPost("test post"));
 
+        // test create post when logged in
         userSession.login("user1", "qwerty");
         assertNotNull(userSession.createPost("test post"));
-        assertTrue(userSession.deletePost("00000535"));
-        assertFalse(userSession.deletePost("00000536"));
+
+        // test the post's attributes
+        Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
+        assertEquals("00002668", postCreated.getPostId());
+        assertEquals("user1", postCreated.getAuthor());
+        assertEquals("test post", postCreated.getContent());
+
+        assertTrue(userSession.deletePost(postCreated.getPostId()));
+        assertFalse(userSession.deletePost(postCreated.getPostId()));
     }
 
+    @Test
+    public void testUpdatePost() throws ParserConfigurationException, IOException, SAXException {
+        userSession = new UserSession();
+        userSession.login("user1", "qwerty");
+        userSession.createPost("test post");
+        Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
+        Post otherPost = Post.readFromPost().get(3);
+
+        // test edit post content
+        assertTrue(userSession.editPost(postCreated.getPostId(), "I updated this post"));
+        Post postEdited = userSession.allPosts().get(userSession.allPosts().size()-1);
+        assertEquals("I updated this post", postEdited.getContent());
+        assertFalse(userSession.editPost("00002667", "cannot edit")); // test edit other people's post
+
+        // test like and unlike post
+        assertFalse(userSession.likePost(postCreated.getPostId())); // test like on own post
+        assertFalse(userSession.unlikePost(postCreated.getPostId())); // test unlike on own post
+        assertTrue(userSession.likePost(otherPost.getPostId()));
+        assertFalse(userSession.likePost(otherPost.getPostId())); // test like on liked post
+        assertFalse(userSession.likePost("00002669")); // test like on post that doesn't exist
+        assertFalse(userSession.unlikePost("00002669")); // test unlike on post that doesn't exist
+        Post likedPost = Post.readFromPost().get(3);
+        assertEquals(userSession.getUserName(), likedPost.getLikes().get(0));
+        assertTrue(userSession.unlikePost(otherPost.getPostId()));
+        Post unlikedPost = Post.readFromPost().get(3);
+        assertFalse(userSession.unlikePost(unlikedPost.getPostId())); // test unlike on unliked post
+        assertEquals(0, unlikedPost.getLikes().size());
+
+        // test comment post
+        assertTrue(userSession.commentPost(postCreated.getPostId(), "what a good post!"));
+        assertTrue(userSession.commentPost(postCreated.getPostId(), "what a good post, again!")); // test comment twice
+        assertFalse(userSession.commentPost("00002669", "where is the post?")); // test comment on post that doesn't exist
+        Post commetedPost = userSession.allPosts().get(userSession.allPosts().size()-1);
+        assertEquals("what a good post!", commetedPost.getComments().get(0).getContent());
+        assertEquals("what a good post, again!", commetedPost.getComments().get(1).getContent());
+        assertEquals(userSession.getUserName(), commetedPost.getComments().get(0).getAuthor());
+
+        // test follow and unfollow post
+        assertFalse(userSession.followPost(postCreated.getPostId())); // test follow own post
+        assertTrue(userSession.followPost(otherPost.getPostId()));
+        assertFalse(userSession.followPost(otherPost.getPostId())); // test follow followed post
+        assertFalse(userSession.followPost("00002669")); // test follow post that doesn't exist
+        assertFalse(userSession.unfollowPost("00002669")); // test unfollow post that doesn't exist
+        Post followedPost = Post.readFromPost().get(3);
+        assertEquals(userSession.getUserName(), followedPost.getObservers().get(0));
+        assertTrue(userSession.unfollowPost(otherPost.getPostId()));
+        Post unfollowedPost = Post.readFromPost().get(3);
+        assertEquals(0, unfollowedPost.getObservers().size());
+        assertFalse(userSession.unfollowPost(otherPost.getPostId())); // test unfollow unfollowed post
+
+
+        userSession.clearNotifications();
+        userSession.deletePost(postCreated.getPostId());
+    }
 
 }
