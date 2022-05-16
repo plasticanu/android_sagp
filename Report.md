@@ -50,12 +50,18 @@ The following is a report template to help your team successfully provide all th
 * ....
 
 *u7294212, Peicheng Liu, I contribute __% of the code. Here are my contributions:* 
+
+**Complete or Major contribution:**
+
+*Java Code Contribution:*
 * Fundamental project structure design
 * Server-client model
 * CreatePostXml.java
 * CreateUserXml.java
 * FakeClient.java
 * FakeServer.java
+* AutoClient.java
+* DataStreamFileGenerator.java
 * PostTokenizer.java
 * SearchStringTokenizer.java
 * SearchToken.java
@@ -69,7 +75,26 @@ The following is a report template to help your team successfully provide all th
 * Subject.java
 * User.java
 * UserSession.java
+
+*Persistent Data Storage*
+* post.xml
+* user.xml
+* DataStream
+
+*ProjectUML*
 * projectUML.png
+
+*Design Pattern*
+* State Design Pattern
+* Singleton Design Pattern
+* Observer Design Pattern
+
+*Report Writing*
+
+**Partial or Minor Contribution:**
+* Search.java
+* StateFunctionTest.java
+
 
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
@@ -83,19 +108,43 @@ The following is a report template to help your team successfully provide all th
 
 ## Conflict Resolution Protocol
 The team remained conflictless for most of the project period. When conflicts arose, the team generally agree on the opinion of the team leader. 
+
 For the rest of conflicts, the team resolve them by talking through the problem in our regular online meetings on MS Teams and Wechat.
 
-*[Write a well defined protocol your team can use to handle conflicts. That is, if your group has problems, what is the procedure for reaching consensus or solving a problem? (If you choose to make this an external document, link to it here)]*
 
 ## Application Description
+In year 2022, most social communication methods are filled with advertisements or tittytainments designed by enterprises with their data analysis. Many people have been caught in the social dilemma that either not look at the social media and isolate themselves from the world or look at the social media and let tons of garbage information flow into the heads. 
+
+People need a platform for certain communities to hang out at without pressure. 
+
 The ANU Courtyard is designed as a communication platform for students and alumni of ANU to connect to each other. It has the characteristics of a social media platform where users can post and comment on posts, and also can search for posts based on keywords. 
+
 The user group should be limited to ANU students and alumni, however, this involves checking if the user email is valid ANU email, thus, the feature is not implemented. 
+
 Users of the application could exchange experience over the future career of certain majors and specializations, asking questions regarding these areas and so on. 
+
 Of course, users could just share their own thoughts on certain topic or even just share their daily life as an ANU student or alumni. 
-The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or SCHOOL Courtyard to be honest.
+
+The application is called The ANU Courtyard, but it could be ANY UNIVERSITY or SCHOOL Courtyard just by changing the name.
+
+In year 2022, most social communication methods are filled with advertisements or tittytainments designed by enterprises with their data analysis. Many people have chosen not to look at them but it is so hard to find a place just for certain communities to hang out at. 
 
 *One simple example of the application usage is as follows:*
-* 
+* Pleb is an ANU graduating bachelor student at year 4, with a GPA exactly at 5.0, he is hesitating about next step of his life: continuing on Master's Degree or stepping into the job market, seeking guidance on the ANU Courtyard app. 
+* Chad is an ANU Master graduated alumni that has been working in Microsoft for 4 years. He occasionally posts some work experience and memory of studying at ANU onto the ANU Courtyard App. 
+* Pleb finds that the posts from Chad is very insightful and would like to know more about the Master's study life and the work life of a Master's graduate. So he chooses to comment under Chad's posts asking questions. 
+* Chad receives notification occasionally from Pleb and willing to provide more experience to this young man, so he posted more comments describing his life. 
+* After being acknowledged the daily life of a Master's alumni, Pleb thinks that he is still young and has the energy to finish a Master's Degree. Then he firmed up the belief and continued his study. 
+
+*Target audience of the app:*
+* ANU students
+* ANU alumni
+* ANU stuff
+
+The fundamental idea of the app is to provide a platform for people in certain community could find a place to share their life and thought without disturbance from outside world. The app could suit into many others communities just by changing the name in the UI. 
+
+Thus, the target audience could be any person that involves in a community and would like to receive and share on a platform. 
+
 
 *[What is your application, what does it do? Include photos or diagrams if necessary]*
 

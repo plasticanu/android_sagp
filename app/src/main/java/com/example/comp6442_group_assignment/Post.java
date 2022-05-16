@@ -173,12 +173,12 @@ public class Post implements Subject, Serializable{
     public String toString() {
         return "Post{" +
                 "postId='" + postId + '\'' +
-                ", content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", likes=" + likes +
-                ", createTime='" + createTime + '\'' +
-                ", comments=" + comments +
-                ", observers=" + observers +
+                "| content='" + content + '\'' +
+                "| author='" + author + '\'' +
+                "| likes=" + likes +
+                "| createTime='" + createTime + '\'' +
+                "| comments=" + comments +
+                "| observers=" + observers +
                 '}';
     }
 
