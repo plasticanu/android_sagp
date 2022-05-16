@@ -38,17 +38,6 @@ The following is a report template to help your team successfully provide all th
 
 ## Summary of Individual Contributions
 
-*[Summarise the contributions made by each member to the project, e.g. code implementation, code design, UI design, report writing, etc.]*
-
-*[Code Implementation. Which features did you implement? Which classes or methods was each member involved in? Provide an approximate proportion in pecentage of the contribution of each member to the whole code implementation, e.g. 30%.]*
-
-*Here is an example:*
-
-*UID1, Name1, I contribute 30% of the code. Here are my contributions:*
-* A.class
-* B.class: function1(), function2(), ...
-* ....
-
 *u7294212, Peicheng Liu, I contribute __% of the code. Here are my contributions:* 
 
 **Complete or Major contribution:**
@@ -101,7 +90,7 @@ The following is a report template to help your team successfully provide all th
 * Search.java
 * StateFunctionTest.java
 
-
+// TODO: u7055573, u7139999, u7297753
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
 *[UI Design. Specify what design did the involved member propose? What tools were used for the design?]*
@@ -311,17 +300,17 @@ The advantage of using this tokenizer is that it takes a post object as input so
 Since the post content does not need to be parsed, the tokenizer also saves some time and space complexity by retaining the String type of the content and author that it is easier to be processed by the parser. 
 
 *3. SearchString Parser:* 
-// TODO: Zhidong Piao
+// TODO: u7139999
 
 *4. Response Message Parser:* 
-// TODO: Jiyuan Chen
+// TODO: u7055573
 
 **Other**
 
 *[What other design decisions have you made which you feel are relevant? Feel free to separate these into their own subheadings.]*
 
 ## Summary of Known Errors and Bugs
-// TODO: Jun Cheng Zhang
+// TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
 *Here is an example:*
@@ -337,7 +326,7 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 *List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
 
 ## Testing Summary
-// TODO: Jun Cheng Zhang
+// TODO: u7297753
 *[What features have you tested? What is your testing coverage?]*
 
 *Here is an example:*
@@ -354,35 +343,49 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 
 *UI Design and Testing*
 1. *Feature 1: Users may use portrait and landscape layout or different sized screens to access the app. (easy)*
+// TODO: u7055573
 
 *User Interactivity*
 1. *Feature 1: Users may micro-interact with items such as like/dislike/edit a post. (easy)*
 - likePost(), dislikePost(), editPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - likePost(), dislikePost(), editPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
+- likePost(), dislikePost(), editPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
+// TODO: u7055573
 
 2. *Feature 2: Users may follow/unfollow a post, and this information will be stored in server. (medium)*
 - followPost(), unfollowPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - followPost(), unfollowPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
+- followPost(), unfollowPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
+// TODO: u7055573
 
 3. *Feature 3: Users will be notified when their followed posts are updated in different ways. (medium)* 
 - update() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
 - notifyObserversEdit(), notifyObserversComment(), notifyObserversLike() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
+// TODO: u7055573
 
 *Privacy* 
 1. *Feature 1: Users may only see other's profile if the profile is public. (easy)*
-- 
+- requestProfile() method in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java) 
+- requestProfile() method in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
+- requestProfile() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
+// TODO: u7055573
 
 *Greater Data Usage, Handling and Sophistication* 
 1. *Feature 1: Read and write data instances from multiple local files in different formats (XML and Bespoke)*
+- readUsers(), writeToUser() methods in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
+- readFromPost(), writeToPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
+- Line 27-50 of main method in [AutoClient class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java)
+- [DataStreamFileGenerator class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/DataStreamFileGenerator.java)
+
 2. *Feature 2: Users could delete their own posts and its content will be deleted from the server side search Tree (AVL deletion). (hard)*
+// TODO: u7139999
 
 *Search* 
 1. *Feature 1: Users may search for posts by keywords, partially errored keyword would also be handled. (medium)*
-
+- Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
+// TODO: u7139999
 
 ## Team Meetings
-
-*Here is an example:*
 
 - *[Team Meeting 1](ReportStuff/meeting2022-4-10.docx)*
 - *[Team Meeting 2](ReportStuff/meeting2022-4-23.docx)*
