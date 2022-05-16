@@ -50,12 +50,7 @@ public class Search {
     // Percentage of error letters for a word allowed.
     private Integer fuzzyExtent = 0;
 
-    public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
-        this.fuzzyExtent = fuzzyExtent;
-        allPosts = Post.readFromPost();
-    }
-
-    public Search() throws ParserConfigurationException, IOException, SAXException {
+    private Search() throws ParserConfigurationException, IOException, SAXException {
         // Default fuzzy extent.
         this.fuzzyExtent = 30;
         allPosts = Post.readFromPost();
@@ -67,7 +62,10 @@ public class Search {
         }
     }
 
-
+    public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
+        this.fuzzyExtent = fuzzyExtent;
+        allPosts = Post.readFromPost();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankContent(String input, ArrayList<String> exact, ArrayList<String> exclude) {

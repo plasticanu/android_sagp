@@ -180,8 +180,8 @@ public class LoggedInState extends UserState{
     }
 
     @Override
-    public boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
-        if(User.updateAccount(userName, password, email, firstName, lastName, phoneNumber)){
+    public boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber, boolean publicProfile) throws ParserConfigurationException, IOException, SAXException {
+        if(User.updateAccount(userName, password, email, firstName, lastName, phoneNumber, publicProfile)) {
             System.out.println("Update Successful!");
             List<User> users = User.readUsers();
             for (User user : users) {

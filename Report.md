@@ -34,7 +34,7 @@ The following is a report template to help your team successfully provide all th
 | u7294212 | Peicheng | Team Leader & Backend lead coder |
 | u7055573 | Jiyuan Chen | UI design & Frontend coder |
 | u7139999 | Zhidong Piao | Backend co-coder & Search function coder |
-| [uid] | [name] | [role] |
+| u7297753 | Jun Cheng Zhang | Tester |
 
 ## Summary of Individual Contributions
 
@@ -82,7 +82,7 @@ The following is a report template to help your team successfully provide all th
 * DataStream
 
 *ProjectUML*
-* projectUML.png
+* projectUML.drawio.png
 
 *Design Pattern*
 * State Design Pattern
@@ -90,6 +90,12 @@ The following is a report template to help your team successfully provide all th
 * Observer Design Pattern
 
 *Report Writing*
+* Conflict Resolution Protocol
+* Application Description
+* Application UML
+* Application Design and Decisions
+* Implemented Features
+* Team Meetings
 
 **Partial or Minor Contribution:**
 * Search.java
@@ -145,44 +151,9 @@ The fundamental idea of the app is to provide a platform for people in certain c
 
 Thus, the target audience could be any person that involves in a community and would like to receive and share on a platform. 
 
-
-*[What is your application, what does it do? Include photos or diagrams if necessary]*
-
-*Here is a pet specific application example*
-
-*PetBook is a social media application specifically targetting pet owners... it provides... certified practitioners, such as veterians are indicated by a label next to their profile...*
-
-**Application Use Cases and or Examples**
-
-*[Provide use cases and examples of people using your application. Who are the target users of your application? How do the users use your application?]*
-
-*Here is a pet training application example*
-
-*Molly wants to inquiry about her cat, McPurr's recent troublesome behaviour*
-1. *Molly notices that McPurr has been hostile since...*
-2. *She makes a post about... with the tag...*
-3. *Lachlan, a vet, writes a reply to Molly's post...*
-4. ...
-5. *Molly gives Lachlan's reply a 'tick' response*
-
-*Here is a map navigation application example*
-
-*Targets Users: Drivers*
-
-* *Users can use it to navigate in order to reach the destinations.*
-* *Users can learn the traffic conditions*
-* ...
-
-*Target Users: Those who want to find some good restaurants*
-
-* *Users can find nearby restaurants and the application can give recommendations*
-* ...
-
-*List all the use cases in text descriptions or create use case diagrams. Please refer to https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-use-case-diagram/ for use case diagram.*
-
 ## Application UML
 
-![ClassDiagramExample](./app/src/main/java/projectUML.png)
+![projectUML](./app/src/main/java/projectUML.drawio.png)
 
 ## Application Design and Decisions
 
@@ -257,32 +228,100 @@ Thus, the target audience could be any person that involves in a community and w
 **Grammar(s)**
 
 Multiple parsers are used in this project. One very significantly related to the course material is the searchString Parser used in search function. 
-Since it parse the user input which could be generally random, it uses a generalized formal grammar. 
-For other grammar used in other parsers, they will be introduced by language description since most of them are hard coded grammar, and some of them may take too much space be written in a formal grammar representation.
+Since it parse the user input which could be generally random, it uses a set of generalized formal grammar production rules. 
+For other grammar used in other parsers, they will be introduced by language description since most of the production rules are hard coded grammar, and some of them may take too much space be written in a formal grammar representation.
 
-* Grammar used in searchString Parser
-<br> *Production Rules* <br>
-\<Non-Terminal> ::= \<some output>
-<br>
-\<Non-Terminal> ::= \<some output>
-* Grammar used in client request message 
-* Grammar used in server response message 
-* Grammar used for client to parse server response message
+*1. Grammar used in searchString Parser:*
+
+*Production Rules:*
+* S ::= PT | TP
+* P ::= W | W P
+* T ::= Ex | E | A | H | T 
+* Ex ::= \W
+* E ::= 'W'
+* A ::= @W
+* H ::= #W
+* W ::= C | CW 
+* C ::= 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '_'
+
+S = SearchString
+
+P = Phrase
+
+T = Tag
+
+Ex = ExcludeTag
+
+E = ExactTag
+
+A = AuthorTag
+
+H = HashTag
+
+W = Word 
+
+C = Character
+
+*2. Grammar used in client request message:*
+
+The grammar used in client request message is partially hard coded for each function of the app. A legal request message include one prefix and 0 or more suffixes.
+
+The split between prefix and suffixes or between each suffix are a space character ' '. 
+
+The prefix is two character long lower case letters representing the type of the request. Such as 'lo' for logout. 
+
+The server will check the prefix first to determine the number if suffixes needed. 
+
+Depending on the prefix type, the suffixes are different and optional. Such as 'lo' for logout does not need a suffix, 'li' for login need two suffixes one for username and the other one for password. 
+
+For more details please refer to the [client file](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) getResponse() method.
+
+*3. Grammar used in server response message:*
+
+Similar to the client request message, the grammar used in server response message is partially hard coded for each function of the app. A legal response message include one prefix and 0 or more suffixes.
+
+The split between prefix and suffixes or between each suffix are a semicolon character ';'.
+
+The prefix is three character long lower case letters representing the type of the response, which represent the success or failure of the request. Such as 'lis' for login successful and 'lif' for login failed. 
+
+Depending on the prefix type, the suffixes are different and optional. Such as 'lis' for login successful has 5 suffixes indicating the profile information of the user, 'lif' for login unsuccessful has only one suffix which is the error message with the reason of the failure.
+
+For more details please refer to the [client file](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) getResponse() method.
 
 **Tokenizer and Parsers**
 
-*[Where do you use tokenisers and parsers? How are they built? What are the advantages of the designs?]*
+Multiple tokenizers and parsers are used in this project. 
 
-**Surpise Item**
+There are two significant tokenizers and one parser that was coded into standalone classes and all of them are used for the search function. 
 
-*[If you implement the surprise item, explain how your solution addresses the surprise task. What decisions do your team make in addressing the problem?]*
+Details of tokenizer involving server-client request and response messages are included in the Grammar section above. 
+
+*1. SearchString Tokenizer:* 
+The searchString tokenizer is used to tokenize the search string. It implements the tokenizer interface, takes a String input and return tokens with type of SearchToken which has 5 different types. 
+
+The advantage of using this tokenizer is that it produces different types of tokens that are easier to handle and process for the SearchString parser. 
+
+*2. Post Tokenizer:* 
+The post tokenizer is used to extract author and the post content from a post object and tokenizer them into String segments. 
+
+The tokenizer comes with a getAllTokens() method that returns a list of Strings starting with the author and continuing with each word in the post content. 
+
+The advantage of using this tokenizer is that it takes a post object as input so the content and author do not need to be extracted by the parser. It also allows the parser to easily determine the parent post of each token when inserting them into the AVL tree. 
+
+Since the post content does not need to be parsed, the tokenizer also saves some time and space complexity by retaining the String type of the content and author that it is easier to be processed by the parser. 
+
+*3. SearchString Parser:* 
+// TODO: Zhidong Piao
+
+*4. Response Message Parser:* 
+// TODO: Jiyuan Chen
 
 **Other**
 
 *[What other design decisions have you made which you feel are relevant? Feel free to separate these into their own subheadings.]*
 
 ## Summary of Known Errors and Bugs
-
+// TODO: Jun Cheng Zhang
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
 *Here is an example:*
@@ -298,7 +337,7 @@ For other grammar used in other parsers, they will be introduced by language des
 *List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
 
 ## Testing Summary
-
+// TODO: Jun Cheng Zhang
 *[What features have you tested? What is your testing coverage?]*
 
 *Here is an example:*
@@ -313,20 +352,25 @@ For other grammar used in other parsers, they will be introduced by language des
 
 ## Implemented Features
 
-*[What features have you implemented?]*
-
-*Here is an example:*
-
 *UI Design and Testing*
 1. *Feature 1: Users may use portrait and landscape layout or different sized screens to access the app. (easy)*
 
 *User Interactivity*
-1. *Feature 1: Users may micro-interact with items such as like/dislike a post. (easy)*
+1. *Feature 1: Users may micro-interact with items such as like/dislike/edit a post. (easy)*
+- likePost(), dislikePost(), editPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
+- likePost(), dislikePost(), editPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
+
 2. *Feature 2: Users may follow/unfollow a post, and this information will be stored in server. (medium)*
-3. *Feature 3: Users will be notified when their followed posts are updated. (medium)* 
+- followPost(), unfollowPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
+- followPost(), unfollowPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
+
+3. *Feature 3: Users will be notified when their followed posts are updated in different ways. (medium)* 
+- update() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
+- notifyObserversEdit(), notifyObserversComment(), notifyObserversLike() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
 
 *Privacy* 
 1. *Feature 1: Users may only see other's profile if the profile is public. (easy)*
+- 
 
 *Greater Data Usage, Handling and Sophistication* 
 1. *Feature 1: Read and write data instances from multiple local files in different formats (XML and Bespoke)*
@@ -345,5 +389,6 @@ For other grammar used in other parsers, they will be introduced by language des
 - *[Team Meeting 3](ReportStuff/meeting2022-4-27.docx)*
 - *[Team Meeting 4](ReportStuff/meeting2022-5-12.docx)*
 - *[Team Meeting 5](ReportStuff/meeting2022-5-14.md)*
+- *[Team Meeting 6](ReportStuff/meeting2022-5-16.md)* 
 
 

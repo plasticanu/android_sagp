@@ -112,8 +112,8 @@ public class UserSession {
         return state.profile();
     }
 
-    public boolean updateProfile(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
-        return state.updateAccount(userName, password, email, firstName, lastName, phoneNumber);
+    public boolean updateProfile(String userName, String password, String email, String firstName, String lastName, String phoneNumber, boolean publicProfile) throws ParserConfigurationException, IOException, SAXException {
+        return state.updateAccount(userName, password, email, firstName, lastName, phoneNumber, publicProfile);
     }
 
     public List<Post> allPosts() throws ParserConfigurationException, IOException, SAXException {

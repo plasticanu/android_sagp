@@ -94,14 +94,14 @@ public class StateFunctionTest {
     public void testUpdateProfile() throws ParserConfigurationException, IOException, SAXException, TransformerException {
         userSession = new UserSession();
         // test update profile when not logged in
-        userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789");
+        userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", true);
         assertEquals(userSession.getState().getClass(), GuestState.class);
         assertEquals(userSession.getUserName(), "Guest");
         assertFalse(userSession.isLoggedIn);
         assertNull(userSession.user);
         // test update profile when logged in
         assertTrue(userSession.login("user2", "qwerty"));
-        userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789");
+        userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", true);
         assertEquals(userSession.getState().getClass(), LoggedInState.class);
         assertEquals(userSession.getUserName(), "user2");
         assertTrue(userSession.isLoggedIn);
@@ -109,7 +109,7 @@ public class StateFunctionTest {
         User expected = new User("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", new ArrayList<>(), true);
         assertEquals(userSession.user.toString(), expected.toString());
         // update back to original
-        userSession.updateProfile("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789");
+        userSession.updateProfile("user2", "qwerty", "user2@mail.com", "First2", "Last2", "123456789", true);
         assertEquals(userSession.getState().getClass(), LoggedInState.class);
         assertEquals(userSession.getUserName(), "user2");
         assertTrue(userSession.isLoggedIn);

@@ -373,7 +373,7 @@ public class User implements Observer {
      * @throws IOException
      * @throws SAXException
      */
-    public static boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
+    public static boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber, boolean publicProfile) throws ParserConfigurationException, IOException, SAXException {
         if (!isRegistered(userName)) {
             System.out.println("User not found");
             return false;
@@ -386,6 +386,7 @@ public class User implements Observer {
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
                     user.setPhoneNumber(phoneNumber);
+                    user.setPublicProfile(publicProfile);
                     break;
                 }
             }

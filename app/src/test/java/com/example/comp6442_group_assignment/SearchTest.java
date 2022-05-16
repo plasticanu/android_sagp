@@ -19,7 +19,7 @@ public class SearchTest {
 
     {
         try {
-            search = new Search();
+            search = new Search(30);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
