@@ -139,8 +139,8 @@ public class User implements Observer {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", notifications=" + notifications + '\'' +
-                ", publicProfile=" + publicProfile + '\'' +
+                ", notifications=" + notifications +
+                ", publicProfile=" + publicProfile +
                 '}';
     }
 
