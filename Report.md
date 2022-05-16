@@ -1,18 +1,27 @@
-# [Team 70's] Report
+# [Team 70's ANU Courtyard App] Report
 
-The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
+## Foreword (Critical Information about the Project)
 
-*Here are some tips to write a good report:*
+This project is built with a functional server-client model. The client will not function by itself. 
 
-* *Try to summarise and list the `bullet points` of your project as many as possible rather than give long, tedious paragraphs that mix up everything together.*
+Due to the limitation that the project must be included in one git repository, the server is included together with the client, which the team believe should be in seperated project. 
 
-* *Try to create `diagrams` instead of text descriptions, which are more straightforward and explanatory.*
+The server is an executable java class named [FakeServer.java](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) which is used to communicate with the client. 
 
-* *Try to make your report `well structured`, which is easier for the reviewers to capture the necessary information.*
+All functions of the app will run on the server and the client itself only send and receive messages then display them. 
 
-*We give instructions enclosed in square brackets [...] and examples for each sections to demonstrate what are expected for your project report.*
+**Though the android studio does not allow the server to run before the android client initialized, otherwise exception will occur.**
+![Figure 1](./ReportStuff/1.PNG)
+Thus, for marking and testing our app, a general step tutorial is provided below: 
 
-*Please remove the instructions or examples in `italic` in your final report.*
+- [Step 1] Run the app in the android studio and do not attempt any function. 
+![Figure 2](./ReportStuff/2.PNG)
+- [Step 2] Run the server file and wait till these message appear in the console. 
+![Figure 3](./ReportStuff/3.PNG)
+![Figure 4](./ReportStuff/4.PNG)
+- [Step 3] Start interact with the android client. 
+
+**Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
 
 ## Table of Contents
 
