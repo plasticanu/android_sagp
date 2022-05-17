@@ -7,7 +7,12 @@
         <FirstName>First1</FirstName>
         <LastName>Last1</LastName>
         <PhoneNumber>123456789</PhoneNumber>
-        <Notifications/>
+        <Notifications>
+            <Notification>Update on post you followed:00002668</Notification>
+            <Notification>Update on post you followed:00002668</Notification>
+            <Notification>Update on post you followed:00002668</Notification>
+            <Notification>Update on post you followed:00002668</Notification>
+        </Notifications>
         <PublicProfile>true</PublicProfile>
     </User>
     <User>

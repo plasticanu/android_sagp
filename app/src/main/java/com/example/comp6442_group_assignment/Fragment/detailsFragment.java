@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.Comment;
 import com.example.comp6442_group_assignment.MainActivity;
@@ -97,7 +98,7 @@ public class detailsFragment extends Fragment {
                 ListView details_comments;
                 List<Comment> comments = post.getComments();
                 ArrayList<String> comments_String = new ArrayList<>();
-                ImageButton details_delete;
+                ImageButton details_delete,details_edit;
 
 
                 details_user = getActivity().findViewById(R.id.details_user);
@@ -146,6 +147,40 @@ public class detailsFragment extends Fragment {
                 }else{
 //                    details_delete.setEnabled(false);
                     details_delete.setVisibility(View.GONE);
+                }
+
+                details_edit = getActivity().findViewById(R.id.button_edit_post);
+                if(post.getAuthor().compareTo(loginFragment.loggedUsername)==0){
+                    details_edit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            int postId = Integer.parseInt(post.getPostId());
+                            String postContent = post.getContent();
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("postId",postId);
+                            bundle.putString("postContent",postContent);
+                            getParentFragmentManager().setFragmentResult("editForm1",bundle);
+
+                            ((MainActivity) getActivity()).replaceFragment(new editFragment());
+
+//
+//                            System.out.println(postId);
+//
+//                            homeFragment fragh = new homeFragment();
+//                            fragh.findFromRecyclerView(postId);
+////
+//                            AsyncAction action = new AsyncAction();
+//                            homeFragment.cmd = "ep " +post.getPostId()+" "+;
+//                            action.execute(homeFragment.cmd);
+//
+//                            ((MainActivity) getActivity()).replaceFragment(new homeFragment());
+                        }
+                    });
+
+
+                }else{
+//                    details_delete.setEnabled(false);
+                    details_edit.setVisibility(View.GONE);
                 }
 
 

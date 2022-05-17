@@ -200,14 +200,11 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
      */
     public List<Post> setupPost(String response){
         List<Post> pModels = new ArrayList<>();
-//        String regexC = "(?![^)(]*\\([^)(]*?\\)\\)),(?![^\\[]*\\])";
-//        String regexC = "\\s*,\\s*(?=(?:(?:(?:[^']|\\b'\\b)*'){2})*(?:[^']|\\b'\\b)*$)";
+
         String regexC = "(?![^)(]*\\([^)(]*?\\)\\))\\|(?![^\\[]*\\])";
         String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
         String regexCC = "(,)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
-//        String str = "hms;Post{postId='00000001', content='This is a test post', author='user1', likes=[user1,user2,user6], createTime='2020-01-01', comments=[Comment{content='comment1', author='user1', time='2020-01-01'}, Comment{content='comment2', author='user2', time='2020-01-02'}]};Post{postId='00000002', content='This is a test post', author='user1', likes=[], createTime='2020-01-01', comments=[]};Post{postId='00000003', content='This is a test post', author='user2', likes=[user1, user2], createTime='2020-01-01', comments=[]};Post{postId='00000004', content='This is a test post', author='user3', likes=[], createTime='2020-01-01', comments=[]};Post{postId='00000005', content='This is a test post', author='user1', likes=[], createTime='2020-01-01', comments=[]};Post{postId='00000006', content='This is a test post', author='user1', likes=[], createTime='2020-01-01', comments=[]}";
         String str = response;
-//        String str = "hms;Post{postId='00000525', content='the other Thanes, and Soldiers.|          MALCOLM. I would the friends we miss were safe arrived.|          SIWARD. Some must go off, and yet, by these I see,|            So great a day as this is cheaply bought.|          MALCOLM. Macduff is missing, and your noble son.|        ', author='user3', likes=[], createTime='2022-05-13T23:57:52.660341500', comments=[], observers=[user3]}";
         String[] newStr = str.split(";");
         for(int i = 1;i<newStr.length;i++){
 
@@ -319,6 +316,18 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         postModels.add(0,post);
         adapter.notifyItemInserted(0);
     }
+
+    public void updateEditRecyclerView(int postId, String editContent){
+
+        for (int i = 0; i < postModels.size(); i++) {
+            if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
+                postModels.get(i).setContent(editContent);
+                adapter.notifyItemChanged(i);
+            }
+        }
+
+    }
+
 
     @Override
     public void onItemClick(int position) {

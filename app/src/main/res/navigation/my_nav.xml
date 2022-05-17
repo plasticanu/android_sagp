@@ -45,4 +45,9 @@
         android:name="com.example.comp6442_group_assignment.Fragment.registerFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.comp6442_group_assignment.Fragment.editFragment"
+        android:label="fragment_edit"
+        tools:layout="@layout/fragment_edit" />
 </navigation>
