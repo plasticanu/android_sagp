@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -135,7 +136,6 @@ public class StateFunctionTest {
         assertFalse(userSession.isLoggedIn);
         assertNull(userSession.user);
     }
-    //TODO: to complete this as much as possible, and the other test cases.
 
     @Test
     public void testCreatePost() throws ParserConfigurationException, IOException, SAXException {
@@ -153,9 +153,12 @@ public class StateFunctionTest {
         assertEquals("user1", postCreated.getAuthor());
         assertEquals("test post", postCreated.getContent());
 
+        // test delete post
         assertTrue(userSession.deletePost(postCreated.getPostId()));
+        assertFalse(Post.exists(postCreated.getPostId()));
         assertFalse(userSession.deletePost(postCreated.getPostId()));
     }
+
 
     @Test
     public void testUpdatePost() throws ParserConfigurationException, IOException, SAXException {
@@ -195,7 +198,6 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), commetedPost.getComments().get(0).getAuthor());
 
         // test follow and unfollow post
-        assertFalse(userSession.followPost(postCreated.getPostId())); // test follow own post
         assertTrue(userSession.followPost(otherPost.getPostId()));
         assertFalse(userSession.followPost(otherPost.getPostId())); // test follow followed post
         assertFalse(userSession.followPost("00002669")); // test follow post that doesn't exist
@@ -207,8 +209,39 @@ public class StateFunctionTest {
         assertEquals(0, unfollowedPost.getObservers().size());
         assertFalse(userSession.unfollowPost(otherPost.getPostId())); // test unfollow unfollowed post
 
+        userSession.deletePost(postCreated.getPostId());
+    }
 
-        userSession.clearNotifications();
+    @Test
+    public void testNotification() throws ParserConfigurationException, IOException, SAXException {
+        userSession = new UserSession();
+        userSession.login("user1", "qwerty");
+
+        // test comment notification
+        userSession.createPost("test post");
+        Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
+        userSession.commentPost(postCreated.getPostId(), "commented");
+        List<String> notifications = userSession.updateNotifications();
+        List<User> users = User.readUsers();
+        assertEquals(notifications, users.get(0).getNotifications());
+
+        // test like notification
+        UserSession otherUserSession = new UserSession();
+        otherUserSession.login("user3", "qwerty");
+        otherUserSession.likePost(postCreated.getPostId());
+        notifications = userSession.updateNotifications();
+        users = User.readUsers();
+        assertEquals(notifications, users.get(0).getNotifications());
+
+        // test follow notification
+        otherUserSession.followPost(postCreated.getPostId());
+        notifications = userSession.updateNotifications();
+        users = User.readUsers();
+        assertEquals(notifications, users.get(0).getNotifications());
+
+        // test clear notification
+        assertTrue(userSession.clearNotifications());
+
         userSession.deletePost(postCreated.getPostId());
     }
 

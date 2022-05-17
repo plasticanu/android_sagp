@@ -87,6 +87,44 @@ public class AVLTreeTest {
     }
 
     @Test
+    public void deleteTest() {
+        // test simple delete
+        avl.tree = avl.insert(avl.tree, 1);
+        avl.tree = avl.insert(avl.tree, 2);
+        avl.tree = avl.insert(avl.tree, 3);
+        avl.tree = avl.delete(avl.tree, 1);
+        assertNull(avl.tree.getLeft());
+        avl.tree = avl.delete(avl.tree, 3);
+        assertNull(avl.tree.getRight());
+        avl.tree = avl.delete(avl.tree, 2);
+        assertNull(avl.tree);
+
+        avl = new AVLTree<>();
+        // test delete parent node
+        avl.tree = avl.insert(avl.tree, 1);
+        avl.tree = avl.insert(avl.tree, 2);
+        avl.tree = avl.insert(avl.tree, 3);
+        avl.tree = avl.delete(avl.tree, 2);
+        assertEquals(3, (int) avl.tree.getData());
+        assertEquals(1, (int) avl.tree.getLeft().getData());
+
+        // test complicated delete
+        avl = new AVLTree<>();
+        avl.tree = avl.insert(avl.tree, 3);
+        avl.tree = avl.insert(avl.tree, 4);
+        avl.tree = avl.insert(avl.tree, 8);
+        avl.tree = avl.insert(avl.tree, 14);
+        avl.tree = avl.insert(avl.tree, 10);
+        avl.tree = avl.insert(avl.tree, 2);
+        avl.tree = avl.delete(avl.tree, 3);
+        assertNull(avl.findNode(avl.tree, 3));
+        assertNotNull(avl.findNode(avl.tree, 14));
+        avl.tree = avl.delete(avl.tree, 14);
+        assertNull(avl.findNode(avl.tree, 14));
+        assertNotNull(avl.findNode(avl.tree, 8));
+    }
+
+    @Test
     public void insertWithPostIDTest() {
         avl.tree = avl.insert(avl.tree, 1);
         avl.tree = avl.insert(avl.tree, 2);
@@ -98,15 +136,6 @@ public class AVLTreeTest {
         assertEquals("30", avl.tree.postID.get(0));
         assertEquals("40", avl.tree.postID.get(1));
         assertEquals("25", avl.tree.getRight().postID.get(0));
-    }
-
-    @Test
-    public void delete(){
-        avl.tree = avl.insert(avl.tree, 2);
-        avl.tree = avl.insert(avl.tree, 1);
-        avl.tree = avl.insert(avl.tree, 3);
-        avl.tree = avl.delete(avl.tree, 2);
-        System.out.println(avl.tree);
     }
 
 }
