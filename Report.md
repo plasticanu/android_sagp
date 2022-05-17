@@ -1,4 +1,4 @@
-# [Team 70's ANU Courtyard App] Report
+# [Team pi ANU Courtyard App] Report
 
 ## Foreword (Critical Information about the Project)
 
@@ -23,6 +23,8 @@ Thus, for marking and testing our app, a general step tutorial is provided below
 
 **Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
 
+// FIXME: u7055573
+
 ## Table of Contents
 
 1. [Team Members and Roles](#team-members-and-roles)
@@ -40,7 +42,7 @@ Thus, for marking and testing our app, a general step tutorial is provided below
 
 | UID | Name | Role |
 | :--- | :----: | ---: |
-| u7294212 | Peicheng | Team Leader & Backend lead coder |
+| u7294212 | Peicheng Liu | Team Leader & Backend lead coder |
 | u7055573 | Jiyuan Chen | UI design & Frontend coder |
 | u7139999 | Zhidong Piao | Backend co-coder & Search function coder |
 | u7297753 | Jun Cheng Zhang | Tester |
@@ -138,7 +140,8 @@ In year 2022, most social communication methods are filled with advertisements o
 * Chad is an ANU Master graduated alumni that has been working in Microsoft for 4 years. He occasionally posts some work experience and memory of studying at ANU onto the ANU Courtyard App. 
 * Pleb finds that the posts from Chad is very insightful and would like to know more about the Master's study life and the work life of a Master's graduate. So he chooses to comment under Chad's posts asking questions. 
 * Chad receives notification occasionally from Pleb and willing to provide more experience to this young man, so he posted more comments describing his life. 
-* After being acknowledged the daily life of a Master's alumni, Pleb thinks that he is still young and has the energy to finish a Master's Degree. Then he firmed up the belief and continued his study. 
+* After being acknowledged the daily life of a Master's alumni, Pleb thinks that he is still young and has the energy to finish a Master's Degree. Then he firmed up the belief and continued his study.
+// FIXME: u7055573
 
 *Target audience of the app:*
 * ANU students
