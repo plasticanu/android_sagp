@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Node<T>{
     private T data;
     // Used for comparing object
-    private final int key;
+    private int key;
     public ArrayList<String> postID = new ArrayList<>();
     int height;
     private Node<T> left;
@@ -72,6 +72,10 @@ public class Node<T>{
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 
     @NonNull

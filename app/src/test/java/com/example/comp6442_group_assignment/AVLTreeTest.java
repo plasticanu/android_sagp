@@ -122,6 +122,15 @@ public class AVLTreeTest {
         avl.tree = avl.delete(avl.tree, 14);
         assertNull(avl.findNode(avl.tree, 14));
         assertNotNull(avl.findNode(avl.tree, 8));
+
+        avl = new AVLTree<>();
+        // test delete parent node
+        avl.tree = avl.insert(avl.tree, 1);
+        avl.tree = avl.insert(avl.tree, 2);
+        avl.tree = avl.insert(avl.tree, 3);
+        avl.tree = avl.delete(avl.tree, 2);
+        assertNull(avl.findNode(avl.tree, 2));
+        assertEquals(3, (int) avl.tree.getData());
     }
 
     @Test

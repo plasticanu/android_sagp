@@ -138,6 +138,7 @@ public class AVLTree<T> {
         else if(e.hashCode() > n.getKey())
             n.setRight(delete(n.getRight(), e));
         else{
+            // one child is null
             if((n.getLeft() == null) || (n.getRight() == null)){
                 Node<T> res = null;
                 if(n.getLeft() == null){
@@ -146,6 +147,7 @@ public class AVLTree<T> {
                 else {
                     res = n.getLeft();
                 }
+                // two children are null
                 if(res == null){
                     res = n;
                     n = null;
@@ -159,7 +161,7 @@ public class AVLTree<T> {
             else{
                 Node<T> temp = min(n.getRight());
                 n.setData(temp.getData());
-
+                n.setKey(temp.getKey());
                 n.setRight(delete(n.getRight(), temp.getData()));
             }
 
