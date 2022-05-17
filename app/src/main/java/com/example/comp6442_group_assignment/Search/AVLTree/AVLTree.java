@@ -133,7 +133,6 @@ public class AVLTree<T> {
             n.setLeft(delete(n.getLeft(), e));
         else if(e.hashCode() > n.getKey())
             n.setRight(delete(n.getRight(), e));
-        // Case: needs rotation
         else{
             if((n.getLeft() == null) || (n.getRight() == null)){
                 Node<T> res = null;
@@ -142,14 +141,15 @@ public class AVLTree<T> {
                 }
                 else {
                     res = n.getLeft();
-                    if(res == null){
-                        res = n;
-                        n = null;
-                    }
-                    else{
-                        n = res;
-                    }
                 }
+                if(res == null){
+                    res = n;
+                    n = null;
+                }
+                else{
+                    n = res;
+                }
+
             }
             // two children
             else{

@@ -100,4 +100,13 @@ public class AVLTreeTest {
         assertEquals("25", avl.tree.getRight().postID.get(0));
     }
 
+    @Test
+    public void delete(){
+        avl.tree = avl.insert(avl.tree, 2);
+        avl.tree = avl.insert(avl.tree, 1);
+        avl.tree = avl.insert(avl.tree, 3);
+        avl.tree = avl.delete(avl.tree, 2);
+        System.out.println(avl.tree);
+    }
+
 }
