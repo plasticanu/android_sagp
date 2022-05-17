@@ -1,9 +1,5 @@
 package com.example.comp6442_group_assignment.Search.AVLTree;
 
-import com.example.comp6442_group_assignment.Post;
-
-import java.util.ArrayList;
-
 /**
  * AVLTree implementation, not immutable.
  * @Author Zhidong Piao u7139999
