@@ -1,21 +1,23 @@
 package com.example.comp6442_group_assignment;
 
+import static com.example.comp6442_group_assignment.Post.writeXml;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import static com.example.comp6442_group_assignment.Post.writeXml;
 
 /**
  * User class. This class is used to store the user information. It includes methods that read and write the user
@@ -373,7 +375,7 @@ public class User implements Observer {
      * @throws IOException
      * @throws SAXException
      */
-    public static boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
+    public static boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber, boolean publicProfile) throws ParserConfigurationException, IOException, SAXException {
         if (!isRegistered(userName)) {
             System.out.println("User not found");
             return false;
@@ -386,6 +388,7 @@ public class User implements Observer {
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
                     user.setPhoneNumber(phoneNumber);
+                    user.setPublicProfile(publicProfile);
                     break;
                 }
             }
@@ -453,10 +456,14 @@ public class User implements Observer {
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        List<User> users = readUsers();
-        for (User user : users) {
-            System.out.println(user.getUserName());
-        }
+        List<User> users;
+        users = readUsers();
+//        UserSession userSession = new UserSession();
+//        userSession.login("user1", "qwerty");
+//        userSession.createPost("test post");
+//        Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
+//        userSession.commentPost(postCreated.getPostId(), "commented");
+        System.out.println(users.get(0).getNotifications().size());
     }
 
 

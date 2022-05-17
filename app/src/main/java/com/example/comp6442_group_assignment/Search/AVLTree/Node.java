@@ -10,13 +10,13 @@ import java.util.ArrayList;
  * @param <T>
  */
 public class Node<T>{
-    public T data;
+    private T data;
     // Used for comparing object
-    public int key;
+    private int key;
     public ArrayList<String> postID = new ArrayList<>();
     int height;
-    Node<T> left;
-    Node<T> right;
+    private Node<T> left;
+    private Node<T> right;
 
 
     public Node(T element){
@@ -64,6 +64,18 @@ public class Node<T>{
     }
     public void setRight(Node<T> right) {
         this.right = right;
+    }
+
+    public void setPostID(ArrayList<String> postID) {
+        this.postID = postID;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 
     @NonNull

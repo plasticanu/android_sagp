@@ -109,7 +109,7 @@ public class GuestState extends UserState {
     }
 
     @Override
-    public boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber) {
+    public boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber, boolean publicProfile) {
         System.out.println("Guest cannot update account.");
         return false;
     }

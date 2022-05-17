@@ -484,7 +484,7 @@ public class FakeServer {
                     System.out.println("Profile request");
                     User user_pf = userSession.profile();
                     if (user_pf != null) {
-                        response = "pfs;" + user_pf.getUserName() + ";" + user_pf.getFirstName() + ";" + user_pf.getLastName() + ";" + user_pf.getEmail() + ";" + user_pf.getPhoneNumber();
+                        response = "pfs;" + user_pf.getUserName() + ";" + user_pf.getFirstName() + ";" + user_pf.getLastName() + ";" + user_pf.getEmail() + ";" + user_pf.getPhoneNumber() + ";" + user_pf.isPublicProfile();
                     } else {
                         response = "pff;Profile Failed.Not logged in. ";
                     }
@@ -529,8 +529,9 @@ public class FakeServer {
                     String FirstName_ua = tokens_ua[4];
                     String LastName_ua = tokens_ua[5];
                     String PhoneNumber_ua = tokens_ua[6];
-                    if (userSession.updateProfile(userName_ua, password_ua, email_ua, FirstName_ua, LastName_ua, PhoneNumber_ua)) {
-                        response = "uas;" + userName_ua + ";" + FirstName_ua + ";" + LastName_ua + ";" + email_ua + ";" + PhoneNumber_ua;
+                    boolean publicProfile_ua = Boolean.parseBoolean(tokens_ua[7]);
+                    if (userSession.updateProfile(userName_ua, password_ua, email_ua, FirstName_ua, LastName_ua, PhoneNumber_ua, publicProfile_ua)) {
+                        response = "uas;" + userName_ua + ";" + FirstName_ua + ";" + LastName_ua + ";" + email_ua + ";" + PhoneNumber_ua + ";" + publicProfile_ua;
                     } else {
                         response = "uaf;Update Account Failed.Not logged in or user not exists. ";
                     }

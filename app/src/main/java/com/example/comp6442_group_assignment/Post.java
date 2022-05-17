@@ -1,11 +1,20 @@
 package com.example.comp6442_group_assignment;
 
 import android.annotation.SuppressLint;
+
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,10 +25,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Post class. This class is used to store the post information. It includes methods that read and write the user
@@ -173,12 +178,12 @@ public class Post implements Subject, Serializable{
     public String toString() {
         return "Post{" +
                 "postId='" + postId + '\'' +
-                ", content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", likes=" + likes +
-                ", createTime='" + createTime + '\'' +
-                ", comments=" + comments +
-                ", observers=" + observers +
+                "| content='" + content + '\'' +
+                "| author='" + author + '\'' +
+                "| likes=" + likes +
+                "| createTime='" + createTime + '\'' +
+                "| comments=" + comments +
+                "| observers=" + observers +
                 '}';
     }
 
@@ -604,9 +609,7 @@ public class Post implements Subject, Serializable{
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         List<Post> posts = readFromPost();
-        for (Post post : posts) {
-            System.out.println(post);
-        }
+        System.out.println(posts.get(20).getPostId());
     }
 
 }

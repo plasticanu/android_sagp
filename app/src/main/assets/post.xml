@@ -3,7 +3,7 @@
     <Post>
         <PostId>00000000</PostId>
         <Content>This is the very first content of the app. </Content>
-        <Author>user1</Author>
+        <Author>user2</Author>
         <Likes/>
         <CreateTime>2022-05-13T05:35:59.211392500</CreateTime>
         <Comments/>
