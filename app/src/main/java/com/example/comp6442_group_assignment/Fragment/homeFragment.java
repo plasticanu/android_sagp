@@ -105,7 +105,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
     public static String itemId;
     public static int loadedNum;
-
+    public static int lastVisitPosition;
 
 
     @Override
@@ -157,6 +157,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
     public void onPause() {
         super.onPause();
 
+        lastVisitPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
         System.out.println("State pause...");
     }
 
@@ -179,6 +180,9 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             System.out.println("post model is not null on resume");
             setupRecyclerView();
             adapter.notifyDataSetChanged();
+            adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
+            ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(lastVisitPosition);
+
         }
 
     }
@@ -317,10 +321,21 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             public void onLoadMore(int position) {
                 Toast.makeText(getActivity(), "Load More!", Toast.LENGTH_SHORT).show();
                 AsyncAction action = new AsyncAction();
+                lastVisitPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
                 cmd = "hm "+String.valueOf(loadedNum);
                 action.execute(cmd);
                 loadedNum+=10;
+            }
+            /**
+             * An override method for a custom RecyclerViewInterface.
+             * When user click go top, the RecyclerView will change scroll
+             * to the top.
+             * @Author Jiyuan Chen u7055573
+             */
+            @Override
+            public void onGoTop(int position) {
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(0);
             }
         });
 //        adapter.setStateRestorationPolicy(recyclerView.getAdapter().setStateRestorationPolicy());
@@ -405,6 +420,11 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
     }
 
+    @Override
+    public void onGoTop(int position) {
+
+    }
+
     /**
      * An AsyncTask class, used to make connection and,
      * communicate with server.
@@ -461,12 +481,15 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                 if(postModels== null){
                     postModels= setupPost(result);
                 }else if(postModels != null){
+
                     List<Post> tempList = setupPost(result);
                     for(int i =0; i<tempList.size();i++){
                         postModels.add(tempList.get(i));
                     }
                 }
                 setupRecyclerView();
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(lastVisitPosition);
+
             }else if (cmd.substring(0,2).compareTo("lp")==0){
                 if (result.substring(0,3).compareTo("lps")==0) {
 

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
@@ -49,6 +50,7 @@ public class detailsFragment extends Fragment {
     private String mParam2;
 
     private Post currentPost;
+    private Post post;
     public detailsFragment() {
         // Required empty public constructor
     }
@@ -74,12 +76,139 @@ public class detailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if(savedInstanceState!=null){
+            post = (Post) savedInstanceState.getSerializable("saved");
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("saved",post);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (post != null){
+            saveState(post);
+        }
+
+    }
+
+    /**
+     * A method handle the details fragment.
+     * It gets bundle passed from recyclerView Item.
+     * @Author Jiyuan Chen u7055573
+     */
+    private void saveState(Post post){
+        TextView details_user,details_date,details_content,details_like_count,details_commen_count;
+        ListView details_comments;
+        List<Comment> comments = post.getComments();
+        ArrayList<String> comments_String = new ArrayList<>();
+        ImageButton details_delete,details_edit;
+
+
+        details_user = getActivity().findViewById(R.id.details_user);
+        details_date = getActivity().findViewById(R.id.details_date);
+        details_content = getActivity().findViewById(R.id.details_content);
+        details_like_count = getActivity().findViewById(R.id.textView_like_count2);
+        details_commen_count = getActivity().findViewById(R.id.textView_comment_count2);
+        details_comments = getActivity().findViewById(R.id.details_comment);
+        details_user.setText(post.getAuthor());
+        details_date.setText((post.getCreateTime()));
+        details_content.setText(post.getContent());
+        details_like_count.setText(String.valueOf(post.getLikes().size()));
+        details_commen_count.setText(String.valueOf(post.getComments().size()));
+
+        for(int i = 0;i<comments.size();i++){
+            comments_String.add(comments.get(i).toString());
+        }
+        ArrayAdapter<String> commentAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                comments_String);
+        details_comments.setAdapter(commentAdapter);
+
+
+        //Handle the post deletion, User can only delete post that created by user self.
+        details_delete = getActivity().findViewById(R.id.button_delete_post);
+        if(post.getAuthor().compareTo(loginFragment.loggedUsername)==0){
+            details_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int postId = Integer.parseInt(post.getPostId());
+
+                    System.out.println(postId);
+
+                    homeFragment fragh = new homeFragment();
+                    fragh.updateRemovedRecyclerView(postId);
+
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "dp " +post.getPostId();
+                    action.execute(homeFragment.cmd);
+
+                    ((MainActivity) getActivity()).replaceFragment(new homeFragment());
+                }
+            });
+
+
+        }else{
+//                    details_delete.setEnabled(false);
+            details_delete.setVisibility(View.GONE);
+        }
+
+        //edit button only visible to post's author
+        details_edit = getActivity().findViewById(R.id.button_edit_post);
+        if(post.getAuthor().compareTo(loginFragment.loggedUsername)==0){
+            details_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int postId = Integer.parseInt(post.getPostId());
+                    String postContent = post.getContent();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("postId",postId);
+                    bundle.putString("postContent",postContent);
+                    getParentFragmentManager().setFragmentResult("editForm1",bundle);
+
+                    ((MainActivity) getActivity()).replaceFragment(new editFragment());
+
+                }
+            });
+
+
+        }else{
+            details_edit.setVisibility(View.GONE);
+        }
+
+        //ImageButton for like post, to handle like post action.
+        ImageButton buttonLike = getActivity().findViewById(R.id.button_like2);
+        buttonLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(loginFragment.isLogged == true){
+                    Toast.makeText(getActivity(), "Like from user: "+loginFragment.loggedUsername, Toast.LENGTH_SHORT).show();
+
+                    String postId = post.getPostId();
+//                            String completedId = String.format("%08d",postId);
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "lp "+postId;
+                    action.execute(homeFragment.cmd);
+                    currentPost = post;
+//                            details_like_count.setText(String.valueOf(post.getLikes().size()));
+
+                }else{
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
     /**
      * A override onCreateView method handle the details fragment.
      * It gets bundle passed from recyclerView Item.
@@ -92,110 +221,9 @@ public class detailsFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("dataForm1", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                Post post = (Post) result.getSerializable("post");
+                post = (Post) result.getSerializable("post");
 
-                //receive information from the bundle.
-                TextView details_user,details_date,details_content,details_like_count,details_commen_count;
-                ListView details_comments;
-                List<Comment> comments = post.getComments();
-                ArrayList<String> comments_String = new ArrayList<>();
-                ImageButton details_delete,details_edit;
-
-
-                details_user = getActivity().findViewById(R.id.details_user);
-                details_date = getActivity().findViewById(R.id.details_date);
-                details_content = getActivity().findViewById(R.id.details_content);
-                details_like_count = getActivity().findViewById(R.id.textView_like_count2);
-                details_commen_count = getActivity().findViewById(R.id.textView_comment_count2);
-                details_comments = getActivity().findViewById(R.id.details_comment);
-                details_user.setText(post.getAuthor());
-                details_date.setText((post.getCreateTime()));
-                details_content.setText(post.getContent());
-                details_like_count.setText(String.valueOf(post.getLikes().size()));
-                details_commen_count.setText(String.valueOf(post.getComments().size()));
-
-                for(int i = 0;i<comments.size();i++){
-                    comments_String.add(comments.get(i).toString());
-                }
-                ArrayAdapter<String> commentAdapter = new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_list_item_1,
-                        comments_String);
-                details_comments.setAdapter(commentAdapter);
-
-
-                //Handle the post deletion, User can only delete post that created by user self.
-                details_delete = getActivity().findViewById(R.id.button_delete_post);
-                if(post.getAuthor().compareTo(loginFragment.loggedUsername)==0){
-                    details_delete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            int postId = Integer.parseInt(post.getPostId());
-
-                            System.out.println(postId);
-
-                            homeFragment fragh = new homeFragment();
-                            fragh.updateRemovedRecyclerView(postId);
-
-                            AsyncAction action = new AsyncAction();
-                            homeFragment.cmd = "dp " +post.getPostId();
-                            action.execute(homeFragment.cmd);
-
-                            ((MainActivity) getActivity()).replaceFragment(new homeFragment());
-                        }
-                    });
-
-
-                }else{
-//                    details_delete.setEnabled(false);
-                    details_delete.setVisibility(View.GONE);
-                }
-
-                //edit button only visible to post's author
-                details_edit = getActivity().findViewById(R.id.button_edit_post);
-                if(post.getAuthor().compareTo(loginFragment.loggedUsername)==0){
-                    details_edit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            int postId = Integer.parseInt(post.getPostId());
-                            String postContent = post.getContent();
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("postId",postId);
-                            bundle.putString("postContent",postContent);
-                            getParentFragmentManager().setFragmentResult("editForm1",bundle);
-
-                            ((MainActivity) getActivity()).replaceFragment(new editFragment());
-
-                        }
-                    });
-
-
-                }else{
-                    details_edit.setVisibility(View.GONE);
-                }
-
-                //ImageButton for like post, to handle like post action.
-                ImageButton buttonLike = getActivity().findViewById(R.id.button_like2);
-                buttonLike.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(loginFragment.isLogged == true){
-                            Toast.makeText(getActivity(), "Like from user: "+loginFragment.loggedUsername, Toast.LENGTH_SHORT).show();
-
-                            String postId = post.getPostId();
-//                            String completedId = String.format("%08d",postId);
-                            AsyncAction action = new AsyncAction();
-                            homeFragment.cmd = "lp "+postId;
-                            action.execute(homeFragment.cmd);
-                            currentPost = post;
-//                            details_like_count.setText(String.valueOf(post.getLikes().size()));
-
-                        }else{
-                            Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
+                saveState(post);
 
             }
         });

@@ -7,4 +7,6 @@ public interface RecyclerViewInterface {
     void onLikeClick(int position);
     //used to perform load more event
     void onLoadMore(int position);
+    //user to perform go to the top
+    void onGoTop(int position);
 }

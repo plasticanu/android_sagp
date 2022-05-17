@@ -78,7 +78,7 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
 
         TextView tvAuthor,tvDate,tvContent,tvLike,tvComment;
         ImageButton likeButton;
-        Button button;
+        Button button,buttonGoTop;
         public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
@@ -115,8 +115,10 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
                 });
             }
 
+            //Button for loadMore
             button = itemView.findViewById(R.id.button_load_more);
-            if(button!=null) {
+            buttonGoTop = itemView.findViewById(R.id.button_go_top);
+            if(button!=null && buttonGoTop!=null) {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -124,6 +126,18 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
                             int pos = getAdapterPosition();
                             if (pos != RecyclerView.NO_POSITION) {
                                 recyclerViewInterface.onLoadMore(pos);
+                            }
+                        }
+                    }
+                });
+                //button for Gotop.
+                buttonGoTop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (recyclerViewInterface != null) {
+                            int pos = getAdapterPosition();
+                            if (pos != RecyclerView.NO_POSITION) {
+                                recyclerViewInterface.onGoTop(pos);
                             }
                         }
                     }
