@@ -103,8 +103,8 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
     private static SwipeRefreshLayout swipeRefreshLayout;
     private static boolean isInitial = false;
 
-
-
+    public static String itemId;
+    public static int loadedNum;
 
 
 
@@ -142,10 +142,8 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                AsyncAction action = new AsyncAction();
-                cmd = "hm 10";
-                action.execute(cmd);
 
+                setupRecyclerView();
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
 
@@ -176,9 +174,11 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             AsyncAction action = new AsyncAction();
             cmd = "hm 0";
             action.execute(cmd);
+            loadedNum = 10;
         }else{
             System.out.println("post model is not null on resume");
             setupRecyclerView();
+            adapter.notifyDataSetChanged();
         }
 
     }
@@ -265,25 +265,62 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         //custom recyclerView adapter.
         //This onItemClick used to pass bundle to details page.
         adapter = new Post_RecyclerViewAdapter(getActivity(), postModels, new RecyclerViewInterface() {
+            /**
+             * An override method for a custom RecyclerViewInterface.
+             * Used to handle the onItemClick for recyclerView Items.
+             * User will be redirect to details fragment.
+             * @Author Jiyuan Chen u7055573
+             */
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(getActivity(), "Item clicked!", Toast.LENGTH_SHORT).show();
                 ((MainActivity) getActivity()).replaceFragment(new detailsFragment());
                 Bundle bundle = new Bundle();
                 Post post = postModels.get(position);
                 bundle.putSerializable("post",post);
                 getParentFragmentManager().setFragmentResult("dataForm1",bundle);
             }
-
+            /**
+             * An override method for a custom RecyclerViewInterface.
+             * when user clicks the like button in recyclerView item.
+             * user will request a like post action. user can like the post,
+             * if user is logged in, user is not liking owned post and user has not
+             * already liked the post.
+             * @Author Jiyuan Chen u7055573
+             */
             @Override
             public void onLikeClick(int position) {
-                Toast.makeText(getActivity(), "Like from user: "+loginFragment.loggedUsername, Toast.LENGTH_SHORT).show();
+                if(loginFragment.isLogged == true){
+                    Toast.makeText(getActivity(), "Like from user: "+loginFragment.loggedUsername, Toast.LENGTH_SHORT).show();
 
-                Post post = postModels.get(position);
-                String postId = post.getPostId();
+                    Post post = postModels.get(position);
+                    itemId = post.getPostId();
+                    String postId = post.getPostId();
+                    AsyncAction action = new AsyncAction();
+                    cmd = "lp "+postId;
+                    action.execute(cmd);
+                }else{
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            /**
+             * An override method for a custom RecyclerViewInterface.
+             * when you click the button at the end of recyclerView,
+             * client will request 10 older posts from server, then added it
+             * to the end of exist recyclerView. Then update the variable
+             * loadedNum by 10. Which means next time you click the loadMore Button,
+             * user will get 10 posts that older than previous 10 old posts.
+             * @Author Jiyuan Chen u7055573
+             */
+            @Override
+            public void onLoadMore(int position) {
+                Toast.makeText(getActivity(), "Load More!", Toast.LENGTH_SHORT).show();
                 AsyncAction action = new AsyncAction();
-                cmd = "lp "+postId;
+
+                cmd = "hm "+String.valueOf(loadedNum);
                 action.execute(cmd);
+                loadedNum+=10;
             }
         });
 //        adapter.setStateRestorationPolicy(recyclerView.getAdapter().setStateRestorationPolicy());
@@ -292,7 +329,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -336,6 +373,21 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         }
 
     }
+    /**
+     * Use to update like post to the local environment.
+     * It will be called once the post has been liked from the server end.
+     * @Author Jiyuan Chen u7055573
+     */
+    public void updateLikeRecyclerView(int postId){
+
+        for (int i = 0; i < postModels.size(); i++) {
+            if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
+                postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                adapter.notifyItemChanged(i);
+            }
+        }
+
+    }
 
 
     @Override
@@ -345,6 +397,11 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onLikeClick(int position) {
+
+    }
+
+    @Override
+    public void onLoadMore(int position) {
 
     }
 
@@ -390,6 +447,11 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             return response;
         }
 
+        /**
+         * An override onPostExecute method, to handle like post or get post.
+         * And then update ui and local recyclerView.
+         * @Author Jiyuan Chen u7055573
+         */
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
 
@@ -403,11 +465,14 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                     for(int i =0; i<tempList.size();i++){
                         postModels.add(tempList.get(i));
                     }
-
                 }
                 setupRecyclerView();
             }else if (cmd.substring(0,2).compareTo("lp")==0){
-                setupRecyclerView();
+                if (result.substring(0,3).compareTo("lps")==0) {
+
+                    updateLikeRecyclerView(Integer.parseInt(itemId));
+
+                }
             }
         }
     }

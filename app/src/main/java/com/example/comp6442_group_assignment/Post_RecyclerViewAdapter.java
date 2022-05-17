@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -28,34 +31,58 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
     @NonNull
     @Override
     public Post_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_view_row,parent,false);
-        return new Post_RecyclerViewAdapter.MyViewHolder(view,recyclerViewInterface);
+
+        View itemView;
+
+        if(viewType == R.layout.recycler_view_row){
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_row, parent, false);
+        }
+
+        else {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_button, parent, false);
+        }
+        return new Post_RecyclerViewAdapter.MyViewHolder(itemView,recyclerViewInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Post_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.tvAuthor.setText(postModels.get(position).getAuthor());
-        holder.tvDate.setText(postModels.get(position).getCreateTime());
-        holder.tvContent.setText(postModels.get(position).getContent());
-        holder.tvLike.setText(String.valueOf(postModels.get(position).getLikes().size()));
-        holder.tvComment.setText(String.valueOf(postModels.get(position).getComments().size()));
+        if(position == postModels.size()) {
+
+        }
+        else {
+            holder.tvAuthor.setText(postModels.get(position).getAuthor());
+            holder.tvDate.setText(postModels.get(position).getCreateTime());
+            holder.tvContent.setText(postModels.get(position).getContent());
+            holder.tvLike.setText(String.valueOf(postModels.get(position).getLikes().size()));
+            holder.tvComment.setText(String.valueOf(postModels.get(position).getComments().size()));
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return postModels.size();
+        return postModels.size()+1;
+    }
+    public void update(List<Post> data){
+        this.postModels.clear();
+        this.postModels.addAll(data);
+        this.notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (position == postModels.size()) ? R.layout.recycler_view_button : R.layout.recycler_view_row;
+    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvAuthor,tvDate,tvContent,tvLike,tvComment;
         ImageButton likeButton;
-
+        Button button;
         public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
+
+
             tvAuthor = itemView.findViewById(R.id.textView_user);
             tvDate = itemView.findViewById(R.id.textView_date);
             tvContent = itemView.findViewById(R.id.textView_content);
@@ -65,26 +92,44 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(recyclerViewInterface!=null){
+                    if (recyclerViewInterface != null) {
                         int pos = getAdapterPosition();
-                        if(pos != RecyclerView.NO_POSITION){
+                        if (pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
                         }
                     }
                 }
             });
 
-            likeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recyclerViewInterface!=null){
-                        int pos = getAdapterPosition();
-                        if(pos != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onLikeClick(pos);
+            if(likeButton!=null) {
+                likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (recyclerViewInterface != null) {
+                            int pos = getAdapterPosition();
+                            if (pos != RecyclerView.NO_POSITION) {
+                                recyclerViewInterface.onLikeClick(pos);
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
+
+            button = itemView.findViewById(R.id.button_load_more);
+            if(button!=null) {
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (recyclerViewInterface != null) {
+                            int pos = getAdapterPosition();
+                            if (pos != RecyclerView.NO_POSITION) {
+                                recyclerViewInterface.onLoadMore(pos);
+                            }
+                        }
+                    }
+                });
+            }
+
         }
     }
 }

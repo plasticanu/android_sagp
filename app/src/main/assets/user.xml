@@ -16,13 +16,28 @@
         <PublicProfile>true</PublicProfile>
     </User>
     <User>
+        <UserName>user2</UserName>
+        <Password>qwerty</Password>
+        <Email>user3@mail.com</Email>
+        <FirstName>First2</FirstName>
+        <LastName>Last2</LastName>
+        <PhoneNumber>123456789</PhoneNumber>
+        <Notifications>
+            <Notification>Update on post you followed:00002670</Notification>
+            <Notification>Update on post you followed:00002672</Notification>
+        </Notifications>
+        <PublicProfile>false</PublicProfile>
+    </User>
+    <User>
         <UserName>user3</UserName>
         <Password>qwerty</Password>
         <Email>user3@mail.com</Email>
         <FirstName>First3</FirstName>
         <LastName>Last3</LastName>
         <PhoneNumber>123456789</PhoneNumber>
-        <Notifications/>
+        <Notifications>
+            <Notification>Update on post you followed:00002669</Notification>
+        </Notifications>
         <PublicProfile>false</PublicProfile>
     </User>
     <User>

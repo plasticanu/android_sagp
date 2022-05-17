@@ -5,4 +5,6 @@ public interface RecyclerViewInterface {
     void onItemClick(int position);
     //used to perform like post event
     void onLikeClick(int position);
+    //used to perform load more event
+    void onLoadMore(int position);
 }

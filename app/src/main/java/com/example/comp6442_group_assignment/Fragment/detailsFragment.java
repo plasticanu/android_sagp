@@ -48,6 +48,7 @@ public class detailsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Post currentPost;
     public detailsFragment() {
         // Required empty public constructor
     }
@@ -172,6 +173,28 @@ public class detailsFragment extends Fragment {
                     details_edit.setVisibility(View.GONE);
                 }
 
+                //ImageButton for like post, to handle like post action.
+                ImageButton buttonLike = getActivity().findViewById(R.id.button_like2);
+                buttonLike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(loginFragment.isLogged == true){
+                            Toast.makeText(getActivity(), "Like from user: "+loginFragment.loggedUsername, Toast.LENGTH_SHORT).show();
+
+                            String postId = post.getPostId();
+//                            String completedId = String.format("%08d",postId);
+                            AsyncAction action = new AsyncAction();
+                            homeFragment.cmd = "lp "+postId;
+                            action.execute(homeFragment.cmd);
+                            currentPost = post;
+//                            details_like_count.setText(String.valueOf(post.getLikes().size()));
+
+                        }else{
+                            Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
 
 
             }
@@ -223,10 +246,24 @@ public class detailsFragment extends Fragment {
             return response;
         }
 
+        /**
+         * An override onPostExecute method, to check if like post success
+         * update ui and local recyclerView.
+         * @Author Jiyuan Chen u7055573
+         */
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
             System.out.println(result);
+            if (result.substring(0,3).compareTo("lps")==0){
+                homeFragment fragh = new homeFragment();
+                fragh.updateLikeRecyclerView(Integer.parseInt(currentPost.getPostId()));
 
+                TextView details_like_count;
+                details_like_count = getActivity().findViewById(R.id.textView_like_count2);
+                int currentLikes = Integer.parseInt(details_like_count.getText().toString());
+                details_like_count.setText(String.valueOf(currentLikes+1));
+
+            }
         }
     }
 }
