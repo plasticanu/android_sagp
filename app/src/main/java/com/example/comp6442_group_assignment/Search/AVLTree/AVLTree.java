@@ -2,7 +2,11 @@ package com.example.comp6442_group_assignment.Search.AVLTree;
 
 import com.example.comp6442_group_assignment.Post;
 
+import org.apache.commons.text.similarity.FuzzyScore;
+import org.apache.commons.text.similarity.LevenshteinDistance;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * AVLTree implementation, not immutable.
@@ -207,5 +211,7 @@ public class AVLTree<T> {
             return findNode(n.getLeft(), e);
         }
     }
+
+
 
 }

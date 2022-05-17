@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.comp6442_group_assignment.Post;
 import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
+import com.example.comp6442_group_assignment.Search.AVLTree.Node;
 import com.example.comp6442_group_assignment.Search.Tags.Tag;
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchStringTokenizer;
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchToken;
@@ -44,7 +45,8 @@ public class Search {
         }
         return instance;
     }
-    private AVLTree<Post> postAVL = new AVLTree<>();
+    private AVLTree<String> contentAVL;
+    private AVLTree<Post> postAVL;
     private List<Post> allPosts = new ArrayList<>();
     private HashMap<Post, Integer> postsRank = new HashMap<>();
     // Percentage of error letters for a word allowed.
@@ -56,10 +58,16 @@ public class Search {
         allPosts = Post.readFromPost();
     }
 
-    private void insertPostToTree() throws ParserConfigurationException, IOException, SAXException {
+    private void insertPostToTree() {
         for (Post p : allPosts) {
             postAVL.tree = postAVL.insert(postAVL.tree, p);
+            SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
+            while(stt.hasNext()){
+                contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree,stt.getCurrentToken().getString(), p.getPostId());
+                stt.next();
+            }
         }
+
     }
 
     public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
@@ -82,7 +90,7 @@ public class Search {
             //if the exclude string input is not empty:
             if (!exclude.isEmpty()) {
                 // case: there is only a exclude tag and no input:
-                if(input.equals("") && exact.isEmpty()){
+                if (input.equals("") && exact.isEmpty()) {
                     onlyExcludeTag = 1;
                 }
                 // if there is any string matched to the content, skip the following code of postLoop
@@ -110,52 +118,46 @@ public class Search {
                     }
                 }
             }
-
-            // Rank the normal text input. Based on fuzzy score.
-            if (p.getContent().toLowerCase().contains(input.toLowerCase())) {
-                postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) + onlyExcludeTag);
-            } else {
-                LevenshteinDistance ld = new LevenshteinDistance();
-                SearchStringTokenizer inputT = new SearchStringTokenizer(input);
-                SearchStringTokenizer contentT = new SearchStringTokenizer(p.getContent());
-                float fuzzyScore = 0;
-
-                ArrayList<String> contentTokens = new ArrayList<>();
-                ArrayList<String> inputTokens = new ArrayList<>();
-
-                while(inputT.hasNext()){
-                    inputTokens.add(inputT.getCurrentToken().getString());
-                    inputT.next();
-                }
-                while(contentT.hasNext()){
-
-                    contentTokens.add(contentT.getCurrentToken().getString());
-                    contentT.next();
-                }
-
-                int correctInputCount = 0;
-                for(String i : inputTokens){
-                    for(String c: contentTokens){
-                        fuzzyScore = (float) ((float) ld.apply(c,i) / (float) Math.max(i.length(),c.length()));
-                        if(fuzzyScore*100 <= fuzzyExtent){
-                            correctInputCount ++;
-                            break;
-                        }
-                    }
-                }
-
-                if(correctInputCount == inputTokens.size()){
-                    postsRank.put(p,
-                            postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input)  - Math.round(fuzzyScore) + onlyExcludeTag);
-
-                }
-            }
         }
+        // Rank the normal text input. Based on fuzzy score.
+        rankContentSimpleInput(input);
+        fuzzySearch(input,onlyExcludeTag);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
+    private void rankContent(String input){
+
+        // Rank the normal text input. Based on fuzzy score.
+        rankContentSimpleInput(input);
+        fuzzySearch(input,0);
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void rankContentSimpleInput(String input){
+        SearchStringTokenizer stt = new SearchStringTokenizer(input);
+        while(stt.hasNext()){
+            Node<String> foundNode = contentAVL.findNode(contentAVL.tree, stt.getCurrentToken().getString());
+            if(foundNode != null){
+                ArrayList<String> postIDs = foundNode.getPostID();
+                for(String id :postIDs){
+                    for(Post p : allPosts){
+                        if(p.getPostId().equals(id)){
+                            FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+                            postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input));
+                        }
+                    }
+                    if(id.equals("00001321")){
+
+                    }
+                }
+
+            }
+            stt.next();
+        }
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankUser(ArrayList<String> users) {
-        // TODO: use avl tree
         for(Post p : allPosts) {
             for (String u : users) {
                 if (p.getAuthor().equals(u)) {
@@ -226,10 +228,12 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Post> search(String input) throws ParserConfigurationException, IOException, SAXException {
         // read all posts.
-        allPosts = Post.readFromPost();
-        // Insert posts to AVLTree.
-
-        insertPostToTree();
+        if(contentAVL == null){
+            contentAVL = new AVLTree<>();
+            postAVL = new AVLTree<>();
+            // Insert posts to AVLTree.
+            insertPostToTree();
+        }
         // clear the previous result
         postsRank.clear();
 
@@ -266,8 +270,12 @@ public class Search {
         // Ranking for posts
         rankUser(authors);
         rankSharp(sharps);
-        rankContent(content,exact,exclude);
-
+        if(authors.isEmpty() && exclude.isEmpty() && sharps.isEmpty() && exact.isEmpty()){
+            rankContent(input);
+        }
+        else{
+            rankContent(content,exact,exclude);
+        }
 
         return rankResult(postsRank);
     }
@@ -280,21 +288,76 @@ public class Search {
 
         for (Post post: s.search("good Fleance")) {
             System.out.println("1," + post.getPostId());
+            s.delete(post);
         }
-//        for (Post post: s.search("surfeited grooms")) {
-//            System.out.println(post.getPostId());
-//        }
-        for (Post post: s.search("good Fleance")) {
-            System.out.println("2," + post.getPostId());
-        }
-        System.out.println(s.search("king most").size());
 
     }
 
     public void delete(Post p){
+        Node<Post> foundPost = postAVL.findNode(postAVL.tree, p);
+        if(foundPost != null){
+            SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
+            while(stt.hasNext()){
+                Node<String> foundToken = contentAVL.findNode(contentAVL.tree,stt.getCurrentToken().getString());
+                foundToken.getPostID().remove(p.getPostId());
+                if(foundToken.getPostID().isEmpty()){
+                    contentAVL.delete(contentAVL.tree, foundToken.getData());
+                }
 
+                stt.next();
+            }
+        }
     }
 
+    public void insert(Post p){
+        allPosts.add(p);
+        SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
+        while(stt.hasNext()){
+            contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
+            stt.next();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void fuzzySearch(String input, Integer onlyExcludeTag){
+        for(Post p : allPosts) {
+            LevenshteinDistance ld = new LevenshteinDistance();
+            SearchStringTokenizer inputT = new SearchStringTokenizer(input);
+            SearchStringTokenizer contentT = new SearchStringTokenizer(p.getContent());
+            float fuzzyScore = 0;
+
+            ArrayList<String> contentTokens = new ArrayList<>();
+            ArrayList<String> inputTokens = new ArrayList<>();
+
+            while ( inputT.hasNext() ) {
+                inputTokens.add(inputT.getCurrentToken().getString());
+                inputT.next();
+            }
+            while ( contentT.hasNext() ) {
+
+                contentTokens.add(contentT.getCurrentToken().getString());
+                contentT.next();
+            }
+
+            int correctInputCount = 0;
+            for (String i : inputTokens) {
+                for (String c : contentTokens) {
+                    fuzzyScore = (float) ( (float) ld.apply(c, i) / (float) Math.max(i.length(), c.length()) );
+                    if (fuzzyScore * 100 <= fuzzyExtent) {
+                        correctInputCount++;
+                        break;
+                    }
+                }
+            }
+
+            FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+            if (correctInputCount>=1) {
+                postsRank.put(p,
+                        postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) - Math.round(fuzzyScore) + onlyExcludeTag);
+
+            }
+        }
+    }
 
 
 }

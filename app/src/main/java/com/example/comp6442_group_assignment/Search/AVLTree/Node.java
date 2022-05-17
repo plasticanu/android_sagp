@@ -66,6 +66,10 @@ public class Node<T>{
         this.right = right;
     }
 
+    public void setPostID(ArrayList<String> postID) {
+        this.postID = postID;
+    }
+
     public void setData(T data) {
         this.data = data;
     }
