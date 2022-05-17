@@ -73,7 +73,12 @@ public class editFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    /**
+     * A override onCreateView method handle the edit fragment.
+     * It gets bundle passed from details fragment, and then
+     * pass to edit fragment.
+     * @Author Jiyuan Chen u7055573
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -163,16 +168,19 @@ public class editFragment extends Fragment {
         }
 
         /**
-         * get login response from the server to check if logging success.
-         * If success, update the current user's details, and logging state.
+         * get edit response from the server to check if edit success.
+         * If success, update the edited post.
          * @Author Jiyuan Chen u7055573
          */
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
             System.out.println(result);
 
+            //check if edit successful
+            //if success, update local recyclerView.
             if(result.split(";")[0].compareTo("eps")==0){
                 homeFragment fragh = new homeFragment();
+                //update the local recyclerView with edited content
                 fragh.updateEditRecyclerView(editPostId,editPostContent);
                 ((MainActivity) getActivity()).replaceFragment(new homeFragment());
 

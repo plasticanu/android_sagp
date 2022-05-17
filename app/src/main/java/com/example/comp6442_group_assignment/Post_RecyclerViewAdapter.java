@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +52,7 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvAuthor,tvDate,tvContent,tvLike,tvComment;
-
+        ImageButton likeButton;
 
         public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -60,7 +61,7 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
             tvContent = itemView.findViewById(R.id.textView_content);
             tvLike = itemView.findViewById(R.id.textView_like_count);
             tvComment = itemView.findViewById(R.id.textView_comment_count);
-
+            likeButton = itemView.findViewById(R.id.button_like);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -68,6 +69,18 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
                         int pos = getAdapterPosition();
                         if(pos != RecyclerView.NO_POSITION){
                             recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
+
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewInterface!=null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onLikeClick(pos);
                         }
                     }
                 }

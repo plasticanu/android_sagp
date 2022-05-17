@@ -24009,7 +24009,10 @@
         <PostId>00002667</PostId>
         <Content>                 -THE END-</Content>
         <Author>user3</Author>
-        <Likes/>
+        <Likes>
+            <User>user1</User>
+            <User>user4</User>
+        </Likes>
         <CreateTime>2022-05-16T04:26:58.293433100</CreateTime>
         <Comments/>
         <Observers/>

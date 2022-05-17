@@ -183,13 +183,6 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putSerializable("postModels",(Serializable) postModels);
-        System.out.println("State saved...");
-    }
 
 
     /**
@@ -263,7 +256,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
     }
 
     /**
-     * A Custom method used to setup evertything,
+     * A Custom method used to setup everything,
      * that a RecyclerView needs.
      * @Author Jiyuan Chen u7055573
      */
@@ -280,6 +273,17 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                 Post post = postModels.get(position);
                 bundle.putSerializable("post",post);
                 getParentFragmentManager().setFragmentResult("dataForm1",bundle);
+            }
+
+            @Override
+            public void onLikeClick(int position) {
+                Toast.makeText(getActivity(), "Like from user: "+loginFragment.loggedUsername, Toast.LENGTH_SHORT).show();
+
+                Post post = postModels.get(position);
+                String postId = post.getPostId();
+                AsyncAction action = new AsyncAction();
+                cmd = "lp "+postId;
+                action.execute(cmd);
             }
         });
 //        adapter.setStateRestorationPolicy(recyclerView.getAdapter().setStateRestorationPolicy());
@@ -298,7 +302,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
      * Use to change the fragment view.
      * @Author Jiyuan Chen u7055573
      */
-    public void findFromRecyclerView(int postId) {
+    public void updateRemovedRecyclerView(int postId) {
         for (int i = 0; i < postModels.size(); i++) {
             if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
                 postModels.remove(i);
@@ -312,11 +316,16 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
      * It will be called once the new post has been created from the server end.
      * @Author Jiyuan Chen u7055573
      */
-    public void updateRecyclerView(Post post){
+    public void updateInsertedRecyclerView(Post post){
         postModels.add(0,post);
         adapter.notifyItemInserted(0);
     }
 
+    /**
+     * Use to update edited post to the local environment.
+     * It will be called once the post has been edited from the server end.
+     * @Author Jiyuan Chen u7055573
+     */
     public void updateEditRecyclerView(int postId, String editContent){
 
         for (int i = 0; i < postModels.size(); i++) {
@@ -331,6 +340,11 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position) {
+
+    }
+
+    @Override
+    public void onLikeClick(int position) {
 
     }
 
@@ -380,17 +394,21 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             //resultis the data returned from doInbackground
 
 
-            //setup the list models for posts.
-            if(postModels== null){
-                postModels= setupPost(result);
-            }else if(postModels != null){
-                List<Post> tempList = setupPost(result);
-                for(int i =0; i<tempList.size();i++){
-                    postModels.add(tempList.get(i));
-                }
+            //check if the cmd sent to server was like post
+            if(cmd.substring(0,2).compareTo("lp")!=0){
+                if(postModels== null){
+                    postModels= setupPost(result);
+                }else if(postModels != null){
+                    List<Post> tempList = setupPost(result);
+                    for(int i =0; i<tempList.size();i++){
+                        postModels.add(tempList.get(i));
+                    }
 
+                }
+                setupRecyclerView();
+            }else if (cmd.substring(0,2).compareTo("lp")==0){
+                setupRecyclerView();
             }
-            setupRecyclerView();
         }
     }
 }

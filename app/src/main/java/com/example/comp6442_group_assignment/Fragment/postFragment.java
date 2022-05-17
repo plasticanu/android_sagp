@@ -160,8 +160,8 @@ public class postFragment extends Fragment {
         }
 
         /**
-         * get login response from the server to check if logging success.
-         * If success, update the current user's details, and logging state.
+         * get post response from the server to check if post success.
+         * If success, update the local recyclerView.
          * @Author Jiyuan Chen u7055573
          */
         protected void onPostExecute(String result) {
@@ -172,7 +172,7 @@ public class postFragment extends Fragment {
             if(result.split(";")[0].compareTo("cps")==0){
                 homeFragment fragh = new homeFragment();
                 post = fragh.setupPost(result).get(0);
-                fragh.updateRecyclerView(post);
+                fragh.updateInsertedRecyclerView(post);
 
             }
         }

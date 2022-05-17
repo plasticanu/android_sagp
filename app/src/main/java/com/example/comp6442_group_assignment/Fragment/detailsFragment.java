@@ -133,7 +133,7 @@ public class detailsFragment extends Fragment {
                             System.out.println(postId);
 
                             homeFragment fragh = new homeFragment();
-                            fragh.findFromRecyclerView(postId);
+                            fragh.updateRemovedRecyclerView(postId);
 
                             AsyncAction action = new AsyncAction();
                             homeFragment.cmd = "dp " +post.getPostId();
@@ -149,6 +149,7 @@ public class detailsFragment extends Fragment {
                     details_delete.setVisibility(View.GONE);
                 }
 
+                //edit button only visible to post's author
                 details_edit = getActivity().findViewById(R.id.button_edit_post);
                 if(post.getAuthor().compareTo(loginFragment.loggedUsername)==0){
                     details_edit.setOnClickListener(new View.OnClickListener() {
@@ -163,23 +164,11 @@ public class detailsFragment extends Fragment {
 
                             ((MainActivity) getActivity()).replaceFragment(new editFragment());
 
-//
-//                            System.out.println(postId);
-//
-//                            homeFragment fragh = new homeFragment();
-//                            fragh.findFromRecyclerView(postId);
-////
-//                            AsyncAction action = new AsyncAction();
-//                            homeFragment.cmd = "ep " +post.getPostId()+" "+;
-//                            action.execute(homeFragment.cmd);
-//
-//                            ((MainActivity) getActivity()).replaceFragment(new homeFragment());
                         }
                     });
 
 
                 }else{
-//                    details_delete.setEnabled(false);
                     details_edit.setVisibility(View.GONE);
                 }
 
@@ -234,11 +223,6 @@ public class detailsFragment extends Fragment {
             return response;
         }
 
-        /**
-         * get login response from the server to check if logging success.
-         * If success, update the current user's details, and logging state.
-         * @Author Jiyuan Chen u7055573
-         */
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
             System.out.println(result);
