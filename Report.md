@@ -105,6 +105,40 @@ If any marker meet any trouble opening or running the app, please contact the te
 * Search.java
 * StateFunctionTest.java
 
+*u7055573, Jiyuan Chen, I contribute __% of the code. Here are my contributions:*
+
+**Complete contribution (implement entire frontend):**
+
+*Java Code Contribution:*
+* Fragment frontend design
+* MainActiviy.java
+* Post_RecyclerViewAdapter.java
+* RecyclerViewInterface.java
+* splashFragment.java
+* homeFragment.java
+* postFragment.java
+* searchFragment.java
+* profileFragment.java
+* loginFragment.java
+* registerFragment.java
+* detailsFragment.java
+* editFragment.java
+
+*UI Layout*
+* activity_main.xml
+* fragment_splash.xml
+* fragment_home.xml
+* fragment_post.xml
+* fragment_search.xml
+* fragment_profile.xml
+* fragment_login.xml
+* fragment_register.xml
+* fragment_details.xml
+* fragment_edit.xml
+* recycler_view_button.xml
+* recycler_view_row.xml
+
+
 // TODO: u7055573, u7139999, u7297753
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 

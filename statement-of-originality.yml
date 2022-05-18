@@ -6,13 +6,11 @@ declaration: >-
   I declare that everything I have submitted in this assignment is entirely our
   own work, with the following exceptions:
 
-
 # add as many "name+comment" entries as necessary
 # (or remove it altogether if you haven't collaborated with anyone outside your group)
 collaboration:
   - name:
     comment: >-
-
 
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external code)
@@ -20,7 +18,6 @@ code:
   - comment: Used for sorting a map by value.
     url: https://stackoverflow.com/questions/2864840/treemap-sort-by-value
     licence: CC BY-SA 4.0
-
 
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
@@ -35,8 +32,8 @@ assets:
 members:
   - name: Peicheng Liu
     uid: u7294212
-  - name:
-    uid:
+  - name: Jiyuan Chen
+    uid: u7055573
   - name:
     uid:
   - name:
