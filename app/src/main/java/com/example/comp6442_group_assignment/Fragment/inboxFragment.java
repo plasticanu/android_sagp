@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -111,6 +112,15 @@ public class inboxFragment extends Fragment {
             notiAdapter.notifyDataSetChanged();
         }
 
+        Button clearButton = getActivity().findViewById(R.id.button_clear_notification);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncAction action = new AsyncAction();
+                homeFragment.cmd = "cn";
+                action.execute(homeFragment.cmd);
+            }
+        });
 
     }
 
@@ -186,6 +196,20 @@ public class inboxFragment extends Fragment {
                 }
                 System.out.println(loginFragment.loggedNotifications.toString());
             }
+
+            if (result.substring(0,3).compareTo("cns")==0){
+
+                loginFragment.loggedNotifications.clear();
+
+                notiAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_list_item_1,
+                        loginFragment.loggedNotifications);
+                inbox.setAdapter(notiAdapter);
+                notiAdapter.notifyDataSetChanged();
+                System.out.println(loginFragment.loggedNotifications.toString());
+            }
         }
+
+
     }
 }
