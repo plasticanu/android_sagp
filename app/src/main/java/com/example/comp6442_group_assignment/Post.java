@@ -289,9 +289,6 @@ public class Post implements Subject, Serializable{
     /**
      * Reads the post.xml file and returns a list of posts, should be a server function
      * @return List of posts.
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
      */
     public static List<Post> readFromPost() throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = new LinkedList<>();
@@ -342,11 +339,8 @@ public class Post implements Subject, Serializable{
 
     /**
      * Check if the post exists in the post.xml file.
-     * @param postId
+     * @param postId of the post
      * @return true if the post exists, false otherwise.
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
      */
     public static boolean exists(String postId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -374,11 +368,8 @@ public class Post implements Subject, Serializable{
 
     /**
      * Write a new post to post.xml file, should be a server function
-     * @param post
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param post to be added
+     * @return true if the post is successfully added, false otherwise.
      */
     public static boolean addToPost(Post post) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -400,12 +391,9 @@ public class Post implements Subject, Serializable{
 
     /**
      * Edit a post in post.xml file, should be a server function
-     * @param postId
-     * @param content
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post to be edited
+     * @param content of the post to be edited
+     * @return true if the post is successfully edited, false otherwise.
      */
     public static boolean editPost(String postId, String content) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -423,12 +411,9 @@ public class Post implements Subject, Serializable{
 
     /**
      * Add a user to the like list of a post, should be a server function
-     * @param postId
-     * @param userId
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post
+     * @param userId of the user
+     * @return true if the user is successfully added, false otherwise.
      */
     public static boolean likePost(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -451,12 +436,9 @@ public class Post implements Subject, Serializable{
 
     /**
      * Remove a user from the like list of a post, should be a server function
-     * @param postId
-     * @param userId
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post
+     * @param userId of the user
+     * @return true if the user is successfully removed, false otherwise.
      */
     public static boolean unlikePost(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -478,10 +460,7 @@ public class Post implements Subject, Serializable{
 
     /**
      * Delete a post from post.xml file, should be a server function
-     * @param postId
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post to be deleted
      */
     public static void removeFromPost(String postId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -500,12 +479,9 @@ public class Post implements Subject, Serializable{
 
     /**
      * Add a comment to a post, should be a server function
-     * @param postId
-     * @param comment
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post
+     * @param comment to be added
+     * @return true if the comment is successfully added, false otherwise.
      */
     public static boolean addToComment(String postId, Comment comment) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -596,6 +572,14 @@ public class Post implements Subject, Serializable{
         return postsByUser;
     }
 
+    /**
+     * Find post information by a given ID, should be a server function
+     * @param postId
+     * @return Post with the given ID, or null if not found
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     public static Post findPostById(String postId) throws ParserConfigurationException, IOException, SAXException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
@@ -606,10 +590,13 @@ public class Post implements Subject, Serializable{
         return null;
     }
 
-    public static void writeXml(Document doc,
-                                OutputStream output)
-            throws TransformerException {
-
+    /**
+     * This method was referenced from code piece by good sir mkyong at https://mkyong.com/java/how-to-create-xml-file-in-java-dom/
+     * @param doc
+     * @param output
+     * @throws TransformerException
+     */
+    public static void writeXml(Document doc, OutputStream output) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
 
@@ -619,7 +606,6 @@ public class Post implements Subject, Serializable{
         StreamResult result = new StreamResult(output);
 
         transformer.transform(source, result);
-
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {

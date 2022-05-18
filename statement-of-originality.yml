@@ -6,18 +6,15 @@ declaration: >-
   I declare that everything I have submitted in this assignment is entirely our
   own work, with the following exceptions:
 
-# add as many "name+comment" entries as necessary
-# (or remove it altogether if you haven't collaborated with anyone outside your group)
-collaboration:
-  - name:
-    comment: >-
-
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external code)
 code:
   - comment: Used for sorting a map by value.
     url: https://stackoverflow.com/questions/2864840/treemap-sort-by-value
     licence: CC BY-SA 4.0
+  - comment: Used to transform and write information to document
+    url: https://mkyong.com/java/how-to-create-xml-file-in-java-dom/
+    licence: MIT
 
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
