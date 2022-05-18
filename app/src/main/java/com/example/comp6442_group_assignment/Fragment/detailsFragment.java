@@ -141,6 +141,21 @@ public class detailsFragment extends Fragment {
                 comments_String);
         details_comments.setAdapter(commentAdapter);
 
+        details_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(loginFragment.isLogged==false){
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }else{
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "rp "+post.getAuthor();
+                    action.execute(homeFragment.cmd);
+                }
+
+            }
+        });
+
+
 
         //Handle the post deletion, User can only delete post that created by user self.
         details_delete = getActivity().findViewById(R.id.button_delete_post);
@@ -216,6 +231,22 @@ public class detailsFragment extends Fragment {
         });
 
 
+        ImageButton button_follow;
+        button_follow=getActivity().findViewById(R.id.button_follow);
+        if(loginFragment.isLogged) {
+            button_follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "fp " + post.getPostId();
+                    action.execute(homeFragment.cmd);
+
+                }
+            });
+        }else{
+            button_follow.setVisibility(View.GONE);
+        }
 
         commentInput = getActivity().findViewById(R.id.editText_comment);
         sendComment = getActivity().findViewById(R.id.imageButton_send_comment);
@@ -240,10 +271,16 @@ public class detailsFragment extends Fragment {
                 }
             }
         });
-
-
-
     }
+
+    private void onDisFollow(){
+        AsyncAction action = new AsyncAction();
+        homeFragment.cmd = "uf " + post.getPostId();
+        action.execute(homeFragment.cmd);
+    }
+
+
+
     /**
      * A override onCreateView method handle the details fragment.
      * It gets bundle passed from recyclerView Item.
@@ -390,6 +427,39 @@ public class detailsFragment extends Fragment {
                     searchFragment.accessFromSearch = false;
                 }
 
+
+            }
+            if (result.substring(0,3).compareTo("fps")==0){
+                Toast.makeText(getActivity(), "followed the post!", Toast.LENGTH_SHORT).show();
+            }
+
+            if (result.substring(0,3).compareTo("fpf")==0){
+                onDisFollow();
+            }
+
+            if (result.substring(0,3).compareTo("ufs")==0){
+                Toast.makeText(getActivity(), "Unfollowed the post!", Toast.LENGTH_SHORT).show();
+            }
+
+
+            if (result.substring(0,3).compareTo("rps")==0){
+                String[] tempString = result.split(";");
+                Bundle bundle = new Bundle();
+                bundle.putString("userName",tempString[1]);
+                bundle.putString("userFirst",tempString[2]);
+                bundle.putString("userLast",tempString[3]);
+                bundle.putString("userEmail",tempString[4]);
+                bundle.putString("userPhone",tempString[5]);
+                bundle.putBoolean("isPublic",true);
+                getParentFragmentManager().setFragmentResult("profileForm1",bundle);
+                ((MainActivity) getActivity()).replaceFragment(new otherProfileFragment());
+
+            }
+            if (result.substring(0,3).compareTo("rpf")==0){
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isPublic",false);
+                getParentFragmentManager().setFragmentResult("profileForm1",bundle);
+                ((MainActivity) getActivity()).replaceFragment(new otherProfileFragment());
 
             }
         }

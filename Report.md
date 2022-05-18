@@ -57,8 +57,6 @@ If any marker meet any trouble opening or running the app, please contact the te
 - Peicheng Liu (u7294212) by SMS: +61 428 022 807, or by email: u7294212@anu.edu.au if you run the project on Intellij
 - Jiyuan Chen (u7055573) by email: u7055573@anu.edu.au if you run the project on Android Studio
 
-// FIXME: u7055573
-
 ## Table of Contents
 
 1. [Team Members and Roles](#team-members-and-roles)
@@ -401,7 +399,7 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 // TODO: u7139999
 
 *4. Response Message Parser:* 
-// TODO: u7055573
+This response message parser is used to split the response message from the server, then convert string of response into List of Post object. The method is setupPost(String response) in homeFragment.java.
 
 **Other**
 
@@ -446,32 +444,33 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 
 *UI Design and Testing*
 1. *Feature 1: Users may use portrait and landscape layout or different sized screens to access the app. (easy)*
-// TODO: u7055573
+- The application has different layout xml for both portrait and landscape, and different sized screens. landscape layouts are designed for landscape mode.
 
 *User Interactivity*
 1. *Feature 1: Users may micro-interact with items such as like/dislike/edit a post. (easy)*
 - likePost(), dislikePost(), editPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - likePost(), dislikePost(), editPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
 - likePost(), dislikePost(), editPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
-// TODO: u7055573
+- likeListener, dislikeListener methods in [homeFragment class][detailsFragment class][searchFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
+- editPostListener method in [detailsFragment class][editFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 2. *Feature 2: Users may follow/unfollow a post, and this information will be stored in server. (medium)*
 - followPost(), unfollowPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - followPost(), unfollowPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
 - followPost(), unfollowPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
-// TODO: u7055573
+- frontend of follow and unfollow post is defined in [code234-249::detailsFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 3. *Feature 3: Users will be notified when their followed posts are updated in different ways. (medium)* 
 - update() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
 - notifyObserversEdit(), notifyObserversComment(), notifyObserversLike() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
-// TODO: u7055573
+- all frontend method control the notifications are in [inboxFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 *Privacy* 
 1. *Feature 1: Users may only see other's profile if the profile is public. (easy)*
 - requestProfile() method in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java) 
 - requestProfile() method in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
 - requestProfile() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
-// TODO: u7055573
+- frontend listener and method of this part are defined in [code144-158::detailsFragment class][otherProfileFragment class]
 
 *Greater Data Usage, Handling and Sophistication* 
 1. *Feature 1: Read and write data instances from multiple local files in different formats (XML and Bespoke)*
@@ -494,15 +493,16 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 1. *Feature 1: Users may create a new account and sign in. (basic)* 
 - login(), register() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - login(), register() methods in [GuestState class](./app/src/main/java/com/example/comp6442_group_assignment/State/GuestState.java) 
-// TODO: u7055573
+- registerListener methods are in [registerFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 2. *Feature 2: Users may request for server to load data/information from xml file and visualize it in the client. (basic)*
 - Line 377-387 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
-// TODO: u7055573
+- every fragment class has a AsyncTask method used to sent request to server and receive response from server. All information client get are based on the response from the server.
 
 3. *Feature 3: Users may request for server to search information on the app. (basic)*
 - Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
-// TODO: u7055573, u7139999
+- searchListener methods are in [searchFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
+// TODO: u7139999
 
 4. *Feature 4: There is a standalone executable class to simulate actions from other users containing 3000+ data instances. (basic)*
 - [AutoClient class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java)

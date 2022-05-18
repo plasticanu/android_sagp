@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.otherProfileFragment">
+
+    <TextView
+        android:id="@+id/textView_u_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView_u_first"
+        app:layout_constraintEnd_toEndOf="@+id/textView_u_first"
+        app:layout_constraintStart_toStartOf="@+id/textView_u_first"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_u_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView_u_last"
+        app:layout_constraintEnd_toEndOf="@+id/textView_u_last"
+        app:layout_constraintStart_toStartOf="@+id/textView_u_last"
+        app:layout_constraintTop_toBottomOf="@+id/textView_u_name" />
+
+    <TextView
+        android:id="@+id/textView_u_last"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView_u_email"
+        app:layout_constraintEnd_toEndOf="@+id/textView_u_email"
+        app:layout_constraintStart_toStartOf="@+id/textView_u_email"
+        app:layout_constraintTop_toBottomOf="@+id/textView_u_first" />
+
+    <TextView
+        android:id="@+id/textView_u_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView_u_phone"
+        app:layout_constraintEnd_toEndOf="@+id/textView_u_phone"
+        app:layout_constraintStart_toStartOf="@+id/textView_u_phone"
+        app:layout_constraintTop_toBottomOf="@+id/textView_u_last" />
+
+    <TextView
+        android:id="@+id/textView_u_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_u_email" />
+
+    <TextView
+        android:id="@+id/textView_unpublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:text="User profile is not public"
+        android:textSize="35dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.47" />;
+    tools:layout_editor_absoluteX="16dp"
+    tools:layout_editor_absoluteY="329dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

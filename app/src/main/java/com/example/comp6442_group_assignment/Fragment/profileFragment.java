@@ -1,6 +1,8 @@
 package com.example.comp6442_group_assignment.Fragment;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -91,7 +93,7 @@ public class profileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView userName,userEmail,userFullname;
-        Button loggout,inbox;
+        Button loggout,inbox,deleteUser;
 
         userName = view.findViewById(R.id.profile_username);
         userName.setText(loginFragment.loggedUsername);
@@ -121,6 +123,35 @@ public class profileFragment extends Fragment {
             }
         });
 
+        deleteUser = getActivity().findViewById(R.id.button_delete_user);
+        deleteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                builder.setMessage("Are you sure you want to delete account?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getActivity(), "User deleted!", Toast.LENGTH_SHORT).show();
+                                AsyncAction action = new AsyncAction();
+                                homeFragment.cmd = "da";
+                                action.execute(homeFragment.cmd);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+            }
+        });
     }
 
 
@@ -170,15 +201,33 @@ public class profileFragment extends Fragment {
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
 
-            //reset the user information
-            loginFragment.isLogged=false;
-            loginFragment.loggedUsername = "";
-            loginFragment.loggedFullname = "";
-            loginFragment.loggedEmail = "";
-            loginFragment.loggedPhone = "";
-            loginFragment.loggedNotifications=new ArrayList<>();
-            //disable the profile fragment, return to login page.
-            ((MainActivity) getActivity()).replaceFragment(new loginFragment());
+            if (result.substring(0,3).compareTo("los")==0){
+                //reset the user information
+                loginFragment.isLogged=false;
+                loginFragment.loggedUsername = "";
+                loginFragment.loggedFullname = "";
+                loginFragment.loggedEmail = "";
+                loginFragment.loggedPhone = "";
+                loginFragment.loggedNotifications=new ArrayList<>();
+                //disable the profile fragment, return to login page.
+                ((MainActivity) getActivity()).replaceFragment(new loginFragment());
+            }
+            if (result.substring(0,3).compareTo("das")==0){
+                Toast.makeText(getActivity(), "User Deleted!", Toast.LENGTH_SHORT).show();
+                //reset the user information
+                loginFragment.isLogged=false;
+                loginFragment.loggedUsername = "";
+                loginFragment.loggedFullname = "";
+                loginFragment.loggedEmail = "";
+                loginFragment.loggedPhone = "";
+                loginFragment.loggedNotifications=new ArrayList<>();
+                //disable the profile fragment, return to login page.
+                ((MainActivity) getActivity()).replaceFragment(new loginFragment());
+            }
+            if(result.substring(0,3).compareTo("daf")==0){
+                Toast.makeText(getActivity(), "Delete User Failed!", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }
