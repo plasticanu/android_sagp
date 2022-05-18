@@ -55,8 +55,6 @@ public class Post implements Subject, Serializable{
     /**
      * This constructor is used to create a new post in the background of the server.
      * It shoould be never be called alone, since all field must be initialized.
-     * @param content
-     * @param author
      */
     public Post(String content, String author) {
         this.content = content;
