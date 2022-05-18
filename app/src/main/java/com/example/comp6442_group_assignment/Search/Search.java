@@ -12,7 +12,6 @@ import com.example.comp6442_group_assignment.Search.Tokenizer.SearchStringTokeni
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchToken;
 
 import org.apache.commons.text.similarity.FuzzyScore;
-import org.apache.commons.text.similarity.LevenshteinDetailedDistance;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.xml.sax.SAXException;
 
@@ -23,13 +22,49 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
- * This class is used for searching element.
- * TODO: complete the code and comment.
+ * This class implements search function.
+ * The number of error letters allowed per word is set to be 30% as default.
+ * The search result is ranked based on scores.
  * @Author Zhidong Piao u7139999
  */
 @SuppressWarnings("ConstantConditions")
 public class Search {
+    // Singleton instance. Only one instance is allowed.
     private static Search instance = null;
+
+    // AVLTree holding the tokens parsed by SearchStringTokenizer.
+    // The tokens are from post contents.
+    private static AVLTree<String> contentAVL = new AVLTree<>();
+
+    // AVLTree holding all the posts.
+    private static AVLTree<Post> postAVL = new AVLTree<>();
+
+    private static List<Post> allPosts = new ArrayList<>();
+
+    // Hashmap that used for ranking the search results.
+    // The key is Post, the value is its score that how similar it fits to the user input.
+    private static HashMap<Post, Integer> postsRank = new HashMap<>();
+
+    // Percentage of error letters for a word allowed.
+    private Integer fuzzyExtent;
+
+    /**
+     * Constructor for Search. If no integer passed, the default fuzzy extent is set to 30%.
+     */
+    private Search() throws ParserConfigurationException, IOException, SAXException {
+        // Default fuzzy extent.
+        this.fuzzyExtent = 30;
+        allPosts = Post.readFromPost();
+    }
+
+    /**
+     * Constructor for Search. Takes an integer input as fuzzy extent.
+     * @param fuzzyExtent the percentage of error letters allowed per word.
+     */
+    public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
+        this.fuzzyExtent = fuzzyExtent;
+        allPosts = Post.readFromPost();
+    }
 
     public static Search getInstance() throws ParserConfigurationException, IOException, SAXException {
         if (instance == null) {
@@ -45,19 +80,13 @@ public class Search {
         }
         return instance;
     }
-    private AVLTree<String> contentAVL = new AVLTree<>();
-    private AVLTree<Post> postAVL = new AVLTree<>();
-    private List<Post> allPosts = new ArrayList<>();
-    private HashMap<Post, Integer> postsRank = new HashMap<>();
-    // Percentage of error letters for a word allowed.
-    private Integer fuzzyExtent = 0;
 
-    private Search() throws ParserConfigurationException, IOException, SAXException {
-        // Default fuzzy extent.
-        this.fuzzyExtent = 30;
-        allPosts = Post.readFromPost();
-    }
-
+    /**
+     * This method insert all Posts to postAVL and contentAVL.
+     * The postAVL contains posts.
+     * The contentAVL contains all tokens that the SearchStringTokenizer parsed from the post contents,
+     * and the corresponding post ids are updated.
+     */
     private void insertPostToTree() {
         for (Post p : allPosts) {
             postAVL.tree = postAVL.insert(postAVL.tree, p);
@@ -70,15 +99,22 @@ public class Search {
 
     }
 
-    public Search(Integer fuzzyExtent) throws ParserConfigurationException, IOException, SAXException {
-        this.fuzzyExtent = fuzzyExtent;
-        allPosts = Post.readFromPost();
-    }
-
+    /**
+     * This method rank the search result based on user input when it contains plain text and Exact or Exclude tags.
+     * The postRank is updated.
+     * @param input user plain text input, not tags.
+     * @param exact ArrayList of exact tag expressions.
+     * @param exclude ArrayList of exclude tag expressions.
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankContent(String input, ArrayList<String> exact, ArrayList<String> exclude) {
+        // delete white spaces of the user input.
         input = input.trim();
+
+        // variable that recognize whether the search query contains only exclude tags.
+        // if set to be 1, the posts that do not contain the exclude tag expressions will have a minimum score of 1.
         int onlyExcludeTag = 0;
+
         // FuzzyScore is used for determine how similar is the input against the content.
         FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
 
@@ -89,11 +125,12 @@ public class Search {
 
             //if the exclude string input is not empty:
             if (!exclude.isEmpty()) {
-                // case: there is only a exclude tag and no input:
+                // case: there are only exclude tags and no input:
                 if (input.equals("") && exact.isEmpty()) {
                     onlyExcludeTag = 1;
                 }
                 // if there is any string matched to the content, skip the following code of postLoop
+                // and set the score to -10000, for which the map entry will be deleted when rankResult is called.
                 for (String ex : exclude) {
                     if (p.getContent().contains(ex)) {
                         // skip the code inside the post loop
@@ -103,7 +140,6 @@ public class Search {
                     }
                 }
             }
-
 
             // Recognize the exact matching tags.
             // If detected, and the string is found in the post, add the post with a score 200.
@@ -119,35 +155,50 @@ public class Search {
                 }
             }
         }
+
         // Rank the normal text input. Based on fuzzy score.
         rankContentSimpleInput(input);
         fuzzySearch(input,onlyExcludeTag);
     }
 
+    /**
+     * This method rank the search result based on user input when it only contains words.
+     * The whole search process is rank the posts that contain the user input, then call fuzzy search.
+     * @param input user plain text input.
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankContent(String input){
-
         // Rank the normal text input. Based on fuzzy score.
         rankContentSimpleInput(input);
         fuzzySearch(input,0);
-
     }
+
+    /**
+     * This method gives the hashmap entries with scores. Rank the search result based on user input.
+     * Fuzzy search is not called but the search score is based on fuzzy score.
+     * For whole plain text search process, see rankContent.
+     * If there are several words as input and at least one of the words matched an element on
+     * content avl tree, the result entry will be put to hashmap as one of the search result.
+     * @param input user plain text input.
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankContentSimpleInput(String input){
+        // The tokenizer is used to token the user input. Therefore, see if any words matched the post content.
         SearchStringTokenizer stt = new SearchStringTokenizer(input);
         while(stt.hasNext()){
+            // Find node from the content avl tree. If a node is found, the user input at least matched a post.
             Node<String> foundNode = contentAVL.findNode(contentAVL.tree, stt.getCurrentToken().getString());
+
+            // Case when the user input word does not match a post.
             if(foundNode != null){
                 ArrayList<String> postIDs = foundNode.getPostID();
                 for(String id :postIDs){
                     for(Post p : allPosts){
                         if(p.getPostId().equals(id)){
                             FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+                            // put an entry with a fuzzy score as value.
                             postsRank.put(p, postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input));
                         }
-                    }
-                    if(id.equals("00001321")){
-
                     }
                 }
 
@@ -176,6 +227,10 @@ public class Search {
         }
     }
 
+    /**
+     * Rank the posts based on sharp tags.
+     * @param sharps ArrayList of sharp tags. (hash tags)
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void rankSharp(ArrayList<String> sharps) {
         for (Post p : allPosts) {
@@ -228,12 +283,11 @@ public class Search {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Post> search(String input) throws ParserConfigurationException, IOException, SAXException {
         // read all posts.
-        if(contentAVL == null){
-            contentAVL = new AVLTree<>();
-            postAVL = new AVLTree<>();
-            // Insert posts to AVLTree.
-            insertPostToTree();
-        }
+        contentAVL = new AVLTree<>();
+        postAVL = new AVLTree<>();
+        // Insert posts to AVLTree.
+        insertPostToTree();
+
         // clear the previous result
         postsRank.clear();
 
@@ -313,9 +367,7 @@ public class Search {
         allPosts.add(p);
         SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
         while(stt.hasNext()){
-            if (stt.getCurrentToken() != null) {
-                contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
-            }
+            contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
             stt.next();
         }
     }
