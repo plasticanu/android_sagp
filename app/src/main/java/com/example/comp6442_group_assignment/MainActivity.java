@@ -10,8 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.Fragment.homeFragment;
 import com.example.comp6442_group_assignment.Fragment.loginFragment;
@@ -24,6 +26,9 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
+    int time=0;
+    Handler handler;
+
     // Author Zhidong Piao u7139999
     // This field let other classes (non activity class) access the application context.
     // For accessing the resource and assets folder.
@@ -35,8 +40,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         applicationContext = getApplicationContext();
         myNavigation();
-
+        updateNotificationEverySecond();
     }
+
+    private void updateNotificationEverySecond() {
+        handler = new Handler();
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                time++;
+                if(loginFragment.isLogged == true && loginFragment.loggedNotifications.size()>0){
+                    Toast.makeText(MainActivity.this, "You have got new notifications!", Toast.LENGTH_SHORT).show();
+                }
+                handler.postDelayed(this, 5000);
+            }
+        };
+        handler.post(run);
+    }
+
+
 
     /**
      * A Custom fragment navigation controller.

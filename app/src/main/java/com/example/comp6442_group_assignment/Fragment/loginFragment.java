@@ -199,7 +199,8 @@ public class loginFragment extends Fragment {
                 loggedFullname = result.split(";")[2]+" "+result.split(";")[3];
                 loggedEmail = result.split(";")[4];
                 loggedPhone = result.split(";")[5];
-
+                inboxFragment fragi = new inboxFragment();
+                fragi.initialNotification();
             }else{
                 Toast.makeText(getActivity(), "Wrong Username or Password!", Toast.LENGTH_SHORT).show();
             }
