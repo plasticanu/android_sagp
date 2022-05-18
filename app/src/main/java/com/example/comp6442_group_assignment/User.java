@@ -119,6 +119,11 @@ public class User implements Observer {
         this.password = password;
     }
 
+    /**
+     * update notification
+     * @param postId post id of certain post
+     * @param message message of notification
+     */
     @Override
     public void update(String postId, String message) throws ParserConfigurationException, IOException, SAXException {
         String update = message + postId;
@@ -146,9 +151,11 @@ public class User implements Observer {
                 '}';
     }
 
+    /**
+     * Check if the user is valid
+     * @return true if the user is valid
+     */
     public boolean isValid() throws ParserConfigurationException, IOException, SAXException {
-        // Suppose to request to server to check if the user is valid
-        // Now just read from Users.xml file
         List<User> users = readUsers();
         for (User user : users) {
             if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
@@ -205,11 +212,8 @@ public class User implements Observer {
     /**
      * Check if the user is already registered in the system, should be a server function
      *
-     * @param userName
-     * @return
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param userName of the user
+     * @return true if the user is already registered
      */
     public static boolean isRegistered(String userName) throws ParserConfigurationException, IOException, SAXException {
         List<User> users = readUsers();
@@ -225,10 +229,7 @@ public class User implements Observer {
      * directly write to the user.xml file, server side initialization function. This should probably never be
      * called alone.
      *
-     * @param users
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param users list of users to be written to the file
      */
     public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
         boolean useTestPath = false; // Just for test purpose
@@ -314,17 +315,13 @@ public class User implements Observer {
 
     /**
      * Write a new user to users.xml file, should be a server function
-     *
-     * @param userName
-     * @param password
-     * @param email
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
+     * @param userName of the user
+     * @param password of the user
+     * @param email   of the user
+     * @param firstName of the user
+     * @param lastName of the user
+     * @param phoneNumber of the user
      * @return true if the user is successfully added to the system
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
      */
     public static boolean register(String userName, String password, String email, String firstName, String lastName, String phoneNumber) throws ParserConfigurationException, IOException, SAXException {
         if (userName.length() < 4 || password.length() < 6) {
@@ -343,11 +340,8 @@ public class User implements Observer {
     /**
      * Delete a user with @param userName from users.xml file, should be a server function
      *
-     * @param userName
-     * @return
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param userName of the user
+     * @return true if the user is successfully deleted from the system
      */
     public static boolean deleteAccount(String userName) throws ParserConfigurationException, IOException, SAXException {
         List<User> users = readUsers();
@@ -364,16 +358,13 @@ public class User implements Observer {
     /**
      * Update a user's information, should be a server function
      *
-     * @param userName
-     * @param password
-     * @param email
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @return
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param userName of the user
+     * @param password of the user
+     * @param email  of the user
+     * @param firstName of the user
+     * @param lastName of the user
+     * @param phoneNumber of the user
+     * @return true if the user is successfully updated in the system
      */
     public static boolean updateAccount(String userName, String password, String email, String firstName, String lastName, String phoneNumber, boolean publicProfile) throws ParserConfigurationException, IOException, SAXException {
         if (!isRegistered(userName)) {
@@ -399,11 +390,8 @@ public class User implements Observer {
 
     /**
      * return the notification of the user with @param userName from users.xml file, should be a server function
-     * @param userName
-     * @return
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param userName of the user
+     * @return the notification list of the user
      */
     public static List<String> updateNotification(String userName) throws ParserConfigurationException, IOException, SAXException {
         List<String> notifications = new LinkedList<>();
@@ -418,11 +406,8 @@ public class User implements Observer {
 
     /**
      * Empty the notification list of a user, should be a server function
-     * @param username
-     * @return
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param username of the user
+     * @return true if the notification list is successfully emptied
      */
     public static boolean clearNotification(String username) throws ParserConfigurationException, IOException, SAXException {
         List<User> users = readUsers();
@@ -439,11 +424,8 @@ public class User implements Observer {
 
     /**
      * request profile of another user, should be a server function
-     * @param userName
-     * @return
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @param userName of the user
+     * @return the profile of the user (User object)
      */
     public static User requestProfile(String userName) throws ParserConfigurationException, IOException, SAXException {
         List<User> users = readUsers();

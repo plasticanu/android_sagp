@@ -4,17 +4,9 @@
         <PostId>00000000</PostId>
         <Content>This is the very first content of the app. </Content>
         <Author>user1</Author>
-        <Likes>
-            <User>user4</User>
-        </Likes>
+        <Likes/>
         <CreateTime>2022-05-13T05:35:59.211392500</CreateTime>
-        <Comments>
-            <Comment>
-                <Content>testing comment0</Content>
-                <Author>user4</Author>
-                <Time>2022-05-18T19:55:52.969866200</Time>
-            </Comment>
-        </Comments>
+        <Comments/>
         <Observers>
             <Observer>user1</Observer>
         </Observers>
@@ -23,17 +15,9 @@
         <PostId>00000001</PostId>
         <Content>This is a test post</Content>
         <Author>user1</Author>
-        <Likes>
-            <User>user4</User>
-        </Likes>
+        <Likes/>
         <CreateTime>2020-01-01</CreateTime>
-        <Comments>
-            <Comment>
-                <Content>testing comment1</Content>
-                <Author>user4</Author>
-                <Time>2022-05-18T19:56:00.043770</Time>
-            </Comment>
-        </Comments>
+        <Comments/>
         <Observers>
             <Observer>user1</Observer>
         </Observers>
@@ -42,17 +26,9 @@
         <PostId>00000002</PostId>
         <Content>1606</Content>
         <Author>user1</Author>
-        <Likes>
-            <User>user4</User>
-        </Likes>
+        <Likes/>
         <CreateTime>2022-05-16T04:26:31.385558500</CreateTime>
-        <Comments>
-            <Comment>
-                <Content>testing comment2</Content>
-                <Author>user4</Author>
-                <Time>2022-05-18T19:56:09.386472600</Time>
-            </Comment>
-        </Comments>
+        <Comments/>
         <Observers>
             <Observer>user1</Observer>
         </Observers>
@@ -61,17 +37,9 @@
         <PostId>00000003</PostId>
         <Content>THE TRAGEDY OF MACBETH</Content>
         <Author>user3</Author>
-        <Likes>
-            <User>user4</User>
-        </Likes>
+        <Likes/>
         <CreateTime>2022-05-16T04:26:31.393560700</CreateTime>
-        <Comments>
-            <Comment>
-                <Content>testing comment3</Content>
-                <Author>user4</Author>
-                <Time>2022-05-18T19:56:16.925118300</Time>
-            </Comment>
-        </Comments>
+        <Comments/>
         <Observers>
             <Observer>user3</Observer>
         </Observers>
@@ -91,9 +59,7 @@
         <PostId>00000005</PostId>
         <Content>Dramatis Personae</Content>
         <Author>user1</Author>
-        <Likes>
-            <User>user4</User>
-        </Likes>
+        <Likes/>
         <CreateTime>2022-05-16T04:26:31.407562900</CreateTime>
         <Comments/>
         <Observers>
@@ -104,9 +70,7 @@
         <PostId>00000006</PostId>
         <Content>  DUNCAN, King of Scotland</Content>
         <Author>user3</Author>
-        <Likes>
-            <User>user4</User>
-        </Likes>
+        <Likes/>
         <CreateTime>2022-05-16T04:26:31.413564</CreateTime>
         <Comments/>
         <Observers>

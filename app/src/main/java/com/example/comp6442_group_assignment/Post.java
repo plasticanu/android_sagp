@@ -499,12 +499,9 @@ public class Post implements Subject, Serializable{
 
     /**
      * Add a user to the observer list of a post, should be a server function
-     * @param postId
-     * @param username
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post
+     * @param username of the user
+     * @return true if the user is successfully added, false otherwise.
      */
     public static boolean followPost(String postId, String username) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -527,12 +524,9 @@ public class Post implements Subject, Serializable{
 
     /**
      * Remove a user from the observer list of a post, should be a server function
-     * @param postId
-     * @param username
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param postId of the post
+     * @param username of the user
+     * @return true if the user is successfully removed, false otherwise.
      */
     public static boolean unfollowPost(String postId, String username) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -555,11 +549,8 @@ public class Post implements Subject, Serializable{
 
     /**
      * get all post of a user, should be a server function
-     * @param username
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param username of the user
+     * @return a list of posts of that user
      */
     public static List<Post> getAllPosts(String username) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
@@ -574,11 +565,8 @@ public class Post implements Subject, Serializable{
 
     /**
      * Find post information by a given ID, should be a server function
-     * @param postId
+     * @param postId of the post
      * @return Post with the given ID, or null if not found
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
      */
     public static Post findPostById(String postId) throws ParserConfigurationException, IOException, SAXException {
         List<Post> posts = readFromPost();
@@ -592,9 +580,8 @@ public class Post implements Subject, Serializable{
 
     /**
      * This method was referenced from code piece by good sir mkyong at https://mkyong.com/java/how-to-create-xml-file-in-java-dom/
-     * @param doc
-     * @param output
-     * @throws TransformerException
+     * @param doc Document object
+     * @param output file to write to
      */
     public static void writeXml(Document doc, OutputStream output) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
