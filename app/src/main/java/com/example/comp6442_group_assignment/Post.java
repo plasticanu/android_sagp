@@ -2,6 +2,7 @@ package com.example.comp6442_group_assignment;
 
 import android.annotation.SuppressLint;
 
+import com.example.comp6442_group_assignment.Search.Search;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -389,6 +390,8 @@ public class Post implements Subject, Serializable{
         }
         @SuppressLint("DefaultLocale") String newPostId = String.format("%08d", Id);
         post.setPostId(newPostId);
+        Search search = Search.getInstance(); // search instance
+        search.insert(post);
         posts.add(post);
         writeToPost(posts);
         System.out.println("Post added. " + post);
@@ -485,6 +488,8 @@ public class Post implements Subject, Serializable{
         for (Post post : posts) {
             if (post.getPostId().equals(postId)) {
                 posts.remove(post);
+                Search search = Search.getInstance(); // search instance
+                search.delete(post);
                 writeToPost(posts);
                 System.out.println("Post removed. " + postId);
                 return;

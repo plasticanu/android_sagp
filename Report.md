@@ -10,7 +10,7 @@ The server is an executable java class named [FakeServer.java](./app/src/main/ja
 
 All functions of the app will run on the server and the client itself only send and receive messages then display them. 
 
-**Though the android studio does not allow the server to run before the android client initialized, otherwise exception will occur.**
+**The android studio does not allow the server to run before the AVD initialized, otherwise exception will occur.**
 ![Figure 1](./ReportStuff/1.PNG)
 Thus, for marking and testing our app, a general step tutorial is provided below: 
 
@@ -22,6 +22,10 @@ Thus, for marking and testing our app, a general step tutorial is provided below
 - [Step 3] Start interact with the android client. 
 
 **Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
+
+If any marker meet any trouble opening or running the app, please contact the team:
+- Peicheng Liu (u7294212) by SMS: +61 428 022 807, or by email: u7294212@anu.edu.au
+- 
 
 // FIXME: u7055573
 
@@ -51,7 +55,7 @@ Thus, for marking and testing our app, a general step tutorial is provided below
 
 *u7294212, Peicheng Liu, I contribute __% of the code. Here are my contributions:* 
 
-**Complete or Major contribution:**
+**Complete or Major contribution (propose and implement):**
 
 *Java Code Contribution:*
 * Fundamental project structure design
@@ -97,7 +101,7 @@ Thus, for marking and testing our app, a general step tutorial is provided below
 * Implemented Features
 * Team Meetings
 
-**Partial or Minor Contribution:**
+**Partial or Minor Contribution (Add-on):**
 * Search.java
 * StateFunctionTest.java
 
@@ -184,6 +188,7 @@ Thus, the target audience could be any person that involves in a community and w
    * Reasons:
      * Inserting items takes O(1) time which is faster than the potential O(n) time complexity of ArrayList.
      * The both User (Username) and Post (PostId) data have unique identifier for each item so accessing by index is not needed. 
+     * The number of tokens in the whole post file might be too large for a list to handle it efficiently. 
      
 4. *HashMap*
 
@@ -322,6 +327,11 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 *[What other design decisions have you made which you feel are relevant? Feel free to separate these into their own subheadings.]*
 
 ## Summary of Known Errors and Bugs
+1. *The server thread will malfunction if input request String is not valid.*
+- Consequence: The server thread will terminate if the input request String is not valid. Both server and clients must be restarted to function again. 
+- Current Fix: The client request message pattern is hard coded on the android client side. Invalid input is forbid by the android client. For the manual test client, it must be handled with cautious and referring to the grammar encoded in the FakeServer.java. 
+
+2. 
 // TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
@@ -390,12 +400,31 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 - [DataStreamFileGenerator class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/DataStreamFileGenerator.java)
 
 2. *Feature 2: Users could delete their own posts and its content will be deleted from the server side search Tree (AVL deletion). (hard)*
+- addToPost(), removeFromPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java) 
+- insert(), delete() methods in [Search class](./app/src/main/java/com/example/comp6442_group_assignment/Search/Search.java)
 // TODO: u7139999
 
 *Search* 
 1. *Feature 1: Users may search for posts by keywords, partially errored keyword would also be handled. (medium)*
 - Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
 // TODO: u7139999
+
+*Basic* 
+1. *Feature 1: Users may create a new account and sign in. (basic)* 
+- login(), register() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
+- login(), register() methods in [GuestState class](./app/src/main/java/com/example/comp6442_group_assignment/State/GuestState.java) 
+// TODO: u7055573
+
+2. *Feature 2: Users may request for server to load data/information from xml file and visualize it in the client. (basic)*
+- Line 377-387 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
+// TODO: u7055573
+
+3. *Feature 3: Users may request for server to search information on the app. (basic)*
+- Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
+// TODO: u7055573, u7139999
+
+4. *Feature 4: There is a standalone executable class to simulate actions from other users containing 3000+ data instances. (basic)*
+- [AutoClient class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java)
 
 ## Team Meetings
 
@@ -405,5 +434,6 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 - *[Team Meeting 4](ReportStuff/meeting2022-5-12.docx)*
 - *[Team Meeting 5](ReportStuff/meeting2022-5-14.md)*
 - *[Team Meeting 6](ReportStuff/meeting2022-5-16.md)* 
+- *[Team Meeting 7](ReportStuff/meeting2022-5-17.md)*
 
 
