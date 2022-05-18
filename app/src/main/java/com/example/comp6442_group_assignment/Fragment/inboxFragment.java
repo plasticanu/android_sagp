@@ -45,6 +45,8 @@ public class inboxFragment extends Fragment {
 
     private ArrayAdapter<String> notiAdapter;
     private ListView inbox;
+
+    private boolean firstInitial = false;
     public inboxFragment() {
         // Required empty public constructor
     }
@@ -86,9 +88,16 @@ public class inboxFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        firstInitial = true;
         setUpNotification();
     }
+
+    public void initialNotification(){
+        AsyncAction action = new AsyncAction();
+        homeFragment.cmd = "un";
+        action.execute(homeFragment.cmd);
+    }
+
 
     /**
      * A method for setup the user notifications.
@@ -177,6 +186,8 @@ public class inboxFragment extends Fragment {
             //resultis the data returned from doInbackground
             System.out.println(result);
             if (result.substring(0,3).compareTo("uns")==0){
+
+
                 String[] tempString = result.split(";");
 
                 if(tempString.length-1!=loginFragment.loggedNotifications.size()){
@@ -186,15 +197,19 @@ public class inboxFragment extends Fragment {
                     }
                 }
 
-                if(loginFragment.loggedNotifications.size()>1){
+                if(firstInitial==true) {
+                    if (loginFragment.loggedNotifications.size() > 1) {
 
-                    notiAdapter = new ArrayAdapter<>(getActivity(),
-                            android.R.layout.simple_list_item_1,
-                            loginFragment.loggedNotifications);
-                    inbox.setAdapter(notiAdapter);
-                    notiAdapter.notifyDataSetChanged();
+                        notiAdapter = new ArrayAdapter<>(getActivity(),
+                                android.R.layout.simple_list_item_1,
+                                loginFragment.loggedNotifications);
+                        inbox.setAdapter(notiAdapter);
+                        notiAdapter.notifyDataSetChanged();
+                    }
                 }
                 System.out.println(loginFragment.loggedNotifications.toString());
+
+
             }
 
             if (result.substring(0,3).compareTo("cns")==0){

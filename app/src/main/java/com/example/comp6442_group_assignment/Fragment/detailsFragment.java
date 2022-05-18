@@ -1,5 +1,6 @@
 package com.example.comp6442_group_assignment.Fragment;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,6 +53,7 @@ public class detailsFragment extends Fragment {
 
     private Post currentPost;
     private Post post;
+    private ArrayAdapter<String> commentAdapter;
     public detailsFragment() {
         // Required empty public constructor
     }
@@ -130,7 +133,7 @@ public class detailsFragment extends Fragment {
         for(int i = 0;i<comments.size();i++){
             comments_String.add(comments.get(i).toString());
         }
-        ArrayAdapter<String> commentAdapter = new ArrayAdapter<>(getActivity(),
+        commentAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 comments_String);
         details_comments.setAdapter(commentAdapter);
@@ -208,6 +211,29 @@ public class detailsFragment extends Fragment {
 
             }
         });
+
+
+        EditText commentInput;
+        ImageButton sendComment;
+        commentInput = getActivity().findViewById(R.id.editText_comment);
+        sendComment = getActivity().findViewById(R.id.imageButton_send_comment);
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(loginFragment.isLogged==true){
+                    String tempComment = commentInput.getText().toString().replaceAll("[-+^:\\;\\|]","");;
+                    int postId = Integer.parseInt(post.getPostId());
+                    String postIdString = String.format("%08d",postId);
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "cm "+postIdString+" "+tempComment;
+                    action.execute(homeFragment.cmd);
+                    currentPost = post;
+                }
+            }
+        });
+
+
+
     }
     /**
      * A override onCreateView method handle the details fragment.
@@ -230,6 +256,12 @@ public class detailsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
+
+    private void getThisPost(String postId){
+        AsyncAction action = new AsyncAction();
+        homeFragment.cmd = "fi "+postId;
+        action.execute(homeFragment.cmd);
+    }
 
 
     /**
@@ -290,6 +322,46 @@ public class detailsFragment extends Fragment {
                 details_like_count = getActivity().findViewById(R.id.textView_like_count2);
                 int currentLikes = Integer.parseInt(details_like_count.getText().toString());
                 details_like_count.setText(String.valueOf(currentLikes+1));
+
+            }
+
+            if (result.substring(0,3).compareTo("cms")==0){
+                getThisPost(post.getPostId());
+
+//                homeFragment fragh = new homeFragment();
+//
+//                TextView details_commen_count;
+//                details_commen_count = getActivity().findViewById(R.id.textView_comment_count2);
+//                int currentComment = Integer.parseInt(details_commen_count.getText().toString());
+//                details_commen_count.setText(String.valueOf(currentComment+1));
+//
+//                String regexC = "(?![^)(]*\\([^)(]*?\\)\\))\\|(?![^\\[]*\\])";
+//                String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
+//
+//
+//                String[] temp = result.substring(8,result.length()-1).split(regexC);
+//
+//
+//                String tempContent = temp[0].split(regexE)[1].substring(1,temp[0].split(regexE)[1].length()-1);
+//                String tempAuthor = temp[1].split(regexE)[1].substring(1,temp[1].split(regexE)[1].length()-1);
+//                String tempTime = temp[2].split(regexE)[1].substring(1,temp[2].split(regexE)[1].length()-1);
+//                Comment comment = new Comment(tempContent,tempAuthor,tempTime);
+//
+//                fragh.updateCommentRecyclerView(Integer.parseInt(currentPost.getPostId()),comment);
+            }
+
+            if (result.substring(0,3).compareTo("fis")==0){
+                homeFragment fragh = new homeFragment();
+                List<Post> newPost = fragh.setupPost(result);
+                post = newPost.get(0);
+                saveState(post);
+                for (int i = 0; i < homeFragment.postModels.size(); i++) {
+                    if (Integer.parseInt(homeFragment.postModels.get(i).getPostId()) == Integer.parseInt(post.getPostId())) {
+                        homeFragment.postModels.get(i).setComments(post.getComments());
+                        homeFragment.adapter.notifyItemChanged(i);
+                    }
+                }
+
 
             }
         }

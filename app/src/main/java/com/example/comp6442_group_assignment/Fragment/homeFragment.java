@@ -200,7 +200,7 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
         String regexC = "(?![^)(]*\\([^)(]*?\\)\\))\\|(?![^\\[]*\\])";
         String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
-        String regexCC = "(,)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
+        String regexCC = "(\\|)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
         String str = response;
         String[] newStr = str.split(";");
         for(int i = 1;i<newStr.length;i++){
@@ -386,8 +386,8 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                 adapter.notifyItemChanged(i);
             }
         }
-
     }
+
     /**
      * Use to update like post to the local environment.
      * It will be called once the post has been liked from the server end.
@@ -398,6 +398,22 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         for (int i = 0; i < postModels.size(); i++) {
             if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
                 postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                adapter.notifyItemChanged(i);
+            }
+        }
+
+    }
+
+    /**
+     * Use to update comment to the post in local environment.
+     * It will be called once the post has been liked from the server end.
+     * @Author Jiyuan Chen u7055573
+     */
+    public void updateCommentRecyclerView(int postId,Comment comment){
+
+        for (int i = 0; i < postModels.size(); i++) {
+            if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
+                postModels.get(i).getComments().add(comment);
                 adapter.notifyItemChanged(i);
             }
         }
