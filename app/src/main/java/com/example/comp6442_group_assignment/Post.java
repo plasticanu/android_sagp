@@ -371,6 +371,12 @@ public class Post implements Subject, Serializable{
         return false;
     }
 
+    /**
+     * Check whether a post belongs to the user
+     * @param postId of the post
+     * @param userId of the user
+     * @return true if the post belongs to the user, false otherwise.
+     */
     public static boolean belongToUser(String postId, String userId) throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {
@@ -612,6 +618,9 @@ public class Post implements Subject, Serializable{
         transformer.transform(source, result);
     }
 
+    /**
+     * Just for test purpose, ignore.
+     */
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         List<Post> posts = readFromPost();
         for (Post post : posts) {

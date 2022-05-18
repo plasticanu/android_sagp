@@ -3,11 +3,8 @@ package com.example.comp6442_group_assignment.State;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import com.example.comp6442_group_assignment.Comment;
-import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.*;
 import com.example.comp6442_group_assignment.Search.Search;
-import com.example.comp6442_group_assignment.User;
-import com.example.comp6442_group_assignment.UserSession;
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 
@@ -69,15 +66,7 @@ public class LoggedInState extends UserState{
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public Post createPost(String content) throws ParserConfigurationException, IOException, SAXException {
-        Post post = new Post(content, session.user.getUserName());
-        LocalDateTime now = LocalDateTime.now();
-        String dateTime = now.toString(); // get current date and time
-        post.setCreateTime(dateTime);
-        post.setLikes(new ArrayList<>());
-        post.setComments(new ArrayList<>());
-        List<String> observers = new ArrayList<>();
-        observers.add(session.user.getUserName());
-        post.setObservers(observers);
+        Post post = new PostFactory().createNewPost(session.user.getUserName(), content); // create new post
         Post.addToPost(post);
         return post;
     }

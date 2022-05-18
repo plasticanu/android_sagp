@@ -30,6 +30,14 @@ public class SearchTest {
     }
 
     @Test
+    public void fileReaderTest() throws ParserConfigurationException, IOException, SAXException {
+        List<User> users = User.readUsers();
+        assertEquals("user1", users.get(0).getUserName());
+        assertEquals("user1", users.get(0).getUserName());
+        assertEquals("user1", users.get(0).getUserName());
+    }
+
+    @Test
     public void testSearch() throws ParserConfigurationException, IOException, SAXException {
         // test searching with words
         List<Post> search1 =  search.search("Personae");
@@ -54,9 +62,9 @@ public class SearchTest {
         assertEquals("00001607", search10.get(0).getPostId());
     }
 
-    // test searching with phrases
     @Test
     public void testSearchPhrases() throws ParserConfigurationException, IOException, SAXException {
+        // test searching with phrases
         List<Post> search1 =  search.search("suffering country");
         assertEquals("00001609", search1.get(0).getPostId());
         List<Post> search2 =  search.search("violent hands");
@@ -79,9 +87,9 @@ public class SearchTest {
         assertEquals("00001546", search10.get(0).getPostId());
     }
 
-    // test searching with sentences
     @Test
     public void testSearchSentences() throws ParserConfigurationException, IOException, SAXException {
+        // test searching with sentences
         List<Post> search1 =  search.search("This is the very first content of the app");
         assertEquals("00000000", search1.get(0).getPostId());
         List<Post> search2 =  search.search("Whom we invite to see us crown'd at Scone");
@@ -104,9 +112,9 @@ public class SearchTest {
         assertEquals("00001844", search10.get(0).getPostId());
     }
 
-    // test vague searches
     @Test
     public void testMultipleResults() throws ParserConfigurationException, IOException, SAXException {
+        // test vague searches
         List<Post> search1 =  search.search("SECOND MURTHERER");
         List<String> postIDs_1 =  new ArrayList<>();
         for (Post post: search1) postIDs_1.add(post.getPostId());

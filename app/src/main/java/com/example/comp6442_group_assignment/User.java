@@ -437,14 +437,12 @@ public class User implements Observer {
         return null;
     }
 
+    /**
+     * Just for test purpose, ignore.
+     */
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         List<User> users;
         users = readUsers();
-//        UserSession userSession = new UserSession();
-//        userSession.login("user1", "qwerty");
-//        userSession.createPost("test post");
-//        Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
-//        userSession.commentPost(postCreated.getPostId(), "commented");
         System.out.println(users.get(0).getNotifications().size());
     }
 

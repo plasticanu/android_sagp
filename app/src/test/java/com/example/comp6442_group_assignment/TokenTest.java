@@ -12,14 +12,9 @@ import org.junit.Test;
 import java.util.List;
 
 public class TokenTest {
-
-
-
-    String test = "Hello world. @test, #test, \\test, 'test'";
-    SearchStringTokenizer searchStringTokenizer = new SearchStringTokenizer(test);
-
     @Test
     public void searchStringTokenizerTest() {
+        // test splitting a sentence into tag tokens
         String test = "Hello world. @test, #test, \\test, 'test'";
         SearchStringTokenizer searchStringTokenizer = new SearchStringTokenizer(test);
 
@@ -46,6 +41,7 @@ public class TokenTest {
 
     @Test
     public void postTokenizerTest() {
+        // test splitting a sentence into tokens for post
         String test = "Hello world, this is a test post.\n";
         Post post = new Post(test, "test_user");
         PostTokenizer tokenizer = new PostTokenizer(post);

@@ -306,8 +306,11 @@ Thus, the target audience could be any person that involves in a community and w
 
 4. *Factory* 
 
-    * Objective: Built-in factory design pattern DocumentBuilderFactory is being invoked when reading and writing data from/to a file.
-    * Locations: Line 172 in User.java, etc.
+    * Objective: Built-in factory design pattern is used to create post objects from partial inputs. 
+    * Locations: PostFactory.java. 
+    * Reasons: 
+      * Some information is not supposed to be inserted in by the user, such as time of post.
+      * Some variables of a post can be initialized with set pattern. 
 
 **Grammar(s)**
 
