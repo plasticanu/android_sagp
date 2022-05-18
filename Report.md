@@ -102,9 +102,18 @@ If any marker meet any trouble opening or running the app, please contact the te
 * Implemented Features
 * Team Meetings
 
+*Slide* 
+* All slides
+* Presentation
+
 **Partial or Minor Contribution (Add-on):**
+
+*Java Code Contribution:*
 * Search.java
 * StateFunctionTest.java
+
+*Report Writing* 
+* Summary of Known Errors and Bugs
 
 *u7055573, Jiyuan Chen, I contribute __% of the code. Here are my contributions:*
 
