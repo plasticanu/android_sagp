@@ -45,8 +45,8 @@ public class Search {
         }
         return instance;
     }
-    private AVLTree<String> contentAVL;
-    private AVLTree<Post> postAVL;
+    private AVLTree<String> contentAVL = new AVLTree<>();
+    private AVLTree<Post> postAVL = new AVLTree<>();
     private List<Post> allPosts = new ArrayList<>();
     private HashMap<Post, Integer> postsRank = new HashMap<>();
     // Percentage of error letters for a word allowed.
@@ -313,7 +313,9 @@ public class Search {
         allPosts.add(p);
         SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
         while(stt.hasNext()){
-            contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
+            if (stt.getCurrentToken() != null) {
+                contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
+            }
             stt.next();
         }
     }
