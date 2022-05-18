@@ -412,7 +412,10 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 - Consequence: The server thread will terminate if the input request String is not valid. Both server and clients must be restarted to function again. 
 - Current Fix: The client request message pattern is hard coded on the android client side. Invalid input is forbid by the android client. For the manual test client, it must be handled with cautious and referring to the grammar encoded in the FakeServer.java. 
 
-2. 
+2. *Disconnecting a client from the server will cause SocketException*
+- Consequence: The server will automatically re-engage when client tries to reconnect. The userSession will not be obtained. 
+- Current Fix: So far there is no fix to this bug, since it only sometimes takes a restart of the client to re-engage to the server. And the most possible way to disconnect from the server is turning off the client, so it won't need a restart. 
+
 // TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
