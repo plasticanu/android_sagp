@@ -436,6 +436,7 @@ public class Post implements Subject, Serializable{
             if (post.getPostId().equals(postId)) {
                 if (!post.getLikes().contains(userId)) {
                     post.getLikes().add(userId);
+                    post.notifyObserversLike();
                     writeToPost(posts);
                     System.out.println("Post liked. " + post);
                     return true;
@@ -463,7 +464,6 @@ public class Post implements Subject, Serializable{
             if (post.getPostId().equals(postId)) {
                 if (post.getLikes().contains(userId)) {
                     post.getLikes().remove(userId);
-                    post.notifyObserversLike();
                     writeToPost(posts);
                     System.out.println("Post unliked. " + post);
                     return true;
