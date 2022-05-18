@@ -412,7 +412,7 @@ This response message parser is used to split the response message from the serv
 
 2. *Disconnecting a client from the server will cause SocketException*
 - Consequence: The server will automatically re-engage when client tries to reconnect. The userSession will not be obtained. 
-- Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice, the first one will crash and the second reconnection will function normally. 
+- Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice (the app in the android system, not the emulator), the first one will crash and the second reconnection will function normally. 
 
 // TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
