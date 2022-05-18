@@ -624,7 +624,12 @@ public class Post implements Subject, Serializable{
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         List<Post> posts = readFromPost();
-        System.out.println(posts.get(20).getPostId());
+        for (Post post : posts) {
+            if (!post.getObservers().contains(post.author)) {
+                post.observers.add(post.author);
+            }
+        }
+        writeToPost(posts);
     }
 
 }
