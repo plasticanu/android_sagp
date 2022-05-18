@@ -333,12 +333,9 @@ public class FakeServer {
 
     /**
      * This method is used to parse the client request message and return the response message. It will also update the user session state.
-     * @param request
-     * @param userSession
-     * @return
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
+     * @param request The client request message
+     * @param userSession The user session object
+     * @return The response message
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static String getResponse(String request, UserSession userSession, Search searchEngine, List<Post> posts) throws IOException, ParserConfigurationException, SAXException {

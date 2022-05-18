@@ -12,16 +12,46 @@ All functions of the app will run on the server and the client itself only send 
 
 **The android studio does not allow the server to run before the AVD initialized, otherwise exception will occur.**
 ![Figure 1](./ReportStuff/1.PNG)
-Thus, for marking and testing our app, a general step tutorial is provided below: 
+**Thus, for marking and testing our app, a general step tutorial is provided below: (If accessing by running in Android Studio)**
 
 - [Step 1] Run the app in the android studio and do not attempt any function. 
-![Figure 2](./ReportStuff/2.PNG)
-- [Step 2] Run the server file and wait till these message appear in the console. 
-![Figure 3](./ReportStuff/3.PNG)
-![Figure 4](./ReportStuff/4.PNG)
-- [Step 3] Start interact with the android client. 
 
-**Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
+![Figure 2](./ReportStuff/2.PNG)
+
+- [Step 2] Run the [FakeServer.java](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) file and wait till these message appear in the console. 
+
+![Figure 3](./ReportStuff/3.PNG)
+
+![Figure 4](./ReportStuff/4.PNG)
+
+- [Step 3] Run the [AutoClient](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java) file to simulate the data stream. 
+
+![Figure 7](./ReportStuff/7.png)
+
+- [Step 4] Start interact with the android client. 
+
+**If running with the APK file, the steps are:**
+- [Step 1] Run the [FakeServer.java](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) file and wait till these message appear in the console.
+
+![Figure 3](./ReportStuff/3.PNG)
+- 
+![Figure 4](./ReportStuff/4.PNG)
+
+- [Step 2] Load the [apk file](./app/build/outputs/apk/debug/app-debug.apk) into the AVD and run the app. 
+
+![Figure 5](./ReportStuff/5.png)
+![Figure 6](./ReportStuff/6.png)
+
+- [Step 3] Run the [AutoClient](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java) file to simulate the data stream.
+
+![Figure 7](./ReportStuff/7.png)
+
+- [Step 4] Start interact with the android client.
+
+
+**P.S. Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
+
+**P.S. Also again, once the AutoClient started running, the server file would be changed permanently, if you want to test again freshly, you can always Git Rollback [post.xml](./app/src/main/assets/post.xml) and [user.xml](./app/src/main/assets/user.xml). Of Rollback is not viable, there is a copy to each file in the [backup](./app/src/main/assets/backup) folder that you can replace for.**
 
 If any marker meet any trouble opening or running the app, please contact the team:
 - Peicheng Liu (u7294212) by SMS: +61 428 022 807, or by email: u7294212@anu.edu.au if you run the project on Intellij

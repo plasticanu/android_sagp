@@ -194,8 +194,11 @@ public class Post implements Subject, Serializable{
     private String commentListToString(List<Comment> comments) {
         String rtn = "[";
         if (comments != null && !comments.isEmpty()) {
-            for (Comment comment : comments) {
-                rtn += ";" + comment.toString();
+            for (int i = 0; i < comments.size(); i++) {
+                rtn += comments.get(i).toString();
+                if (i != comments.size() - 1) {
+                    rtn += ";";
+                }
             }
         }
         rtn += "]";
