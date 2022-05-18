@@ -124,6 +124,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 * registerFragment.java
 * detailsFragment.java
 * editFragment.java
+* inboxFragment.java
 
 *UI Layout*
 * activity_main.xml
@@ -136,11 +137,14 @@ If any marker meet any trouble opening or running the app, please contact the te
 * fragment_register.xml
 * fragment_details.xml
 * fragment_edit.xml
+* fragment_inbox.xml
 * recycler_view_button.xml
 * recycler_view_row.xml
+* buttom_menu.xml
+* my_nav.xml
 
 
-// TODO: u7055573, u7139999, u7297753
+// TODO: u7139999, u7297753
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
 *[UI Design. Specify what design did the involved member propose? What tools were used for the design?]*
