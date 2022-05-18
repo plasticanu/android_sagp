@@ -24,8 +24,8 @@ Thus, for marking and testing our app, a general step tutorial is provided below
 **Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
 
 If any marker meet any trouble opening or running the app, please contact the team:
-- Peicheng Liu (u7294212) by SMS: +61 428 022 807, or by email: u7294212@anu.edu.au
-- 
+- Peicheng Liu (u7294212) by SMS: +61 428 022 807, or by email: u7294212@anu.edu.au if you run the project on Intellij
+- Jiyuan Chen (u7055573) by email: u7055573@anu.edu.au if you run the project on Android Studio
 
 // FIXME: u7055573
 
@@ -60,6 +60,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 *Java Code Contribution:*
 * Fundamental project structure design
 * Server-client model
+* File writing and reading
 * CreatePostXml.java
 * CreateUserXml.java
 * FakeClient.java
