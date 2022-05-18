@@ -1,6 +1,5 @@
 package com.example.comp6442_group_assignment.Fragment;
 
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,12 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.comp6442_group_assignment.MainActivity;
-import com.example.comp6442_group_assignment.Post;
+import com.example.comp6442_group_assignment.Comment;
 import com.example.comp6442_group_assignment.R;
 
 import java.io.BufferedReader;
@@ -30,10 +28,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link profileFragment#newInstance} factory method to
+ * Use the {@link inboxFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class profileFragment extends Fragment {
+public class inboxFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +42,9 @@ public class profileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public profileFragment() {
+    private ArrayAdapter<String> notiAdapter;
+    private ListView inbox;
+    public inboxFragment() {
         // Required empty public constructor
     }
 
@@ -54,11 +54,11 @@ public class profileFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment profileFragment.
+     * @return A new instance of fragment inboxFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static profileFragment newInstance(String param1, String param2) {
-        profileFragment fragment = new profileFragment();
+    public static inboxFragment newInstance(String param1, String param2) {
+        inboxFragment fragment = new inboxFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,47 +79,38 @@ public class profileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflater.inflate(R.layout.fragment_inbox, container, false);
     }
 
-    /**
-     * Userd to handle the profile fragment.
-     * @Author Jiyuan Chen u7055573
-     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView userName,userEmail,userFullname;
-        Button loggout,inbox;
+        setUpNotification();
+    }
 
-        userName = view.findViewById(R.id.profile_username);
-        userName.setText(loginFragment.loggedUsername);
+    /**
+     * A method for setup the user notifications.
+     * The return list will only show when user got >=2 notifications
+     * @Author Jiyuan Chen u7055573
+     */
+    private void setUpNotification(){
+        inbox = getActivity().findViewById(R.id.listView_inbox);
 
-        userEmail = view.findViewById(R.id.profile_email);
-        userEmail.setText(loginFragment.loggedEmail);
+        AsyncAction action = new AsyncAction();
+        homeFragment.cmd = "un";
+        action.execute(homeFragment.cmd);
 
-        userFullname = view.findViewById(R.id.profile_fullname);
-        userFullname.setText(loginFragment.loggedFullname);
 
-        loggout = view.findViewById(R.id.button_logout);
-        inbox = view.findViewById(R.id.button_inbox);
-        //define a click listener to perform loggout action
-        loggout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AsyncAction action = new AsyncAction();
-                homeFragment.cmd = "lo";
-                action.execute(homeFragment.cmd);
-            }
-        });
+        if(loginFragment.loggedNotifications.size()>1){
 
-        inbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) getActivity()).replaceFragment(new inboxFragment());
-            }
-        });
+            notiAdapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_list_item_1,
+                    loginFragment.loggedNotifications);
+            inbox.setAdapter(notiAdapter);
+            notiAdapter.notifyDataSetChanged();
+        }
+
 
     }
 
@@ -128,7 +119,7 @@ public class profileFragment extends Fragment {
     /**
      * An AsyncTask class, used to make connection and,
      * communicate with server.
-     * @Author Jiyuan Chen u7055573, Support by: Peicheng Liu u7294212
+     * @Author Jiyuan Chen u7055573
      */
     private class AsyncAction extends AsyncTask<String, Void, String> {
 
@@ -167,18 +158,34 @@ public class profileFragment extends Fragment {
             return response;
         }
 
+        /**
+         * An override onPostExecute method, to check if get notification success
+         * update ui and local inbox listview.
+         * @Author Jiyuan Chen u7055573
+         */
         protected void onPostExecute(String result) {
             //resultis the data returned from doInbackground
+            System.out.println(result);
+            if (result.substring(0,3).compareTo("uns")==0){
+                String[] tempString = result.split(";");
 
-            //reset the user information
-            loginFragment.isLogged=false;
-            loginFragment.loggedUsername = "";
-            loginFragment.loggedFullname = "";
-            loginFragment.loggedEmail = "";
-            loginFragment.loggedPhone = "";
-            loginFragment.loggedNotifications=new ArrayList<>();
-            //disable the profile fragment, return to login page.
-            ((MainActivity) getActivity()).replaceFragment(new loginFragment());
+                if(tempString.length-1!=loginFragment.loggedNotifications.size()){
+                    loginFragment.loggedNotifications.clear();
+                    for(int i =1;i<tempString.length;i++){
+                        loginFragment.loggedNotifications.add(tempString[i]);
+                    }
+                }
+
+                if(loginFragment.loggedNotifications.size()>1){
+
+                    notiAdapter = new ArrayAdapter<>(getActivity(),
+                            android.R.layout.simple_list_item_1,
+                            loginFragment.loggedNotifications);
+                    inbox.setAdapter(notiAdapter);
+                    notiAdapter.notifyDataSetChanged();
+                }
+                System.out.println(loginFragment.loggedNotifications.toString());
+            }
         }
     }
 }

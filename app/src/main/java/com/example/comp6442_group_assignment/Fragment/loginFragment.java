@@ -50,7 +50,7 @@ public class loginFragment extends Fragment {
     public static String loggedFullname = "";
     public static String loggedEmail = "";
     public static String loggedPhone = "";
-
+    public static List<String> loggedNotifications = new ArrayList<>();
 
     public loginFragment() {
         // Required empty public constructor
