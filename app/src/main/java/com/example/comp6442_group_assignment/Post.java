@@ -183,9 +183,25 @@ public class Post implements Subject, Serializable{
                 "| author='" + author + '\'' +
                 "| likes=" + likes +
                 "| createTime='" + createTime + '\'' +
-                "| comments=" + comments +
+                "| comments=" + commentListToString(comments) +
                 "| observers=" + observers +
                 '}';
+    }
+
+    /**
+     * This method turns the comment list to a string to be accepted by the android client parser.
+     * @param comments the comment list
+     * @return A patterned string of the comment list.
+     */
+    private String commentListToString(List<Comment> comments) {
+        String rtn = "[";
+        if (comments != null && !comments.isEmpty()) {
+            for (Comment comment : comments) {
+                rtn += ";" + comment.toString();
+            }
+        }
+        rtn += "]";
+        return rtn;
     }
 
     /**
