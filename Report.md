@@ -37,7 +37,7 @@ All functions of the app will run on the server and the client itself only send 
 - 
 ![Figure 4](./ReportStuff/4.PNG)
 
-- [Step 2] Load the [apk file](./app/build/outputs/apk/debug/app-debug.apk) into the AVD and run the app. 
+- [Step 2] Load the [apk file](./app/build/outputs/apk/debug/app-debug.apk) into the AVD and run the app by drag and drop. 
 
 ![Figure 5](./ReportStuff/5.png)
 ![Figure 6](./ReportStuff/6.png)
@@ -410,7 +410,10 @@ This response message parser is used to split the response message from the serv
 - Consequence: The server thread will terminate if the input request String is not valid. Both server and clients must be restarted to function again. 
 - Current Fix: The client request message pattern is hard coded on the android client side. Invalid input is forbid by the android client. For the manual test client, it must be handled with cautious and referring to the grammar encoded in the FakeServer.java. 
 
-2. 
+2. *Disconnecting a client from the server will cause SocketException*
+- Consequence: The server will automatically re-engage when client tries to reconnect. The userSession will not be obtained. 
+- Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice, the first one will crash and the second reconnection will function normally. 
+
 // TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
