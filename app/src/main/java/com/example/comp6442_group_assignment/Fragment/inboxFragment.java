@@ -198,14 +198,14 @@ public class inboxFragment extends Fragment {
                 }
 
                 if(firstInitial==true) {
-                    if (loginFragment.loggedNotifications.size() > 1) {
+//                    if (loginFragment.loggedNotifications.size() > 1) {
 
-                        notiAdapter = new ArrayAdapter<>(getActivity(),
-                                android.R.layout.simple_list_item_1,
-                                loginFragment.loggedNotifications);
-                        inbox.setAdapter(notiAdapter);
-                        notiAdapter.notifyDataSetChanged();
-                    }
+                    notiAdapter = new ArrayAdapter<>(getActivity(),
+                            android.R.layout.simple_list_item_1,
+                            loginFragment.loggedNotifications);
+                    inbox.setAdapter(notiAdapter);
+                    notiAdapter.notifyDataSetChanged();
+//                    }
                 }
                 System.out.println(loginFragment.loggedNotifications.toString());
 

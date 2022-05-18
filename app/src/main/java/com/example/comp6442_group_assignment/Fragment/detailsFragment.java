@@ -276,6 +276,7 @@ public class detailsFragment extends Fragment {
     }
 
 
+
     /**
      * An AsyncTask class, used to make connection and,
      * communicate with server.
@@ -330,6 +331,27 @@ public class detailsFragment extends Fragment {
                 homeFragment fragh = new homeFragment();
                 fragh.updateLikeRecyclerView(Integer.parseInt(currentPost.getPostId()));
 
+                //check if previous fragment was searchFragment,
+                //If it's check for searchFragment postModels, if find the same post
+                //update the like number of that post in searchFragment.
+                if(searchFragment.accessFromSearch == true){
+                    for (int i = 0; i <searchFragment.postModels.size(); i++) {
+                        if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(currentPost.getPostId())) {
+                            searchFragment.postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                            searchFragment.adapter.notifyItemChanged(i);
+                        }
+                    }
+                    searchFragment.accessFromSearch = false;
+                }
+                if(searchFragment.postModels!=null){
+                    for (int i = 0; i <searchFragment.postModels.size(); i++) {
+                        if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(currentPost.getPostId())) {
+                            searchFragment.postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                            searchFragment.adapter.notifyItemChanged(i);
+                        }
+                    }
+                }
+
                 TextView details_like_count;
                 details_like_count = getActivity().findViewById(R.id.textView_like_count2);
                 int currentLikes = Integer.parseInt(details_like_count.getText().toString());
@@ -353,6 +375,19 @@ public class detailsFragment extends Fragment {
                         homeFragment.postModels.get(i).setComments(post.getComments());
                         homeFragment.adapter.notifyItemChanged(i);
                     }
+                }
+                //check if previous fragment was searchFragment,
+                //If it's check for searchFragment postModels, if find the same post
+                //update the comments of that post in searchFragment.
+                if(searchFragment.accessFromSearch == true){
+                    for (int i = 0; i < searchFragment.postModels.size(); i++) {
+                        if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(post.getPostId())) {
+                            searchFragment.postModels.get(i).setComments(post.getComments());
+                            searchFragment.adapter.notifyItemChanged(i);
+                        }
+                    }
+
+                    searchFragment.accessFromSearch = false;
                 }
 
 

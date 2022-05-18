@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.Fragment.homeFragment;
+import com.example.comp6442_group_assignment.Fragment.inboxFragment;
 import com.example.comp6442_group_assignment.Fragment.loginFragment;
 import com.example.comp6442_group_assignment.Fragment.postFragment;
 import com.example.comp6442_group_assignment.Fragment.profileFragment;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     int time=0;
     Handler handler;
-
     // Author Zhidong Piao u7139999
     // This field let other classes (non activity class) access the application context.
     // For accessing the resource and assets folder.
@@ -43,14 +43,25 @@ public class MainActivity extends AppCompatActivity {
         updateNotificationEverySecond();
     }
 
+    /**
+     * A Custom handler method.
+     * Use send request to server to check if user got new notifications.
+     * @Author Jiyuan Chen u7055573
+     */
     private void updateNotificationEverySecond() {
         handler = new Handler();
         Runnable run = new Runnable() {
             @Override
             public void run() {
                 time++;
-                if(loginFragment.isLogged == true && loginFragment.loggedNotifications.size()>0){
-                    Toast.makeText(MainActivity.this, "You have got new notifications!", Toast.LENGTH_SHORT).show();
+
+                if(loginFragment.isLogged == true){
+
+                    inboxFragment fragi = new inboxFragment();
+                    fragi.initialNotification();
+                    if(loginFragment.loggedNotifications.size()>1) {
+                        Toast.makeText(MainActivity.this, "You have got new notifications!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 handler.postDelayed(this, 5000);
             }

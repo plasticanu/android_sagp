@@ -61,7 +61,11 @@ public class Post_RecyclerViewAdapter extends RecyclerView.Adapter<Post_Recycler
 
     @Override
     public int getItemCount() {
-        return postModels.size()+1;
+        if(postModels==null){
+            return 0;
+        }else {
+            return postModels.size() + 1;
+        }
     }
     public void update(List<Post> data){
         this.postModels.clear();

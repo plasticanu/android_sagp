@@ -1,6 +1,5 @@
 package com.example.comp6442_group_assignment.Fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,14 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.Comment;
@@ -28,29 +22,15 @@ import com.example.comp6442_group_assignment.Post_RecyclerViewAdapter;
 import com.example.comp6442_group_assignment.R;
 import com.example.comp6442_group_assignment.RecyclerViewInterface;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -259,9 +239,14 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             Post post = new Post(postId, content, author, likes, createTime, comments, observers); //FIXME: read observer
             pModels.add(post);
         }
-        List<Post> postCopy = pModels.subList(0, pModels.size());
-        Collections.reverse(postCopy);
-        return postCopy;
+        if(searchFragment.isSearching){
+            return pModels;
+        }else {
+            List<Post> postCopy = pModels.subList(0, pModels.size());
+            Collections.reverse(postCopy);
+            return postCopy;
+        }
+
     }
 
     /**
@@ -515,6 +500,17 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                 if (result.substring(0,3).compareTo("lps")==0) {
 
                     updateLikeRecyclerView(Integer.parseInt(itemId));
+                    //check if previous fragment was searchFragment,
+                    //If it's check for searchFragment postModels, if find the same post
+                    //update the like number of that post in searchFragment.
+                    if(searchFragment.postModels!=null){
+                        for (int i = 0; i <searchFragment.postModels.size(); i++) {
+                            if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(itemId)) {
+                                searchFragment.postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                                searchFragment.adapter.notifyItemChanged(i);
+                            }
+                        }
+                    }
 
                 }
             }
