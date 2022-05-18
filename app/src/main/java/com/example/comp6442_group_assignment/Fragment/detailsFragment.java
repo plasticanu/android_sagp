@@ -54,6 +54,9 @@ public class detailsFragment extends Fragment {
     private Post currentPost;
     private Post post;
     private ArrayAdapter<String> commentAdapter;
+    private EditText commentInput;
+    private ImageButton sendComment;
+
     public detailsFragment() {
         // Required empty public constructor
     }
@@ -213,21 +216,27 @@ public class detailsFragment extends Fragment {
         });
 
 
-        EditText commentInput;
-        ImageButton sendComment;
+
         commentInput = getActivity().findViewById(R.id.editText_comment);
         sendComment = getActivity().findViewById(R.id.imageButton_send_comment);
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(loginFragment.isLogged==true){
-                    String tempComment = commentInput.getText().toString().replaceAll("[-+^:\\;\\|]","");;
-                    int postId = Integer.parseInt(post.getPostId());
-                    String postIdString = String.format("%08d",postId);
-                    AsyncAction action = new AsyncAction();
-                    homeFragment.cmd = "cm "+postIdString+" "+tempComment;
-                    action.execute(homeFragment.cmd);
-                    currentPost = post;
+                    String tempComment = commentInput.getText().toString().replaceAll("[-+^:\\;\\|]","");
+
+                    if(tempComment.compareTo("")!=0) {
+                        int postId = Integer.parseInt(post.getPostId());
+                        String postIdString = String.format("%08d", postId);
+                        AsyncAction action = new AsyncAction();
+                        homeFragment.cmd = "cm " + postIdString + " " + tempComment;
+                        action.execute(homeFragment.cmd);
+                        currentPost = post;
+                    }else{
+                        Toast.makeText(getActivity(), "You can't comment empty!", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -256,7 +265,10 @@ public class detailsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
-
+    /**
+     * A return current detailed post.
+     * @Author Jiyuan Chen u7055573
+     */
     private void getThisPost(String postId){
         AsyncAction action = new AsyncAction();
         homeFragment.cmd = "fi "+postId;
@@ -307,7 +319,7 @@ public class detailsFragment extends Fragment {
         }
 
         /**
-         * An override onPostExecute method, to check if like post success
+         * An override onPostExecute method, to check if like post/comment success
          * update ui and local recyclerView.
          * @Author Jiyuan Chen u7055573
          */
@@ -327,27 +339,8 @@ public class detailsFragment extends Fragment {
 
             if (result.substring(0,3).compareTo("cms")==0){
                 getThisPost(post.getPostId());
+                commentInput.setText("");
 
-//                homeFragment fragh = new homeFragment();
-//
-//                TextView details_commen_count;
-//                details_commen_count = getActivity().findViewById(R.id.textView_comment_count2);
-//                int currentComment = Integer.parseInt(details_commen_count.getText().toString());
-//                details_commen_count.setText(String.valueOf(currentComment+1));
-//
-//                String regexC = "(?![^)(]*\\([^)(]*?\\)\\))\\|(?![^\\[]*\\])";
-//                String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
-//
-//
-//                String[] temp = result.substring(8,result.length()-1).split(regexC);
-//
-//
-//                String tempContent = temp[0].split(regexE)[1].substring(1,temp[0].split(regexE)[1].length()-1);
-//                String tempAuthor = temp[1].split(regexE)[1].substring(1,temp[1].split(regexE)[1].length()-1);
-//                String tempTime = temp[2].split(regexE)[1].substring(1,temp[2].split(regexE)[1].length()-1);
-//                Comment comment = new Comment(tempContent,tempAuthor,tempTime);
-//
-//                fragh.updateCommentRecyclerView(Integer.parseInt(currentPost.getPostId()),comment);
             }
 
             if (result.substring(0,3).compareTo("fis")==0){

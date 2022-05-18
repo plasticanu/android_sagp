@@ -201,10 +201,12 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         String regexC = "(?![^)(]*\\([^)(]*?\\)\\))\\|(?![^\\[]*\\])";
         String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
         String regexCC = "(\\|)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
-        String str = response;
-        String[] newStr = str.split(";");
-        for(int i = 1;i<newStr.length;i++){
+        String regexS = "(?![^)(]*\\([^)(]*?\\)\\))\\;(?![^\\[]*\\])";
 
+        String str = response;
+        String[] newStr = str.split(regexS);
+        for(int i = 1;i<newStr.length;i++){
+            System.out.println(newStr[i]);
             String[] temp = newStr[i].substring(5,newStr[i].length()-1).split(regexC);
 
 
@@ -238,15 +240,18 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             String[] commentString;
             List<Comment> comments = new ArrayList<>();
             if(temp[5].split(regexE)[1].length()>2){
-                commentString = temp[5].split(regexE)[1].substring(1,temp[5].split(regexE)[1].length()-1).split(regexCC);
+                commentString = temp[5].split(regexE)[1].substring(1,temp[5].split(regexE)[1].length()-1).split(regexS);
                 for(int k=0;k<commentString.length;k++){
-                    String[] tempCC = commentString[k].trim().substring(8,commentString[k].trim().length()-1).split(regexCC);
-                    String tempContent = tempCC[0].split(regexE)[1].substring(1,tempCC[0].split(regexE)[1].length()-1);
-                    String tempAuthor = tempCC[1].split(regexE)[1].substring(1,tempCC[1].split(regexE)[1].length()-1);
-                    String tempTime = tempCC[2].split(regexE)[1].substring(1,tempCC[2].split(regexE)[1].length()-1);
-                    Comment comment = new Comment(tempContent,tempAuthor,tempTime);
+                    String newtempComment = commentString[k].substring(8,commentString[k].length()-1);
+                    String[] oneComment = newtempComment.split(regexCC);
 
+                    String tempContent = oneComment[0].split(regexE)[1].substring(1,oneComment[0].split(regexE)[1].length()-1);
+                    String tempAuthor = oneComment[1].split(regexE)[1].substring(1,oneComment[1].split(regexE)[1].length()-1);
+                    String tempTime = oneComment[2].split(regexE)[1].substring(1,oneComment[2].split(regexE)[1].length()-1);
+                    Comment comment = new Comment(tempContent,tempAuthor,tempTime);
                     comments.add(comment);
+
+
                 }
 
             }
