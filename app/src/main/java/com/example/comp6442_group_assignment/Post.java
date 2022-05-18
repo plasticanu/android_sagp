@@ -195,7 +195,7 @@ public class Post implements Subject, Serializable{
      * @throws ParserConfigurationException
      */
     public static void writeToPost(List<Post> posts) throws ParserConfigurationException {
-        boolean useTestPath = false;
+        boolean useTestPath = false; // Just for test purpose
         String testPath = "src/main/assets/post.xml";
         String address = "app/src/main/assets/post.xml";
         File file = new File(address);
@@ -295,7 +295,7 @@ public class Post implements Subject, Serializable{
      */
     public static List<Post> readFromPost() throws ParserConfigurationException, SAXException, IOException {
         List<Post> posts = new LinkedList<>();
-        String testPath = "src/main/assets/post.xml";
+        String testPath = "src/main/assets/post.xml"; // Just for test purpose
         String address = "app/src/main/assets/post.xml";
         File file = new File(address);
         if (!file.exists()) {
@@ -594,6 +594,16 @@ public class Post implements Subject, Serializable{
             }
         }
         return postsByUser;
+    }
+
+    public static Post findPostById(String postId) throws ParserConfigurationException, IOException, SAXException {
+        List<Post> posts = readFromPost();
+        for (Post post : posts) {
+            if (post.getPostId().equals(postId)) {
+                return post;
+            }
+        }
+        return null;
     }
 
     public static void writeXml(Document doc,

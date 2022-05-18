@@ -328,6 +328,7 @@ public class FakeServer {
         thread1.start();
         thread2.start();
         thread3.start();
+        thread4.start();
     }
 
     /**
@@ -592,8 +593,16 @@ public class FakeServer {
                     }
                     System.out.println("Request Profile response...");
                     break;
-
-
+                case "fi":
+                    System.out.println("Find post by ID request");
+                    String[] tokens_fi = request.split(" ");
+                    String postId_fi = tokens_fi[1];
+                    Post post_fi = UserSession.findPostById(postId_fi);
+                    if (post_fi != null) {
+                        response = "fis;" + post_fi.toString();
+                    } else {
+                        response = "fif;Find post by ID Failed. Not exists.  ";
+                    }
             }
         }
         return response;

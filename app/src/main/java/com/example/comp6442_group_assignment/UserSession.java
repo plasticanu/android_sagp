@@ -136,6 +136,10 @@ public class UserSession {
         return state.requestProfile(userName);
     }
 
+    public static Post findPostById(String postId) throws ParserConfigurationException, IOException, SAXException {
+        return Post.findPostById(postId);
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         UserSession userSession = new UserSession();
         List<Post> posts = userSession.search("contant");
@@ -143,4 +147,6 @@ public class UserSession {
             System.out.println(post.getPostId());
         }
     }
+
+
 }

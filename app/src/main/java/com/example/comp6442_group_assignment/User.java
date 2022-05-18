@@ -164,7 +164,7 @@ public class User implements Observer {
      * @return list of users registered in the system
      */
     public static List<User> readUsers() throws ParserConfigurationException, IOException, SAXException {
-        String testPath = "src/main/assets/user.xml";
+        String testPath = "src/main/assets/user.xml"; // Just for test purpose
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
         if (!file.exists()) {
@@ -231,7 +231,7 @@ public class User implements Observer {
      * @throws SAXException
      */
     public static void writeToUser(List<User> users) throws ParserConfigurationException, IOException, SAXException {
-        boolean useTestPath = false;
+        boolean useTestPath = false; // Just for test purpose
         String testPath = "src/main/assets/user.xml";
         String address = "app/src/main/assets/user.xml";
         File file = new File(address);
