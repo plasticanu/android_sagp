@@ -39,6 +39,7 @@ public class FakeServer {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
+                boolean stopFlag = false; // Flag to stop the thread
                 Socket socket = null;
                 InputStreamReader inputStreamReader = null;
                 OutputStreamWriter outputStreamWriter = null;
@@ -50,7 +51,6 @@ public class FakeServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
                 while (true) {
 
@@ -67,7 +67,7 @@ public class FakeServer {
                         bufferedReader = new BufferedReader(inputStreamReader);
                         bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        while (true) {
+                        while (!stopFlag) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
                             String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
@@ -77,13 +77,14 @@ public class FakeServer {
                             bufferedWriter.flush();
                             System.out.println("Message sent: " + msgToClient);
 
-
                         }
+                        stopFlag = false;
 
                     } catch (IOException | ParserConfigurationException | SAXException e) {
                         e.printStackTrace();
+                        stopFlag = true;
+                        System.out.println("Error in thread 1, restarting...");
                     } finally {
-
                         if (bufferedReader != null) {
                             try {
                                 bufferedReader.close();
@@ -128,6 +129,7 @@ public class FakeServer {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
+                boolean stopFlag = false; // Flag to stop the thread
                 Socket socket = null;
                 InputStreamReader inputStreamReader = null;
                 OutputStreamWriter outputStreamWriter = null;
@@ -144,6 +146,7 @@ public class FakeServer {
                 while (true) {
 
                     try {
+                        stopFlag = false;
                         UserSession userSession = new UserSession();
 
                         System.out.println(userSession.getState());
@@ -156,7 +159,7 @@ public class FakeServer {
                         bufferedReader = new BufferedReader(inputStreamReader);
                         bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        while (true) {
+                        while (!stopFlag) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
                             String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
@@ -166,11 +169,12 @@ public class FakeServer {
                             bufferedWriter.flush();
                             System.out.println("Message sent: " + msgToClient);
 
-
                         }
 
                     } catch (IOException | ParserConfigurationException | SAXException e) {
                         e.printStackTrace();
+                        stopFlag = true;
+                        System.out.println("Error in thread 2, restarting...");
                     } finally {
 
                         if (bufferedReader != null) {
@@ -217,6 +221,7 @@ public class FakeServer {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
+                boolean stopFlag = false; // Flag to stop the thread
                 Socket socket = null;
                 InputStreamReader inputStreamReader = null;
                 OutputStreamWriter outputStreamWriter = null;
@@ -233,6 +238,7 @@ public class FakeServer {
                 while (true) {
 
                     try {
+                        stopFlag = false;
                         UserSession userSession = new UserSession();
 
                         System.out.println(userSession.getState());
@@ -245,7 +251,7 @@ public class FakeServer {
                         bufferedReader = new BufferedReader(inputStreamReader);
                         bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        while (true) {
+                        while (!stopFlag) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
                             String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
@@ -254,12 +260,12 @@ public class FakeServer {
                             bufferedWriter.newLine();
                             bufferedWriter.flush();
                             System.out.println("Message sent: " + msgToClient);
-
-
                         }
 
                     } catch (IOException | ParserConfigurationException | SAXException e) {
                         e.printStackTrace();
+                        stopFlag = true;
+                        System.out.println("Error in thread 3, restarting...");
                     } finally {
 
                         if (bufferedReader != null) {
@@ -306,7 +312,7 @@ public class FakeServer {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(2500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
