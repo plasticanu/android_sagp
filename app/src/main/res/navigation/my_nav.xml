@@ -55,4 +55,9 @@
         android:name="com.example.comp6442_group_assignment.Fragment.inboxFragment"
         android:label="fragment_inbox"
         tools:layout="@layout/fragment_inbox" />
+    <fragment
+        android:id="@+id/otherProfileFragment"
+        android:name="com.example.comp6442_group_assignment.Fragment.otherProfileFragment"
+        android:label="fragment_other_profile"
+        tools:layout="@layout/fragment_other_profile" />
 </navigation>

@@ -7,6 +7,18 @@
     tools:context=".Fragment.detailsFragment">
 
     <ImageButton
+        android:id="@+id/button_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_baseline_playlist_add_24"
+        app:layout_constraintEnd_toStartOf="@+id/button_edit_post"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/button_delete_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
