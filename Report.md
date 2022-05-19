@@ -199,8 +199,21 @@ If any marker meet any trouble opening or running the app, please contact the te
 *post.xml 
 
 
+*u7297753, Jun Cheng Zhang
+
 *Java Code Contribution:*
-// TODO: u7297753
+**Complete contribution (design unit tests):**
+* SearchTest.java
+* AVLTreeTest.java
+* PaserTest.java
+* TokenTest.java
+
+**Partial or Minor Contribution (Add-on):**
+* StateFunctionTest.java
+
+
+
+
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
 *[UI Design. Specify what design did the involved member propose? What tools were used for the design?]*
@@ -431,7 +444,6 @@ This response message parser is used to split the response message from the serv
 - Consequence: The server will automatically re-engage when client tries to reconnect. The userSession will not be obtained. 
 - Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice (the app in the android system, not the emulator), the first one will crash and the second reconnection will function normally. 
 
-// TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
 *Here is an example:*
@@ -451,19 +463,22 @@ This response message parser is used to split the response message from the serv
 *List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
 
 ## Testing Summary
-// TODO: u7297753
 *[What features have you tested? What is your testing coverage?]*
 
-*Here is an example:*
+*Number of test cases: 32*
 
-*Number of test cases: ...*
+*Code coverage: 87%*
 
-*Code coverage: ...*
-
-*Types of tests created: ...*
+*Types of tests created:
+- Token tests: check if the tokenizers function correctly.
+- AVLTree tests: check if the AVLTree functions correctly.
+- User session interaction tests: check if the methods associated with user session function correctly.
+- Parser tests: check if the parser functions correctly.
+- Search tests: check if the search engine functions correctly*
 
 *Please provide some screenshots of your testing summary, showing the achieved testing coverage. Feel free to provide further details on your tests.*
-
+![Test coverage](./ReportStuff/Test coverage.PNG)
+![Test summary](./ReportStuff/Test summary.PNG)
 ## Implemented Features
 
 *UI Design and Testing*

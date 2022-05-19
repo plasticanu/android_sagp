@@ -44,7 +44,7 @@ public class SearchTest {
     }
 
     @Test
-    public void testSearch() throws ParserConfigurationException, IOException, SAXException {
+    public void testSearchWords() throws ParserConfigurationException, IOException, SAXException {
 
         assertThrows(NullPointerException.class, () -> {
             search.search(null);
@@ -173,6 +173,7 @@ public class SearchTest {
 
     @Test
     public void testExactTag() throws ParserConfigurationException, IOException, SAXException {
+        // test searching with exact tag
         List<Post> result = search.search("'this'");
         assertEquals(83, result.size());
 
@@ -189,27 +190,24 @@ public class SearchTest {
     }
 
     @Test
-    public void testExcludeTag() throws ParserConfigurationException, IOException, SAXException {
-        List<Post> result = search.search("\\you");
-        assertEquals(2406, result.size());
-
-        int correctResultCount = 0;
-        for (Post p : result) {
-            if (!p.getContent().toLowerCase().contains("you")) {
-                correctResultCount++;
-            } else {
-                break;
-            }
-        }
-        assertEquals(2406, correctResultCount);
-    }
-
-    @Test
     public void testHashTag() throws ParserConfigurationException, IOException, SAXException {
+        // test searching with hash tag
         List<Post> result = search.search("#you");
 
         assertEquals(1, result.size());
         assertEquals("00000895", result.get(0).getPostId());
+    }
+
+    @Test
+    public void testContentWithTag() throws ParserConfigurationException, IOException, SAXException {
+        // test searching content with tag
+        List<Post> result = search.search("@user1, this is a");
+        int expected = 0;
+        for (Post post: result) {
+            if (post.getAuthor().equals("user1") && post.getContent().contains("this is a"));
+            expected ++;
+        }
+        assertEquals(expected, result.size());
     }
 
 }
