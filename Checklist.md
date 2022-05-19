@@ -2,7 +2,7 @@
 The following markdown document is a checklist of items you **should** complete before submission of your assignment. This exists to help you keep track of all the requirements you must fulfil.
 
 ## Statement of Originality
-- [ ] All members have read and signed the [statement of originality](./statement-of-originality.yml). Failure to do so will result in zero marks.
+- [x] All members have read and signed the [statement of originality](./statement-of-originality.yml). Failure to do so will result in zero marks.
 - [x] All external code, assets or help received outside the group is documented in the [statement of originality](./statement-of-originality.yml).
 
 ## GitLab
@@ -16,7 +16,7 @@ The following markdown document is a checklist of items you **should** complete 
 - [x] At least 1 feature classified as 'hard'.
 
 ## APK
-- [ ] A working standalone APK is included in the GitLab repo, i.e., an APK that can be loaded and execute correctly on an AVD.
+- [x] A working standalone APK is included in the GitLab repo, i.e., an APK that can be loaded and execute correctly on an AVD.
 
 ## Report Checklist
 - [x] Have a markdown report document titled 'report.md' on your GitLab. We advise you to use the provided template when writing your report (it will help you cover everything necessary).
@@ -31,7 +31,7 @@ The following markdown document is a checklist of items you **should** complete 
 - [ ] A description of how your team addressed the surprise item and any decisions your team had to make in the process.
 - [ ] All bugs and errors (that are known) are listed.
 - [ ] Details of tests provided such as the type, number and coverage.
-- [ ] Summary of all implemented features (categorised by overall feature and classified by their difficulty levels).
+- [x] Summary of all implemented features (categorised by overall feature and classified by their difficulty levels).
 - [x] Team Meeting Minutes (either linked from or inside the report itself). There must be at least 4 meetings among the team. See [meeting template](./MeetingTemplate.md) for guidance on how to structure these if you have never done this before.
 
 ## Individual Reflections
@@ -43,7 +43,7 @@ The following are some optional items that are conducive to your final marks. Th
 - [ ] Each team member understands how the whole application (including sections they may not have worked on) operate.
 - [x] The project files are well categorised and structured in different packages based on their functionalities.
 - [x] Make meaningful names of the variables and methods.
-- [ ] Attempt modular design of your methods and classes. Follow the code reusability and single responsibility principles.
+- [x] Attempt modular design of your methods and classes. Follow the code reusability and single responsibility principles.
 - [x] The code is well commented.
-- [ ] Variety of tests are used which cover the majority of the code.
+- [x] Variety of tests are used which cover the majority of the code.
 - [x] Good commit messages.
