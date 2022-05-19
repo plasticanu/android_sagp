@@ -16,6 +16,13 @@ code:
     url: https://mkyong.com/java/how-to-create-xml-file-in-java-dom/
     licence: MIT
 
+  - comment: AVL deletion method reference.
+    url: https://www.geeksforgeeks.org/avl-tree-set-2-deletion/
+    licence: CCBY-SA
+  - comment: HashMap sort based on values.
+    url: https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/
+    licence: CCBY-SA
+
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
 assets:
@@ -33,5 +40,5 @@ members:
     uid: u7055573
   - name: Jun Cheng Zhang
     uid: u7297753
-  - name:
-    uid:
+  - name: Zhidong Piao
+    uid: u7139999
