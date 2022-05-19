@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 /**
  * Node for AVLTree
- * TODO:  Comment, getters and setters.
  * @param <T>
  */
 public class Node<T>{

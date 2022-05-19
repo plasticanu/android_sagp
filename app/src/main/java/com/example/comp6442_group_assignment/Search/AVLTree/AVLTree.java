@@ -11,7 +11,6 @@ import java.util.Locale;
 /**
  * AVLTree implementation, not immutable.
  * @Author Zhidong Piao u7139999
- * TODO: Deletion method and comment. AND code style.
  * @param <T>
  */
 public class AVLTree<T> {
@@ -42,6 +41,7 @@ public class AVLTree<T> {
             return n.getHeight();
         }
     }
+    // left height - right height
     private int getBalance(Node<T> n){
         if(n == null){
             return 0;
@@ -51,6 +51,11 @@ public class AVLTree<T> {
         }
     }
 
+    /**
+     * Right rotation of AVL tree. The Node is not appended a type for avoiding the null pointer exception.
+     * @param n Tree root node
+     * @return Right rotated tree node
+     */
     private Node<T> rightRotate(Node<T> n){
         Node left = n.getLeft();
         Node lr = left.getRight();
@@ -75,6 +80,11 @@ public class AVLTree<T> {
         return right;
     }
 
+    /**
+     * AVl Tree insertion, same elements are not permitted.
+     * @param n Tree root node
+     * @return tree node with the element inserted.
+     */
     public Node<T> insert(Node<T> n,T e){
         // Ensure the input is not null
         if(e == null)
@@ -119,6 +129,15 @@ public class AVLTree<T> {
         return n;
 
     }
+
+    /**
+     * Insertion with the post id field updated.
+     * Post id field is an arraylist of a node field.
+     * @param n root node
+     * @param e element
+     * @param postID post id
+     * @return tree with element inserted and post id updated.
+     */
     public Node<T> insertWithPostID(Node<T> n, T e, String postID){
         if(findNode(n, e) == null){
             n = insert(n, e);
@@ -127,8 +146,15 @@ public class AVLTree<T> {
 
         return n;
     }
-    public Node<T> delete(Node<T> n, T e){
 
+    /**
+     * AVL deletion method. Delete the elements from the tree, and balance the tree.
+     * @param n root node
+     * @param e element to be deleted
+     * @return tree with element deleted, balanced.
+     */
+    public Node<T> delete(Node<T> n, T e){
+        // This algorithm is based on a website stated in Statement of Originality.
         if (n == null)
             return n;
 
@@ -192,6 +218,11 @@ public class AVLTree<T> {
         return n;
     }
 
+    /**
+     * Find the minimum node of the input tree.
+     * @param n root node of a tree
+     * @return minimum node
+     */
     private Node<T> min(Node<T> n) {
         Node<T> current = n;
         while(current.getLeft() != null){
@@ -200,6 +231,12 @@ public class AVLTree<T> {
         return current;
     }
 
+    /**
+     * Find the node, which data is equal to the element.
+     * @param n root node
+     * @param e element
+     * @return Node, which the data equals the element.
+     */
     public Node<T> findNode(Node<T> n, T e){
         if(n == null){
             return null;

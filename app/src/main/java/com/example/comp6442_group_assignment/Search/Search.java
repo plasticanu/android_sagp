@@ -262,6 +262,12 @@ public class Search {
         }
     }
 
+    /**
+     * Rank the hashmap result based on score.
+     * Higher score ranked first.
+     * @param input HashMap: key: post, value: score
+     * @return List<Post>
+     */
     private List<Post> rankResult(HashMap<Post, Integer> input){
         // Sort the hashmap. Code from:
         // https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/
@@ -286,6 +292,15 @@ public class Search {
 
     }
 
+    /**
+     * Main search function. Handles search query and returns a list of post. The list is sorted.
+     * Higher scored post ranked first.
+     * @param input user input
+     * @return list of post
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Post> search(String input) throws ParserConfigurationException, IOException, SAXException {
         // read all posts.
@@ -341,17 +356,10 @@ public class Search {
     }
 
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-//        Search s = getInstance();
-////        System.out.println(s.search("contant").size());
-//
-//        for (Post post: s.search("apparition")) {
-//            System.out.println(post.getPostId());
-//        }
-//
-//    }
-
+    /**
+     * Delete function for content avl tree and post avl tree.
+     * @param p post to be deleted
+     */
     public void delete(Post p){
         Node<Post> foundPost = postAVL.findNode(postAVL.tree, p);
         if(foundPost != null){
@@ -360,7 +368,10 @@ public class Search {
                 Node<String> foundToken = contentAVL.findNode(contentAVL.tree,stt.getCurrentToken().getString());
                 foundToken.getPostID().remove(p.getPostId());
                 if(foundToken.getPostID().isEmpty()){
-                    contentAVL.delete(contentAVL.tree, foundToken.getData());
+                    // Delete the token from contentAVL.
+                    contentAVL.tree = contentAVL.delete(contentAVL.tree, foundToken.getData());
+                    // Delete the post from postAVL
+                    postAVL.tree = postAVL.delete(postAVL.tree, p);
                 }
 
                 stt.next();
@@ -368,15 +379,25 @@ public class Search {
         }
     }
 
+    /**
+     * Insert function for content avl tree and post avl tree.
+     * @param p post to be inserted
+     */
     public void insert(Post p){
         allPosts.add(p);
         SearchStringTokenizer stt = new SearchStringTokenizer(p.getContent());
         while(stt.hasNext()){
             contentAVL.tree = contentAVL.insertWithPostID(contentAVL.tree, stt.getCurrentToken().getString(), p.getPostId());
+            postAVL.tree = postAVL.insert(postAVL.tree, p);
             stt.next();
         }
     }
 
+    /**
+     * Fuzzy search function. Uses levenshtein distance and fuzzy score to determine the score for the post.
+     * @param input user input
+     * @param onlyExcludeTag 0: there is not only a exclude tag. 1: search query only have a exclude tag.
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void fuzzySearch(String input, Integer onlyExcludeTag){
         for(Post p : allPosts) {
@@ -388,6 +409,7 @@ public class Search {
             ArrayList<String> contentTokens = new ArrayList<>();
             ArrayList<String> inputTokens = new ArrayList<>();
 
+            // Add tokens to corresponding arraylist.
             while ( inputT.hasNext() ) {
                 inputTokens.add(inputT.getCurrentToken().getString());
                 inputT.next();
@@ -399,6 +421,8 @@ public class Search {
             }
 
             int correctInputCount = 0;
+            // Determine if the search query token matches the content tokens.
+            // fuzzyScore represents the percentage of error letters.
             for (String i : inputTokens) {
                 for (String c : contentTokens) {
                     fuzzyScore = (float) ( (float) ld.apply(c, i) / (float) Math.max(i.length(), c.length()) );
@@ -409,7 +433,9 @@ public class Search {
                 }
             }
 
+            // FuzzyScore used for scoring the post
             FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+            // If there is at least one correct search query token, which means the percentage of error letters is lower than fuzzyExtent.
             if (correctInputCount>=1) {
                 postsRank.put(p,
                         postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) - Math.round(fuzzyScore) + onlyExcludeTag);
