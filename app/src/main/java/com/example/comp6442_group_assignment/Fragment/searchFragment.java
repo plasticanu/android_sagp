@@ -122,14 +122,19 @@ public class searchFragment extends Fragment {
                 searchBar = getActivity().findViewById(R.id.search_bar);
                 String searchContent = searchBar.getText().toString();
 
-                if(postModels!=null){
-                    postModels.clear();
-                    adapter.notifyDataSetChanged();
-                }
+                if(loginFragment.isLogged==false){
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }else {
 
-                AsyncAction action = new AsyncAction();
-                homeFragment.cmd = "sr "+searchContent;
-                action.execute(homeFragment.cmd);
+                    if (postModels != null) {
+                        postModels.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "sr " + searchContent;
+                    action.execute(homeFragment.cmd);
+                }
             }
         });
 

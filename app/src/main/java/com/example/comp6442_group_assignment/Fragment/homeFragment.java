@@ -203,7 +203,9 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             List<String> likes = new ArrayList<>();
 
             for (int j=0;j<likeString.length;j++){
-                likes.add(likeString[j].trim());
+                if(likeString[j].trim().compareTo("")!=0) {
+                    likes.add(likeString[j].trim());
+                }
             }
             String[] observersString = temp[6].split(regexE)[1].substring(1,temp[6].split(regexE)[1].length()-1).split(",");
 
@@ -387,8 +389,14 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
         for (int i = 0; i < postModels.size(); i++) {
             if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
+                System.out.println(postModels.get(i).getLikes());
+                System.out.println(postModels.get(i).getLikes().size());
                 postModels.get(i).getLikes().add(loginFragment.loggedUsername);
                 adapter.notifyItemChanged(i);
+                System.out.println(loginFragment.loggedUsername);
+                System.out.println(postModels.get(i).getLikes());
+                System.out.println(postModels.get(i).getLikes().size());
+
             }
         }
 
