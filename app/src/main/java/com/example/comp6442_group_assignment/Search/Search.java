@@ -399,50 +399,54 @@ public class Search {
      * @param onlyExcludeTag 0: there is not only a exclude tag. 1: search query only have a exclude tag.
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fuzzySearch(String input, Integer onlyExcludeTag){
-        for(Post p : allPosts) {
-            LevenshteinDistance ld = new LevenshteinDistance();
-            SearchStringTokenizer inputT = new SearchStringTokenizer(input);
-            SearchStringTokenizer contentT = new SearchStringTokenizer(p.getContent());
-            float fuzzyScore = 0;
+    private void fuzzySearch(String input, Integer onlyExcludeTag) {
+        for (Post p : allPosts) {
+            if (onlyExcludeTag == 1) {
+                postsRank.put(p,
+                        postsRank.getOrDefault(p, 0) + onlyExcludeTag);
+            } else {
+                LevenshteinDistance ld = new LevenshteinDistance();
+                SearchStringTokenizer inputT = new SearchStringTokenizer(input);
+                SearchStringTokenizer contentT = new SearchStringTokenizer(p.getContent());
+                float fuzzyScore = 0;
 
-            ArrayList<String> contentTokens = new ArrayList<>();
-            ArrayList<String> inputTokens = new ArrayList<>();
+                ArrayList<String> contentTokens = new ArrayList<>();
+                ArrayList<String> inputTokens = new ArrayList<>();
 
-            // Add tokens to corresponding arraylist.
-            while ( inputT.hasNext() ) {
-                inputTokens.add(inputT.getCurrentToken().getString());
-                inputT.next();
-            }
-            while ( contentT.hasNext() ) {
+                // Add tokens to corresponding arraylist.
+                while ( inputT.hasNext() ) {
+                    inputTokens.add(inputT.getCurrentToken().getString());
+                    inputT.next();
+                }
+                while ( contentT.hasNext() ) {
 
-                contentTokens.add(contentT.getCurrentToken().getString());
-                contentT.next();
-            }
+                    contentTokens.add(contentT.getCurrentToken().getString());
+                    contentT.next();
+                }
 
-            int correctInputCount = 0;
-            // Determine if the search query token matches the content tokens.
-            // fuzzyScore represents the percentage of error letters.
-            for (String i : inputTokens) {
-                for (String c : contentTokens) {
-                    fuzzyScore = (float) ( (float) ld.apply(c, i) / (float) Math.max(i.length(), c.length()) );
-                    if (fuzzyScore * 100 <= fuzzyExtent) {
-                        correctInputCount++;
-                        break;
+                int correctInputCount = 0;
+                // Determine if the search query token matches the content tokens.
+                // fuzzyScore represents the percentage of error letters.
+                for (String i : inputTokens) {
+                    for (String c : contentTokens) {
+                        fuzzyScore = (float) ( (float) ld.apply(c, i) / (float) Math.max(i.length(), c.length()) );
+                        if (fuzzyScore * 100 <= fuzzyExtent) {
+                            correctInputCount++;
+                            break;
+                        }
                     }
                 }
-            }
 
-            // FuzzyScore used for scoring the post
-            FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
-            // If there is at least one correct search query token, which means the percentage of error letters is lower than fuzzyExtent.
-            if (correctInputCount>=1) {
-                postsRank.put(p,
-                        postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) - Math.round(fuzzyScore) + onlyExcludeTag);
+                // FuzzyScore used for scoring the post
+                FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+                // If there is at least one correct search query token, which means the percentage of error letters is lower than fuzzyExtent.
+                if (correctInputCount >= 1) {
+                    postsRank.put(p,
+                            postsRank.getOrDefault(p, 0) + fs.fuzzyScore(p.getContent(), input) - Math.round(fuzzyScore) + onlyExcludeTag);
 
+                }
             }
         }
     }
-
 
 }

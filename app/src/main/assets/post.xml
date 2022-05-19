@@ -9847,7 +9847,7 @@
     </Post>
     <Post>
         <PostId>00000895</PostId>
-        <Content>    The life o' the building.</Content>
+        <Content>    #you The life o' the building.</Content>
         <Author>user4</Author>
         <Likes/>
         <CreateTime>2022-05-16T04:26:36.574783800</CreateTime>
@@ -28648,7 +28648,9 @@
         <PostId>00002604</PostId>
         <Content>    "Here may you see the tyrant."</Content>
         <Author>user3</Author>
-        <Likes/>
+        <Likes>
+            <User>user1</User>
+        </Likes>
         <CreateTime>2022-05-16T04:26:57.206178200</CreateTime>
         <Comments/>
         <Observers>
@@ -28659,7 +28661,9 @@
         <PostId>00002605</PostId>
         <Content>  MACBETH. I will not yield,</Content>
         <Author>user4</Author>
-        <Likes/>
+        <Likes>
+            <User>user1</User>
+        </Likes>
         <CreateTime>2022-05-16T04:26:57.222180500</CreateTime>
         <Comments/>
         <Observers>
@@ -28681,7 +28685,9 @@
         <PostId>00002607</PostId>
         <Content>    And to be baited with the rabble's curse. </Content>
         <Author>user3</Author>
-        <Likes/>
+        <Likes>
+            <User>user1</User>
+        </Likes>
         <CreateTime>2022-05-16T04:26:57.255208</CreateTime>
         <Comments/>
         <Observers>
