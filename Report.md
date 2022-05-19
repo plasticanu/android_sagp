@@ -12,22 +12,50 @@ All functions of the app will run on the server and the client itself only send 
 
 **The android studio does not allow the server to run before the AVD initialized, otherwise exception will occur.**
 ![Figure 1](./ReportStuff/1.PNG)
-Thus, for marking and testing our app, a general step tutorial is provided below: 
+**Thus, for marking and testing our app, a general step tutorial is provided below: (If accessing by running in Android Studio)**
 
 - [Step 1] Run the app in the android studio and do not attempt any function. 
-![Figure 2](./ReportStuff/2.PNG)
-- [Step 2] Run the server file and wait till these message appear in the console. 
-![Figure 3](./ReportStuff/3.PNG)
-![Figure 4](./ReportStuff/4.PNG)
-- [Step 3] Start interact with the android client. 
 
-**Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
+![Figure 2](./ReportStuff/2.PNG)
+
+- [Step 2] Run the [FakeServer.java](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) file and wait till these message appear in the console. 
+
+![Figure 3](./ReportStuff/3.PNG)
+
+![Figure 4](./ReportStuff/4.PNG)
+
+- [Step 3] Run the [AutoClient](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java) file to simulate the data stream. 
+
+![Figure 7](./ReportStuff/7.png)
+
+- [Step 4] Start interact with the android client. 
+
+**If running with the APK file, the steps are:**
+- [Step 1] Run the [FakeServer.java](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java) file and wait till these message appear in the console.
+
+![Figure 3](./ReportStuff/3.PNG)
+- 
+![Figure 4](./ReportStuff/4.PNG)
+
+- [Step 2] Load the [apk file](./app/build/outputs/apk/debug/app-debug.apk) into the AVD and run the app by drag and drop. 
+
+![Figure 5](./ReportStuff/5.png)
+![Figure 6](./ReportStuff/6.png)
+
+- [Step 3] Run the [AutoClient](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java) file to simulate the data stream.
+
+![Figure 7](./ReportStuff/7.png)
+
+- [Step 4] Start interact with the android client.
+
+
+**P.S. Also, the client now only support connection to localhost, thus, client must be run on the same environment as the server.**
+
+**P.S. Also again, once the AutoClient started running, the server file would be changed permanently, if you want to test again freshly, you can always Git Rollback [post.xml](./app/src/main/assets/post.xml) and [user.xml](./app/src/main/assets/user.xml). Of Rollback is not viable, there is a copy to each file in the [backup](./app/src/main/assets/backup) folder that you can replace for.**
 
 If any marker meet any trouble opening or running the app, please contact the team:
 - Peicheng Liu (u7294212) by SMS: +61 428 022 807, or by email: u7294212@anu.edu.au if you run the project on Intellij
 - Jiyuan Chen (u7055573) by email: u7055573@anu.edu.au if you run the project on Android Studio
-
-// FIXME: u7055573
 
 ## Table of Contents
 
@@ -276,8 +304,11 @@ Thus, the target audience could be any person that involves in a community and w
 
 4. *Factory* 
 
-    * Objective: Built-in factory design pattern DocumentBuilderFactory is being invoked when reading and writing data from/to a file.
-    * Locations: Line 172 in User.java, etc.
+    * Objective: Built-in factory design pattern is used to create post objects from partial inputs. 
+    * Locations: PostFactory.java. 
+    * Reasons: 
+      * Some information is not supposed to be inserted in by the user, such as time of post.
+      * Some variables of a post can be initialized with set pattern. 
 
 **Grammar(s)**
 
@@ -368,7 +399,7 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 // TODO: u7139999
 
 *4. Response Message Parser:* 
-// TODO: u7055573
+This response message parser is used to split the response message from the server, then convert string of response into List of Post object. The method is setupPost(String response) in homeFragment.java.
 
 **Other**
 
@@ -379,7 +410,10 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 - Consequence: The server thread will terminate if the input request String is not valid. Both server and clients must be restarted to function again. 
 - Current Fix: The client request message pattern is hard coded on the android client side. Invalid input is forbid by the android client. For the manual test client, it must be handled with cautious and referring to the grammar encoded in the FakeServer.java. 
 
-2. 
+2. *Disconnecting a client from the server will cause SocketException*
+- Consequence: The server will automatically re-engage when client tries to reconnect. The userSession will not be obtained. 
+- Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice, the first one will crash and the second reconnection will function normally. 
+
 // TODO: u7297753
 *[Where are the known errors and bugs? What consequences might they lead to?]*
 
@@ -413,32 +447,33 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 
 *UI Design and Testing*
 1. *Feature 1: Users may use portrait and landscape layout or different sized screens to access the app. (easy)*
-// TODO: u7055573
+- The application has different layout xml for both portrait and landscape, and different sized screens. landscape layouts are designed for landscape mode.
 
 *User Interactivity*
 1. *Feature 1: Users may micro-interact with items such as like/dislike/edit a post. (easy)*
 - likePost(), dislikePost(), editPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - likePost(), dislikePost(), editPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
 - likePost(), dislikePost(), editPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
-// TODO: u7055573
+- likeListener, dislikeListener methods in [homeFragment class][detailsFragment class][searchFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
+- editPostListener method in [detailsFragment class][editFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 2. *Feature 2: Users may follow/unfollow a post, and this information will be stored in server. (medium)*
 - followPost(), unfollowPost() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - followPost(), unfollowPost() methods in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
 - followPost(), unfollowPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
-// TODO: u7055573
+- frontend of follow and unfollow post is defined in [code234-249::detailsFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 3. *Feature 3: Users will be notified when their followed posts are updated in different ways. (medium)* 
 - update() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
 - notifyObserversEdit(), notifyObserversComment(), notifyObserversLike() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java)
-// TODO: u7055573
+- all frontend method control the notifications are in [inboxFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 *Privacy* 
 1. *Feature 1: Users may only see other's profile if the profile is public. (easy)*
 - requestProfile() method in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java) 
 - requestProfile() method in [LoggedInState class](./app/src/main/java/com/example/comp6442_group_assignment/State/LoggedInState.java)
 - requestProfile() method in [User class](./app/src/main/java/com/example/comp6442_group_assignment/User.java)
-// TODO: u7055573
+- frontend listener and method of this part are defined in [code144-158::detailsFragment class][otherProfileFragment class]
 
 *Greater Data Usage, Handling and Sophistication* 
 1. *Feature 1: Read and write data instances from multiple local files in different formats (XML and Bespoke)*
@@ -461,15 +496,16 @@ Since the post content does not need to be parsed, the tokenizer also saves some
 1. *Feature 1: Users may create a new account and sign in. (basic)* 
 - login(), register() methods in [UserSession class](./app/src/main/java/com/example/comp6442_group_assignment/UserSession.java)
 - login(), register() methods in [GuestState class](./app/src/main/java/com/example/comp6442_group_assignment/State/GuestState.java) 
-// TODO: u7055573
+- registerListener methods are in [registerFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
 
 2. *Feature 2: Users may request for server to load data/information from xml file and visualize it in the client. (basic)*
 - Line 377-387 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
-// TODO: u7055573
+- every fragment class has a AsyncTask method used to sent request to server and receive response from server. All information client get are based on the response from the server.
 
 3. *Feature 3: Users may request for server to search information on the app. (basic)*
 - Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
-// TODO: u7055573, u7139999
+- searchListener methods are in [searchFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
+// TODO: u7139999
 
 4. *Feature 4: There is a standalone executable class to simulate actions from other users containing 3000+ data instances. (basic)*
 - [AutoClient class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java)

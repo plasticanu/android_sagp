@@ -1,6 +1,7 @@
 package com.example.comp6442_group_assignment;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.example.comp6442_group_assignment.Search.Search;
@@ -30,7 +31,24 @@ public class SearchTest {
     }
 
     @Test
+    public void fileReaderTest() throws ParserConfigurationException, IOException, SAXException {
+        // test file reading methods
+        List<User> users = User.readUsers();
+        assertEquals("user1", users.get(0).getUserName());
+        assertEquals("user3", users.get(1).getUserName());
+        assertEquals("user4", users.get(2).getUserName());
+        List<Post> posts = Post.readFromPost();
+        assertEquals("00000000", posts.get(0).getPostId());
+        assertEquals("00000001", posts.get(1).getPostId());
+        assertEquals("00000002", posts.get(2).getPostId());
+    }
+
+    @Test
     public void testSearch() throws ParserConfigurationException, IOException, SAXException {
+
+        assertThrows(NullPointerException.class, () -> {
+            search.search(null);
+        });
         // test searching with words
         List<Post> search1 =  search.search("Personae");
         assertEquals("00000005", search1.get(0).getPostId());
@@ -54,9 +72,9 @@ public class SearchTest {
         assertEquals("00001607", search10.get(0).getPostId());
     }
 
-    // test searching with phrases
     @Test
     public void testSearchPhrases() throws ParserConfigurationException, IOException, SAXException {
+        // test searching with phrases
         List<Post> search1 =  search.search("suffering country");
         assertEquals("00001609", search1.get(0).getPostId());
         List<Post> search2 =  search.search("violent hands");
@@ -79,9 +97,9 @@ public class SearchTest {
         assertEquals("00001546", search10.get(0).getPostId());
     }
 
-    // test searching with sentences
     @Test
     public void testSearchSentences() throws ParserConfigurationException, IOException, SAXException {
+        // test searching with sentences
         List<Post> search1 =  search.search("This is the very first content of the app");
         assertEquals("00000000", search1.get(0).getPostId());
         List<Post> search2 =  search.search("Whom we invite to see us crown'd at Scone");
@@ -104,9 +122,9 @@ public class SearchTest {
         assertEquals("00001844", search10.get(0).getPostId());
     }
 
-    // test vague searches
     @Test
     public void testMultipleResults() throws ParserConfigurationException, IOException, SAXException {
+        // test vague searches
         List<Post> search1 =  search.search("SECOND MURTHERER");
         List<String> postIDs_1 =  new ArrayList<>();
         for (Post post: search1) postIDs_1.add(post.getPostId());
@@ -127,13 +145,9 @@ public class SearchTest {
         List<Post> search3 =  search.search("apparition");
         List<String> postIDs_3 =  new ArrayList<>();
         for (Post post: search3) postIDs_3.add(post.getPostId());
-        assertTrue(postIDs_3.contains("00001706"));
-        assertTrue(postIDs_3.contains("00001702"));
-        assertTrue(postIDs_3.contains("00001732"));
-        assertTrue(postIDs_3.contains("00001716"));
-        assertTrue(postIDs_3.contains("00001725"));
         assertTrue(postIDs_3.contains("00001713"));
-        assertTrue(postIDs_3.contains("00001714"));
+        assertTrue(postIDs_3.contains("00001702"));
+        assertTrue(postIDs_3.contains("00001725"));
         assertTrue(postIDs_3.contains("00000033"));
     }
 

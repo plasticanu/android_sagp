@@ -39,6 +39,7 @@ public class FakeServer {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
+                boolean stopFlag = false; // Flag to stop the thread
                 Socket socket = null;
                 InputStreamReader inputStreamReader = null;
                 OutputStreamWriter outputStreamWriter = null;
@@ -50,7 +51,6 @@ public class FakeServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
                 while (true) {
 
@@ -67,7 +67,7 @@ public class FakeServer {
                         bufferedReader = new BufferedReader(inputStreamReader);
                         bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        while (true) {
+                        while (!stopFlag) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
                             String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
@@ -77,13 +77,14 @@ public class FakeServer {
                             bufferedWriter.flush();
                             System.out.println("Message sent: " + msgToClient);
 
-
                         }
+                        stopFlag = false;
 
                     } catch (IOException | ParserConfigurationException | SAXException e) {
                         e.printStackTrace();
+                        stopFlag = true;
+                        System.out.println("Error in thread 1, restarting...");
                     } finally {
-
                         if (bufferedReader != null) {
                             try {
                                 bufferedReader.close();
@@ -128,6 +129,7 @@ public class FakeServer {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
+                boolean stopFlag = false; // Flag to stop the thread
                 Socket socket = null;
                 InputStreamReader inputStreamReader = null;
                 OutputStreamWriter outputStreamWriter = null;
@@ -144,6 +146,7 @@ public class FakeServer {
                 while (true) {
 
                     try {
+                        stopFlag = false;
                         UserSession userSession = new UserSession();
 
                         System.out.println(userSession.getState());
@@ -156,7 +159,7 @@ public class FakeServer {
                         bufferedReader = new BufferedReader(inputStreamReader);
                         bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        while (true) {
+                        while (!stopFlag) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
                             String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
@@ -166,11 +169,12 @@ public class FakeServer {
                             bufferedWriter.flush();
                             System.out.println("Message sent: " + msgToClient);
 
-
                         }
 
                     } catch (IOException | ParserConfigurationException | SAXException e) {
                         e.printStackTrace();
+                        stopFlag = true;
+                        System.out.println("Error in thread 2, restarting...");
                     } finally {
 
                         if (bufferedReader != null) {
@@ -217,6 +221,7 @@ public class FakeServer {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
+                boolean stopFlag = false; // Flag to stop the thread
                 Socket socket = null;
                 InputStreamReader inputStreamReader = null;
                 OutputStreamWriter outputStreamWriter = null;
@@ -233,6 +238,7 @@ public class FakeServer {
                 while (true) {
 
                     try {
+                        stopFlag = false;
                         UserSession userSession = new UserSession();
 
                         System.out.println(userSession.getState());
@@ -245,7 +251,7 @@ public class FakeServer {
                         bufferedReader = new BufferedReader(inputStreamReader);
                         bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        while (true) {
+                        while (!stopFlag) {
                             String msgFromClient = bufferedReader.readLine();
                             System.out.println("Client: " + msgFromClient);
                             String msgToClient = getResponse(msgFromClient, userSession, searchEngine, posts);
@@ -254,12 +260,12 @@ public class FakeServer {
                             bufferedWriter.newLine();
                             bufferedWriter.flush();
                             System.out.println("Message sent: " + msgToClient);
-
-
                         }
 
                     } catch (IOException | ParserConfigurationException | SAXException e) {
                         e.printStackTrace();
+                        stopFlag = true;
+                        System.out.println("Error in thread 3, restarting...");
                     } finally {
 
                         if (bufferedReader != null) {
@@ -306,7 +312,7 @@ public class FakeServer {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(2500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -328,16 +334,14 @@ public class FakeServer {
         thread1.start();
         thread2.start();
         thread3.start();
+        thread4.start();
     }
 
     /**
      * This method is used to parse the client request message and return the response message. It will also update the user session state.
-     * @param request
-     * @param userSession
-     * @return
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
+     * @param request The client request message
+     * @param userSession The user session object
+     * @return The response message
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static String getResponse(String request, UserSession userSession, Search searchEngine, List<Post> posts) throws IOException, ParserConfigurationException, SAXException {
@@ -592,8 +596,16 @@ public class FakeServer {
                     }
                     System.out.println("Request Profile response...");
                     break;
-
-
+                case "fi":
+                    System.out.println("Find post by ID request");
+                    String[] tokens_fi = request.split(" ");
+                    String postId_fi = tokens_fi[1];
+                    Post post_fi = UserSession.findPostById(postId_fi);
+                    if (post_fi != null) {
+                        response = "fis;" + post_fi.toString();
+                    } else {
+                        response = "fif;Find post by ID Failed. Not exists.  ";
+                    }
             }
         }
         return response;

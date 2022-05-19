@@ -1,6 +1,5 @@
 package com.example.comp6442_group_assignment.Fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,14 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.comp6442_group_assignment.Comment;
@@ -28,29 +22,15 @@ import com.example.comp6442_group_assignment.Post_RecyclerViewAdapter;
 import com.example.comp6442_group_assignment.R;
 import com.example.comp6442_group_assignment.RecyclerViewInterface;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -200,11 +180,13 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
 
         String regexC = "(?![^)(]*\\([^)(]*?\\)\\))\\|(?![^\\[]*\\])";
         String regexE = "(?![^)(]*\\([^)(]*?\\)\\))=(?![^\\[]*\\])";
-        String regexCC = "(,)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
-        String str = response;
-        String[] newStr = str.split(";");
-        for(int i = 1;i<newStr.length;i++){
+        String regexCC = "(\\|)(?=(?:[^\\}]|\\{[^\\{]*\\})*$)";
+        String regexS = "(?![^)(]*\\([^)(]*?\\)\\))\\;(?![^\\[]*\\])";
 
+        String str = response;
+        String[] newStr = str.split(regexS);
+        for(int i = 1;i<newStr.length;i++){
+            System.out.println(newStr[i]);
             String[] temp = newStr[i].substring(5,newStr[i].length()-1).split(regexC);
 
 
@@ -238,15 +220,18 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             String[] commentString;
             List<Comment> comments = new ArrayList<>();
             if(temp[5].split(regexE)[1].length()>2){
-                commentString = temp[5].split(regexE)[1].substring(1,temp[5].split(regexE)[1].length()-1).split(regexCC);
+                commentString = temp[5].split(regexE)[1].substring(1,temp[5].split(regexE)[1].length()-1).split(regexS);
                 for(int k=0;k<commentString.length;k++){
-                    String[] tempCC = commentString[k].trim().substring(8,commentString[k].trim().length()-1).split(regexCC);
-                    String tempContent = tempCC[0].split(regexE)[1].substring(1,tempCC[0].split(regexE)[1].length()-1);
-                    String tempAuthor = tempCC[1].split(regexE)[1].substring(1,tempCC[1].split(regexE)[1].length()-1);
-                    String tempTime = tempCC[2].split(regexE)[1].substring(1,tempCC[2].split(regexE)[1].length()-1);
-                    Comment comment = new Comment(tempContent,tempAuthor,tempTime);
+                    String newtempComment = commentString[k].substring(8,commentString[k].length()-1);
+                    String[] oneComment = newtempComment.split(regexCC);
 
+                    String tempContent = oneComment[0].split(regexE)[1].substring(1,oneComment[0].split(regexE)[1].length()-1);
+                    String tempAuthor = oneComment[1].split(regexE)[1].substring(1,oneComment[1].split(regexE)[1].length()-1);
+                    String tempTime = oneComment[2].split(regexE)[1].substring(1,oneComment[2].split(regexE)[1].length()-1);
+                    Comment comment = new Comment(tempContent,tempAuthor,tempTime);
                     comments.add(comment);
+
+
                 }
 
             }
@@ -254,9 +239,14 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
             Post post = new Post(postId, content, author, likes, createTime, comments, observers); //FIXME: read observer
             pModels.add(post);
         }
-        List<Post> postCopy = pModels.subList(0, pModels.size());
-        Collections.reverse(postCopy);
-        return postCopy;
+        if(searchFragment.isSearching){
+            return pModels;
+        }else {
+            List<Post> postCopy = pModels.subList(0, pModels.size());
+            Collections.reverse(postCopy);
+            return postCopy;
+        }
+
     }
 
     /**
@@ -386,8 +376,8 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                 adapter.notifyItemChanged(i);
             }
         }
-
     }
+
     /**
      * Use to update like post to the local environment.
      * It will be called once the post has been liked from the server end.
@@ -398,6 +388,22 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
         for (int i = 0; i < postModels.size(); i++) {
             if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
                 postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                adapter.notifyItemChanged(i);
+            }
+        }
+
+    }
+
+    /**
+     * Use to update comment to the post in local environment.
+     * It will be called once the post has been liked from the server end.
+     * @Author Jiyuan Chen u7055573
+     */
+    public void updateCommentRecyclerView(int postId,Comment comment){
+
+        for (int i = 0; i < postModels.size(); i++) {
+            if (Integer.parseInt(postModels.get(i).getPostId()) == postId) {
+                postModels.get(i).getComments().add(comment);
                 adapter.notifyItemChanged(i);
             }
         }
@@ -494,6 +500,17 @@ public class homeFragment extends Fragment implements RecyclerViewInterface {
                 if (result.substring(0,3).compareTo("lps")==0) {
 
                     updateLikeRecyclerView(Integer.parseInt(itemId));
+                    //check if previous fragment was searchFragment,
+                    //If it's check for searchFragment postModels, if find the same post
+                    //update the like number of that post in searchFragment.
+                    if(searchFragment.postModels!=null){
+                        for (int i = 0; i <searchFragment.postModels.size(); i++) {
+                            if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(itemId)) {
+                                searchFragment.postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                                searchFragment.adapter.notifyItemChanged(i);
+                            }
+                        }
+                    }
 
                 }
             }

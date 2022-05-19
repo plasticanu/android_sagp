@@ -51,8 +51,8 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", time='" + time + '\'' +
+                "| author='" + author + '\'' +
+                "| time='" + time + '\'' +
                 '}';
     }
 }

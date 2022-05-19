@@ -1,5 +1,6 @@
 package com.example.comp6442_group_assignment.Fragment;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,6 +53,10 @@ public class detailsFragment extends Fragment {
 
     private Post currentPost;
     private Post post;
+    private ArrayAdapter<String> commentAdapter;
+    private EditText commentInput;
+    private ImageButton sendComment;
+
     public detailsFragment() {
         // Required empty public constructor
     }
@@ -130,10 +136,25 @@ public class detailsFragment extends Fragment {
         for(int i = 0;i<comments.size();i++){
             comments_String.add(comments.get(i).toString());
         }
-        ArrayAdapter<String> commentAdapter = new ArrayAdapter<>(getActivity(),
+        commentAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 comments_String);
         details_comments.setAdapter(commentAdapter);
+
+        details_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(loginFragment.isLogged==false){
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }else{
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "rp "+post.getAuthor();
+                    action.execute(homeFragment.cmd);
+                }
+
+            }
+        });
+
 
 
         //Handle the post deletion, User can only delete post that created by user self.
@@ -208,7 +229,58 @@ public class detailsFragment extends Fragment {
 
             }
         });
+
+
+        ImageButton button_follow;
+        button_follow=getActivity().findViewById(R.id.button_follow);
+        if(loginFragment.isLogged) {
+            button_follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    AsyncAction action = new AsyncAction();
+                    homeFragment.cmd = "fp " + post.getPostId();
+                    action.execute(homeFragment.cmd);
+
+                }
+            });
+        }else{
+            button_follow.setVisibility(View.GONE);
+        }
+
+        commentInput = getActivity().findViewById(R.id.editText_comment);
+        sendComment = getActivity().findViewById(R.id.imageButton_send_comment);
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(loginFragment.isLogged==true){
+                    String tempComment = commentInput.getText().toString().replaceAll("[-+^:\\;\\|]","");
+
+                    if(tempComment.compareTo("")!=0) {
+                        int postId = Integer.parseInt(post.getPostId());
+                        String postIdString = String.format("%08d", postId);
+                        AsyncAction action = new AsyncAction();
+                        homeFragment.cmd = "cm " + postIdString + " " + tempComment;
+                        action.execute(homeFragment.cmd);
+                        currentPost = post;
+                    }else{
+                        Toast.makeText(getActivity(), "You can't comment empty!", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+    private void onDisFollow(){
+        AsyncAction action = new AsyncAction();
+        homeFragment.cmd = "uf " + post.getPostId();
+        action.execute(homeFragment.cmd);
+    }
+
+
+
     /**
      * A override onCreateView method handle the details fragment.
      * It gets bundle passed from recyclerView Item.
@@ -228,6 +300,16 @@ public class detailsFragment extends Fragment {
             }
         });
         return inflater.inflate(R.layout.fragment_details, container, false);
+    }
+
+    /**
+     * A return current detailed post.
+     * @Author Jiyuan Chen u7055573
+     */
+    private void getThisPost(String postId){
+        AsyncAction action = new AsyncAction();
+        homeFragment.cmd = "fi "+postId;
+        action.execute(homeFragment.cmd);
     }
 
 
@@ -275,7 +357,7 @@ public class detailsFragment extends Fragment {
         }
 
         /**
-         * An override onPostExecute method, to check if like post success
+         * An override onPostExecute method, to check if like post/comment success
          * update ui and local recyclerView.
          * @Author Jiyuan Chen u7055573
          */
@@ -286,10 +368,98 @@ public class detailsFragment extends Fragment {
                 homeFragment fragh = new homeFragment();
                 fragh.updateLikeRecyclerView(Integer.parseInt(currentPost.getPostId()));
 
+                //check if previous fragment was searchFragment,
+                //If it's check for searchFragment postModels, if find the same post
+                //update the like number of that post in searchFragment.
+                if(searchFragment.accessFromSearch == true){
+                    for (int i = 0; i <searchFragment.postModels.size(); i++) {
+                        if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(currentPost.getPostId())) {
+                            searchFragment.postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                            searchFragment.adapter.notifyItemChanged(i);
+                        }
+                    }
+                    searchFragment.accessFromSearch = false;
+                }
+                if(searchFragment.postModels!=null){
+                    for (int i = 0; i <searchFragment.postModels.size(); i++) {
+                        if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(currentPost.getPostId())) {
+                            searchFragment.postModels.get(i).getLikes().add(loginFragment.loggedUsername);
+                            searchFragment.adapter.notifyItemChanged(i);
+                        }
+                    }
+                }
+
                 TextView details_like_count;
                 details_like_count = getActivity().findViewById(R.id.textView_like_count2);
                 int currentLikes = Integer.parseInt(details_like_count.getText().toString());
                 details_like_count.setText(String.valueOf(currentLikes+1));
+
+            }
+
+            if (result.substring(0,3).compareTo("cms")==0){
+                getThisPost(post.getPostId());
+                commentInput.setText("");
+
+            }
+
+            if (result.substring(0,3).compareTo("fis")==0){
+                homeFragment fragh = new homeFragment();
+                List<Post> newPost = fragh.setupPost(result);
+                post = newPost.get(0);
+                saveState(post);
+                for (int i = 0; i < homeFragment.postModels.size(); i++) {
+                    if (Integer.parseInt(homeFragment.postModels.get(i).getPostId()) == Integer.parseInt(post.getPostId())) {
+                        homeFragment.postModels.get(i).setComments(post.getComments());
+                        homeFragment.adapter.notifyItemChanged(i);
+                    }
+                }
+                //check if previous fragment was searchFragment,
+                //If it's check for searchFragment postModels, if find the same post
+                //update the comments of that post in searchFragment.
+                if(searchFragment.accessFromSearch == true){
+                    for (int i = 0; i < searchFragment.postModels.size(); i++) {
+                        if (Integer.parseInt(searchFragment.postModels.get(i).getPostId()) == Integer.parseInt(post.getPostId())) {
+                            searchFragment.postModels.get(i).setComments(post.getComments());
+                            searchFragment.adapter.notifyItemChanged(i);
+                        }
+                    }
+
+                    searchFragment.accessFromSearch = false;
+                }
+
+
+            }
+            if (result.substring(0,3).compareTo("fps")==0){
+                Toast.makeText(getActivity(), "followed the post!", Toast.LENGTH_SHORT).show();
+            }
+
+            if (result.substring(0,3).compareTo("fpf")==0){
+                onDisFollow();
+            }
+
+            if (result.substring(0,3).compareTo("ufs")==0){
+                Toast.makeText(getActivity(), "Unfollowed the post!", Toast.LENGTH_SHORT).show();
+            }
+
+
+            if (result.substring(0,3).compareTo("rps")==0){
+                String[] tempString = result.split(";");
+                Bundle bundle = new Bundle();
+                bundle.putString("userName",tempString[1]);
+                bundle.putString("userFirst",tempString[2]);
+                bundle.putString("userLast",tempString[3]);
+                bundle.putString("userEmail",tempString[4]);
+                bundle.putString("userPhone",tempString[5]);
+                bundle.putBoolean("isPublic",true);
+                getParentFragmentManager().setFragmentResult("profileForm1",bundle);
+                ((MainActivity) getActivity()).replaceFragment(new otherProfileFragment());
+
+            }
+            if (result.substring(0,3).compareTo("rpf")==0){
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isPublic",false);
+                getParentFragmentManager().setFragmentResult("profileForm1",bundle);
+                ((MainActivity) getActivity()).replaceFragment(new otherProfileFragment());
 
             }
         }

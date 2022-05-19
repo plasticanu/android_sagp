@@ -16,8 +16,14 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -335,17 +341,16 @@ public class Search {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        Search s = getInstance();
-//        System.out.println(s.search("contant").size());
-
-        for (Post post: s.search("good Fleance")) {
-            System.out.println("1," + post.getPostId());
-            s.delete(post);
-        }
-
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+//        Search s = getInstance();
+////        System.out.println(s.search("contant").size());
+//
+//        for (Post post: s.search("apparition")) {
+//            System.out.println(post.getPostId());
+//        }
+//
+//    }
 
     public void delete(Post p){
         Node<Post> foundPost = postAVL.findNode(postAVL.tree, p);

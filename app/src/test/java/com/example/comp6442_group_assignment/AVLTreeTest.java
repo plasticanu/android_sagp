@@ -2,6 +2,7 @@ package com.example.comp6442_group_assignment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
 import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
 
@@ -10,8 +11,19 @@ import org.junit.Test;
 public class AVLTreeTest {
     AVLTree<Integer> avl = new AVLTree<>();
 
+
     @Test
-    public void assertSimpleTest() {
+    public void InputNullTest() {
+        assertEquals(2 ,(int) avl.insert(null, 2).getData());
+        assertThrows(IllegalArgumentException.class, () -> {
+            avl.insert(avl.tree, null);
+        });
+        assertNull(avl.findNode(null, 1));
+    }
+
+    @Test
+    public void insertSimpleTest() {
+        // test simple insertion
         avl.tree = avl.insert(avl.tree, 2);
         avl.tree = avl.insert(avl.tree, 1);
         avl.tree = avl.insert(avl.tree, 3);
@@ -25,7 +37,8 @@ public class AVLTreeTest {
 
 
     @Test
-    public void assertDuplicatesTest() {
+    public void insertDuplicatesTest() {
+        // test inserting duplicate values
         avl.tree = avl.insert(avl.tree, 3);
         avl.tree = avl.insert(avl.tree, 2);
         avl.tree = avl.insert(avl.tree, 2);
@@ -39,6 +52,7 @@ public class AVLTreeTest {
 
     @Test
     public void leftRotationTest() {
+        // test left rotation
         avl.tree = avl.insert(avl.tree, 3);
         avl.tree = avl.insert(avl.tree, 2);
         avl.tree = avl.insert(avl.tree, 1);
@@ -52,6 +66,7 @@ public class AVLTreeTest {
 
     @Test
     public void rightRotationTest() {
+        // test left rotation
         avl.tree = avl.insert(avl.tree, 1);
         avl.tree = avl.insert(avl.tree, 2);
         avl.tree = avl.insert(avl.tree, 3);
@@ -65,7 +80,8 @@ public class AVLTreeTest {
     }
 
     @Test
-    public void complexAssertTest() {
+    public void complexInsertTest() {
+        // test inserting random values
         avl.tree = avl.insert(avl.tree, 3);
         avl.tree = avl.insert(avl.tree, 4);
         avl.tree = avl.insert(avl.tree, 8);
@@ -105,10 +121,11 @@ public class AVLTreeTest {
         avl.tree = avl.insert(avl.tree, 2);
         avl.tree = avl.insert(avl.tree, 3);
         avl.tree = avl.delete(avl.tree, 2);
-        assertEquals(3, (int) avl.tree.getData());
-        assertEquals(1, (int) avl.tree.getLeft().getData());
+        assertNull(avl.findNode(avl.tree, 2));
+        assertNotNull(avl.findNode(avl.tree, 1));
+        assertNotNull(avl.findNode(avl.tree, 3));
 
-        // test complicated delete
+        // test complex delete
         avl = new AVLTree<>();
         avl.tree = avl.insert(avl.tree, 3);
         avl.tree = avl.insert(avl.tree, 4);
@@ -122,19 +139,11 @@ public class AVLTreeTest {
         avl.tree = avl.delete(avl.tree, 14);
         assertNull(avl.findNode(avl.tree, 14));
         assertNotNull(avl.findNode(avl.tree, 8));
-
-        avl = new AVLTree<>();
-        // test delete parent node
-        avl.tree = avl.insert(avl.tree, 1);
-        avl.tree = avl.insert(avl.tree, 2);
-        avl.tree = avl.insert(avl.tree, 3);
-        avl.tree = avl.delete(avl.tree, 2);
-        assertNull(avl.findNode(avl.tree, 2));
-        assertEquals(3, (int) avl.tree.getData());
     }
 
     @Test
     public void insertWithPostIDTest() {
+        // test inserting with post ID
         avl.tree = avl.insert(avl.tree, 1);
         avl.tree = avl.insert(avl.tree, 2);
         avl.tree = avl.insertWithPostID(avl.tree, 1, "20");
