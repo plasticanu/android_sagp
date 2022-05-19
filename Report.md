@@ -37,7 +37,7 @@ All functions of the app will run on the server and the client itself only send 
 - 
 ![Figure 4](./ReportStuff/4.PNG)
 
-- [Step 2] Load the [apk file](./APKFile/app-debug.apk) into the AVD and run the app by drag and drop. 
+- [Step 2] Load the [apk file](./APKFile/app-debug.apk) into an opened AVD and run the app by drag and drop. 
 
 ![Figure 5](./ReportStuff/5.png)
 ![Figure 6](./ReportStuff/6.png)
