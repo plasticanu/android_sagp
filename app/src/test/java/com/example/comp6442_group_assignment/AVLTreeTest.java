@@ -2,6 +2,7 @@ package com.example.comp6442_group_assignment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
 import com.example.comp6442_group_assignment.Search.AVLTree.AVLTree;
 
@@ -9,6 +10,16 @@ import org.junit.Test;
 
 public class AVLTreeTest {
     AVLTree<Integer> avl = new AVLTree<>();
+
+
+    @Test
+    public void InputNullTest() {
+        assertEquals(2 ,(int) avl.insert(null, 2).getData());
+        assertThrows(IllegalArgumentException.class, () -> {
+            avl.insert(avl.tree, null);
+        });
+        assertNull(avl.findNode(null, 1));
+    }
 
     @Test
     public void insertSimpleTest() {

@@ -29,6 +29,8 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), "Guest");
         assertFalse(userSession.isLoggedIn);
         assertNull(userSession.user);
+        assertNull(userSession.profile());
+        assertNull(userSession.requestProfile("user1"));
     }
 
     @Test
@@ -42,10 +44,13 @@ public class StateFunctionTest {
         assertNull(userSession.user);
         // test login with correct password
         assertTrue(userSession.login("user1", "qwerty"));
+        assertFalse(userSession.login("user1", "qwerty"));
         assertEquals(userSession.getState().getClass(), LoggedInState.class);
         assertEquals(userSession.getUserName(), "user1");
         assertTrue(userSession.isLoggedIn);
         assertNotNull(userSession.user);
+        List<User> users = User.readUsers();
+        assertEquals(users.get(2).getUserName(), userSession.requestProfile("user4").getUserName());
     }
 
     @Test
@@ -95,7 +100,7 @@ public class StateFunctionTest {
     public void testUpdateProfile() throws ParserConfigurationException, IOException, SAXException, TransformerException {
         userSession = new UserSession();
         // test update profile when not logged in
-        userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", true);
+        assertFalse(userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", true));
         assertEquals(userSession.getState().getClass(), GuestState.class);
         assertEquals(userSession.getUserName(), "Guest");
         assertFalse(userSession.isLoggedIn);
@@ -138,10 +143,25 @@ public class StateFunctionTest {
     }
 
     @Test
+    public void testGuestStatePost() throws ParserConfigurationException, IOException, SAXException {
+        userSession = new UserSession();
+        assertNull(userSession.createPost("test post"));
+        assertFalse(userSession.deletePost("00000000"));
+        assertFalse(userSession.editPost("00000000", "cannot edit"));
+        assertFalse(userSession.likePost("00000000"));
+        assertFalse(userSession.unlikePost("00000000"));
+        assertFalse(userSession.commentPost("00000000", "cannot comment"));
+        assertFalse(userSession.followPost("00000000"));
+        assertFalse(userSession.unfollowPost("00000000"));
+        assertNull(userSession.allPosts());
+        assertNull(userSession.search("macbeth"));
+        assertNull(userSession.updateNotifications());
+        assertFalse(userSession.clearNotifications());
+    }
+
+    @Test
     public void testCreatePost() throws ParserConfigurationException, IOException, SAXException {
         userSession = new UserSession();
-        // test create post when not logged in
-        assertNull(userSession.createPost("test post"));
 
         // test create post when logged in
         userSession.login("user1", "qwerty");
@@ -151,6 +171,7 @@ public class StateFunctionTest {
         Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
         assertEquals("user1", postCreated.getAuthor());
         assertEquals("test post", postCreated.getContent());
+        assertTrue(Post.exists(postCreated.getPostId()));
 
         // test delete post
         assertTrue(userSession.deletePost(postCreated.getPostId()));
