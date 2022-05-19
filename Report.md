@@ -81,7 +81,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 
 ## Summary of Individual Contributions
 
-*u7294212, Peicheng Liu, I contribute __% of the code. Here are my contributions:* 
+*u7294212, Peicheng Liu, I contribute 40% of the code. Here are my contributions:* 
 
 **Complete or Major contribution (propose and implement):**
 
@@ -247,15 +247,13 @@ In year 2022, most social communication methods are filled with advertisements o
 
 The fundamental idea of the app is to provide a platform for people in certain community could find a place to share their life and thought without disturbance from outside world. The app could suit into many others communities just by changing the name in the UI. 
 
-Thus, the target audience could be any person that involves in a community and would like to receive and share on a platform. 
+Thus, the target audience could be any person that involves in a community and would like to receive and share on a platform standalone from the mainstream Internet. 
 
 ## Application UML
 
 ![projectUML](./app/src/main/java/projectUML.drawio.png)
 
 ## Application Design and Decisions
-
-*Please give clear and concise descriptions for each subsections of this part. It would be better to list all the concrete items for each subsection and give no more than `5` concise, crucial reasons of your design. Here is an example for the subsection `Data Structures`:*
 
 **Data Structures**
 
