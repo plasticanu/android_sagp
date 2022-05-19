@@ -286,16 +286,16 @@ public class Search {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        Search s = getInstance();
-//        System.out.println(s.search("contant").size());
-
-        for (Post post: s.search("apparition")) {
-            System.out.println(post.getPostId());
-        }
-
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+//        Search s = getInstance();
+////        System.out.println(s.search("contant").size());
+//
+//        for (Post post: s.search("apparition")) {
+//            System.out.println(post.getPostId());
+//        }
+//
+//    }
 
     public void delete(Post p){
         Node<Post> foundPost = postAVL.findNode(postAVL.tree, p);

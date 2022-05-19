@@ -29,6 +29,8 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), "Guest");
         assertFalse(userSession.isLoggedIn);
         assertNull(userSession.user);
+        assertNull(userSession.profile());
+        assertNull(userSession.requestProfile("user1"));
     }
 
     @Test
@@ -47,6 +49,8 @@ public class StateFunctionTest {
         assertEquals(userSession.getUserName(), "user1");
         assertTrue(userSession.isLoggedIn);
         assertNotNull(userSession.user);
+        List<User> users = User.readUsers();
+        assertEquals(users.get(2).getUserName(), userSession.requestProfile("user4").getUserName());
     }
 
     @Test
@@ -139,10 +143,25 @@ public class StateFunctionTest {
     }
 
     @Test
+    public void testGuestStatePost() throws ParserConfigurationException, IOException, SAXException {
+        userSession = new UserSession();
+        assertNull(userSession.createPost("test post"));
+        assertFalse(userSession.deletePost("00000000"));
+        assertFalse(userSession.editPost("00000000", "cannot edit"));
+        assertFalse(userSession.likePost("00000000"));
+        assertFalse(userSession.unlikePost("00000000"));
+        assertFalse(userSession.commentPost("00000000", "cannot comment"));
+        assertFalse(userSession.followPost("00000000"));
+        assertFalse(userSession.unfollowPost("00000000"));
+        assertNull(userSession.allPosts());
+        assertNull(userSession.search("macbeth"));
+        assertNull(userSession.updateNotifications());
+        assertFalse(userSession.clearNotifications());
+    }
+
+    @Test
     public void testCreatePost() throws ParserConfigurationException, IOException, SAXException {
         userSession = new UserSession();
-        // test create post when not logged in
-        assertNull(userSession.createPost("test post"));
 
         // test create post when logged in
         userSession.login("user1", "qwerty");

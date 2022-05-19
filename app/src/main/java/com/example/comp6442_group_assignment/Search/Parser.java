@@ -7,9 +7,8 @@ import com.example.comp6442_group_assignment.Search.Tags.SharpTag;
 import com.example.comp6442_group_assignment.Search.Tags.Tag;
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchStringTokenizer;
 import com.example.comp6442_group_assignment.Search.Tokenizer.SearchToken;
-import org.apache.commons.text.similarity.*;
+
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Grammar analyzer for the search engine.
@@ -35,26 +34,26 @@ public class Parser {
      * please run with coverage to avoid errors.
      * @param args
      */
-    public static void main(String[] args) {
-        String input = "@awe #awr 'awrawr @awoirrr i will not hate you";
-        SearchStringTokenizer stt = new SearchStringTokenizer(input);
-        Parser p = new Parser(stt);
-        p.parseTags();
-        System.out.println(input.toString().contains("i will"));
-        FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
-        System.out.println(fs.fuzzyScore("i will", "a"));
-        System.out.println(fs.fuzzyScore("i will drink a cofee", "i cofee"));
-        System.out.println(fs.fuzzyScore("the coffee will make you conscious", "you"));
-        System.out.println(fs.fuzzyScore("the coffee will make you conscious and not sleepy oh that's amazing", "you"));
-        LevenshteinDistance ld = new LevenshteinDistance();
-        System.out.println(ld.apply("user1", "user3"));
-        ArrayList<String> users = new ArrayList<>();
-        for(String s : users){
-            System.out.println(s);
-        }
-
-
-    }
+//    public static void main(String[] args) {
+//        String input = "@awe #awr 'awrawr @awoirrr i will not hate you";
+//        SearchStringTokenizer stt = new SearchStringTokenizer(input);
+//        Parser p = new Parser(stt);
+//        p.parseTags();
+//        System.out.println(input.toString().contains("i will"));
+//        FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
+//        System.out.println(fs.fuzzyScore("i will", "a"));
+//        System.out.println(fs.fuzzyScore("i will drink a cofee", "i cofee"));
+//        System.out.println(fs.fuzzyScore("the coffee will make you conscious", "you"));
+//        System.out.println(fs.fuzzyScore("the coffee will make you conscious and not sleepy oh that's amazing", "you"));
+//        LevenshteinDistance ld = new LevenshteinDistance();
+//        System.out.println(ld.apply("user1", "user3"));
+//        ArrayList<String> users = new ArrayList<>();
+//        for(String s : users){
+//            System.out.println(s);
+//        }
+//
+//
+//    }
 
     /**
      *
