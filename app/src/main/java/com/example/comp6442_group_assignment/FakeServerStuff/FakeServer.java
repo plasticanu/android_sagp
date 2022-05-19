@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.*;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -380,7 +381,12 @@ public class FakeServer {
                     String[] tokens_hm = request.split(" ");
                     int postNum_hm = Integer.parseInt(tokens_hm[1]); // post number
                     response = "hms";
-                    List<Post> rtn_hm = posts.subList(posts.size() - postNum_hm - 10, posts.size() - postNum_hm);
+                    List<Post> rtn_hm = new LinkedList<>();
+                    if (postNum_hm + 10 < posts.size()) {
+                        rtn_hm = posts.subList(posts.size() - postNum_hm - 10, posts.size() - postNum_hm);
+                    } else if (postNum_hm < posts.size()) {
+                        rtn_hm = posts.subList(0, posts.size() - postNum_hm);
+                    }
                     for (Post post : rtn_hm) {
                         response += ";" + post.toString();
                     }
@@ -482,14 +488,14 @@ public class FakeServer {
                     System.out.println("Comment Post response...");
                     break;
                 case "pf":
-                    System.out.println("Profile request");
+                    System.out.println("Profile Self request");
                     User user_pf = userSession.profile();
                     if (user_pf != null) {
                         response = "pfs;" + user_pf.getUserName() + ";" + user_pf.getFirstName() + ";" + user_pf.getLastName() + ";" + user_pf.getEmail() + ";" + user_pf.getPhoneNumber() + ";" + user_pf.isPublicProfile();
                     } else {
                         response = "pff;Profile Failed.Not logged in. ";
                     }
-                    System.out.println("Profile response...");
+                    System.out.println("Profile Self response...");
                     break;
                 case "ap":
                     System.out.println("All Posts request");
@@ -497,7 +503,12 @@ public class FakeServer {
                     int postNum_ap = Integer.parseInt(tokens_ap[1]);
                     List<Post> posts_ap = userSession.allPosts();
                     if (posts_ap != null) {
-                        List<Post> rtnPosts_ap = posts_ap.subList(postNum_ap, postNum_ap + 10);
+                        List<Post> rtnPosts_ap = new LinkedList<>();
+                        if (postNum_ap + 10 < posts_ap.size()) {
+                            rtnPosts_ap = posts_ap.subList(postNum_ap, postNum_ap + 10);
+                        } else if (postNum_ap < posts_ap.size()) {
+                            rtnPosts_ap = posts_ap.subList(postNum_ap, posts_ap.size());
+                        }
                         response = "aps";
                         for (Post post : rtnPosts_ap) {
                             response += ";" + post.toString();
@@ -582,7 +593,7 @@ public class FakeServer {
                     System.out.println("Clear Notification response...");
                     break;
                 case "rp":
-                    System.out.println("Request Profile request");
+                    System.out.println("Request Other Profile request");
                     String[] tokens_rp = request.split(" ");
                     String userName_rp = tokens_rp[1];
                     User user_rp = userSession.requestProfile(userName_rp);
@@ -591,7 +602,7 @@ public class FakeServer {
                     } else {
                         response = "rpf;Request Profile Failed.Not logged in or user not exists or not public. ";
                     }
-                    System.out.println("Request Profile response...");
+                    System.out.println("Request Other Profile response...");
                     break;
                 case "fi":
                     System.out.println("Find post by ID request");
