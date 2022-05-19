@@ -42,6 +42,7 @@ public class StateFunctionTest {
         assertNull(userSession.user);
         // test login with correct password
         assertTrue(userSession.login("user1", "qwerty"));
+        assertFalse(userSession.login("user1", "qwerty"));
         assertEquals(userSession.getState().getClass(), LoggedInState.class);
         assertEquals(userSession.getUserName(), "user1");
         assertTrue(userSession.isLoggedIn);
@@ -95,7 +96,7 @@ public class StateFunctionTest {
     public void testUpdateProfile() throws ParserConfigurationException, IOException, SAXException, TransformerException {
         userSession = new UserSession();
         // test update profile when not logged in
-        userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", true);
+        assertFalse(userSession.updateProfile("user2", "qwertyuiop", "user2@mail.com", "First2", "Last2", "123456789", true));
         assertEquals(userSession.getState().getClass(), GuestState.class);
         assertEquals(userSession.getUserName(), "Guest");
         assertFalse(userSession.isLoggedIn);
@@ -151,6 +152,7 @@ public class StateFunctionTest {
         Post postCreated = userSession.allPosts().get(userSession.allPosts().size()-1);
         assertEquals("user1", postCreated.getAuthor());
         assertEquals("test post", postCreated.getContent());
+        assertTrue(Post.exists(postCreated.getPostId()));
 
         // test delete post
         assertTrue(userSession.deletePost(postCreated.getPostId()));
