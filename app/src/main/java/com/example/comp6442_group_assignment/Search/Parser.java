@@ -30,33 +30,7 @@ public class Parser {
     }
 
     /**
-     * @Author Zhidong Piao u7139999
-     * please run with coverage to avoid errors.
-     * @param args
-     */
-//    public static void main(String[] args) {
-//        String input = "@awe #awr 'awrawr @awoirrr i will not hate you";
-//        SearchStringTokenizer stt = new SearchStringTokenizer(input);
-//        Parser p = new Parser(stt);
-//        p.parseTags();
-//        System.out.println(input.toString().contains("i will"));
-//        FuzzyScore fs = new FuzzyScore(Locale.ENGLISH);
-//        System.out.println(fs.fuzzyScore("i will", "a"));
-//        System.out.println(fs.fuzzyScore("i will drink a cofee", "i cofee"));
-//        System.out.println(fs.fuzzyScore("the coffee will make you conscious", "you"));
-//        System.out.println(fs.fuzzyScore("the coffee will make you conscious and not sleepy oh that's amazing", "you"));
-//        LevenshteinDistance ld = new LevenshteinDistance();
-//        System.out.println(ld.apply("user1", "user3"));
-//        ArrayList<String> users = new ArrayList<>();
-//        for(String s : users){
-//            System.out.println(s);
-//        }
-//
-//
-//    }
-
-    /**
-     *
+     * Parse tags from the tokens.
      * @return ArrayList<AuthorTag>
      * @Author Zhidong Piao u7139999
      */
@@ -82,6 +56,10 @@ public class Parser {
         return result;
     }
 
+    /**
+     * Parse the word from the tokens.
+     * @return String as search query.
+     */
     public String parseWord(){
         StringBuilder result = new StringBuilder();
         while(tokenizer.hasNext()){
