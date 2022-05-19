@@ -440,6 +440,10 @@ This response message parser is used to split the response message from the serv
 - ...
 
 2. *Bug 2:*
+
+- *Somehow there is a tiny chance the app crashes. The problem may due to the AVD itself*
+- ...
+
 3. ...
 
 *List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
