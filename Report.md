@@ -180,8 +180,25 @@ If any marker meet any trouble opening or running the app, please contact the te
 * buttom_menu.xml
 * my_nav.xml
 
+*u7139999, Zhidong Piao, I contribute 20% of the code. Here are my contributions:*
 
-// TODO: u7139999, u7297753
+**Complete contribution (implementation of search function):**
+*Java Code Contribution*
+* Search.java
+* AuthorTag.java
+* ExactTag.java
+* ExcludeTag.java
+* SharpTag.java
+* Tag.java  
+* Parser.java
+* AVLTree.java
+* Node.java
+*Persistent Data Storage*
+*post.xml 
+
+
+*Java Code Contribution:*
+// TODO: u7297753
 *[Code Design. What design patterns, data structures, did the involved member propose?]*
 
 *[UI Design. Specify what design did the involved member propose? What tools were used for the design?]*
