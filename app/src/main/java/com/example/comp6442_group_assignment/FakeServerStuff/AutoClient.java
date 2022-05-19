@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class AutoClient {
+
     public static void main(String[] args) throws IOException {
         Socket socket = null;
         InputStreamReader inputStreamReader = null;
