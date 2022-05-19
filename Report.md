@@ -143,7 +143,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 *Report Writing* 
 * Summary of Known Errors and Bugs
 
-*u7055573, Jiyuan Chen, I contribute __% of the code. Here are my contributions:*
+*u7055573, Jiyuan Chen, I contribute 30% of the code. Here are my contributions:*
 
 **Complete contribution (implement entire frontend):**
 
@@ -162,6 +162,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 * detailsFragment.java
 * editFragment.java
 * inboxFragment.java
+* otherProfileFragment.java
 
 *UI Layout*
 * activity_main.xml
@@ -175,6 +176,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 * fragment_details.xml
 * fragment_edit.xml
 * fragment_inbox.xml
+* fragment_other_profile.xml
 * recycler_view_button.xml
 * recycler_view_row.xml
 * buttom_menu.xml

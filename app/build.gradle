@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.comp6442_group_assignment"
-        minSdkVersion 16
+        minSdk 22
         targetSdkVersion 32
         versionCode 1
         versionName "1.0"
