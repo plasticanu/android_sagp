@@ -81,7 +81,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 
 ## Summary of Individual Contributions
 
-*u7294212, Peicheng Liu, I contribute 40% of the code. Here are my contributions:* 
+*u7294212, Peicheng Liu, I contribute 35% of the code. Here are my contributions:* 
 
 **Complete or Major contribution (propose and implement):**
 
@@ -199,7 +199,7 @@ If any marker meet any trouble opening or running the app, please contact the te
 *post.xml 
 
 
-*u7297753, Jun Cheng Zhang
+*u7297753, Jun Cheng Zhang, I contribute 15% of the code. Here are my contributions:*
 
 *Java Code Contribution:*
 **Complete contribution (design unit tests):**
