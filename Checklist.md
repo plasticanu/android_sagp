@@ -21,7 +21,7 @@ The following markdown document is a checklist of items you **should** complete 
 ## Report Checklist
 - [x] Have a markdown report document titled 'report.md' on your GitLab. We advise you to use the provided template when writing your report (it will help you cover everything necessary).
 - [x] The UID, name and roles (team structure) of all group members.
-- [ ] A summary of individual contributions is well detailed by each member.
+- [x] A summary of individual contributions is well detailed by each member.
 - [x] A conflict resolution protocol is documented and well defined.
 - [x] A description of your application.
 - [x] Examples/use cases of your application.
@@ -29,8 +29,8 @@ The following markdown document is a checklist of items you **should** complete 
 - [x] A description of the application design (with a diagram if necessary).
 - [x] A description of design decisions made with regards to the data structures, tokenizers, parsers, design patterns and any other items you feel are relevant.
 - [ ] A description of how your team addressed the surprise item and any decisions your team had to make in the process.
-- [ ] All bugs and errors (that are known) are listed.
-- [ ] Details of tests provided such as the type, number and coverage.
+- [x] All bugs and errors (that are known) are listed.
+- [x] Details of tests provided such as the type, number and coverage.
 - [x] Summary of all implemented features (categorised by overall feature and classified by their difficulty levels).
 - [x] Team Meeting Minutes (either linked from or inside the report itself). There must be at least 4 meetings among the team. See [meeting template](./MeetingTemplate.md) for guidance on how to structure these if you have never done this before.
 
