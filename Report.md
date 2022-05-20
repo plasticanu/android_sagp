@@ -349,7 +349,7 @@ For other grammar used in other parsers, they will be introduced by language des
 *1. Grammar used in searchString Parser:*
 
 *Production Rules:*
-* S ::= PT | TP
+* S ::= PT | TP | T | P
 * P ::= W | W P
 * T ::= Ex | E | A | H | T 
 * Ex ::= \W
@@ -426,7 +426,7 @@ The advantage of using this tokenizer is that it takes a post object as input so
 Since the post content does not need to be parsed, the tokenizer also saves some time and space complexity by retaining the String type of the content and author that it is easier to be processed by the parser. 
 
 *3. SearchString Parser:* 
-// TODO: u7139999
+This parser is used to parse user search query, separating them into tags and words according to our grammar.
 
 *4. Response Message Parser:* 
 This response message parser is used to split the response message from the server, then convert string of response into List of Post object. The method is setupPost(String response) in homeFragment.java.
@@ -521,12 +521,14 @@ This response message parser is used to split the response message from the serv
 2. *Feature 2: Users could delete their own posts and its content will be deleted from the server side search Tree (AVL deletion). (hard)*
 - addToPost(), removeFromPost() methods in [Post class](./app/src/main/java/com/example/comp6442_group_assignment/Post.java) 
 - insert(), delete() methods in [Search class](./app/src/main/java/com/example/comp6442_group_assignment/Search/Search.java)
-// TODO: u7139999
+- delete() method in [AVLTree class](./app/src/main/java/com/example/comp6442_group_assignment/Search/AVLTree/AVLTree.java)
 
 *Search* 
-1. *Feature 1: Users may search for posts by keywords, partially errored keyword would also be handled. (medium)*
+1. *Feature 1: Users may search for posts by keywords, partially valid keyword would also be handled. (medium)*
 - Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
-// TODO: u7139999
+- search() in [Search class](./app/src/main/java/com/example/comp6442_group_assignment/Search/Search.java)
+- fuzzySearch() in [Search class](./app/src/main/java/com/example/comp6442_group_assignment/Search/Search.java)
+
 
 *Basic* 
 1. *Feature 1: Users may create a new account and sign in. (basic)* 
@@ -541,7 +543,7 @@ This response message parser is used to split the response message from the serv
 3. *Feature 3: Users may request for server to search information on the app. (basic)*
 - Line 509-522 in [FakeServer class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/FakeServer.java)
 - searchListener methods are in [searchFragment class](./app/src/main/java/com/example/comp6442_group_assignment/Fragment)
-// TODO: u7139999
+- search() in [Search class](./app/src/main/java/com/example/comp6442_group_assignment/Search/Search.java)
 
 4. *Feature 4: There is a standalone executable class to simulate actions from other users containing 3000+ data instances. (basic)*
 - [AutoClient class](./app/src/main/java/com/example/comp6442_group_assignment/FakeServerStuff/AutoClient.java)
