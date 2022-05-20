@@ -433,7 +433,10 @@ This response message parser is used to split the response message from the serv
 
 **Other**
 
-*[What other design decisions have you made which you feel are relevant? Feel free to separate these into their own subheadings.]*
+*1. The complete server-client model:* 
+The team originally plan to simulate the server-client model in the app by inserting different type of actions into the app. This is later determined not very efficient and very unstable in practice. 
+
+The team then decided to build an actual server connecting through the localhost ip address. The server will be able to receive request from the client and send response to the client.
 
 ## Summary of Known Errors and Bugs
 1. *The server thread will malfunction if input request String is not valid.*
@@ -442,28 +445,11 @@ This response message parser is used to split the response message from the serv
 
 2. *Disconnecting a client from the server will cause SocketException*
 - Consequence: The server will automatically re-engage when client tries to reconnect. The userSession will not be obtained. 
-- Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice (the app in the android system, not the emulator), the first one will crash and the second reconnection will function normally. 
-
-*[Where are the known errors and bugs? What consequences might they lead to?]*
-
-*Here is an example:*
-
-1. *Bug 1:*
-
-- *A space bar (' ') in the sign in email will crash the application.*
-- ...
-
-2. *Bug 2:*
-
-- *Somehow there is a tiny chance the app crashes. The problem may due to the AVD itself*
-- ...
-
-3. ...
+- Current Fix: So far there is no fix to this bug, but this is determined as a minor bug since it does not affect the functionality of the server or the client seriously. The current drawback of this bug is after the client is disconnected, the client must be restarted twice (the app in the android system, not the emulator), the first one will crash and the second reconnection will function normally.
 
 *List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
 
 ## Testing Summary
-*[What features have you tested? What is your testing coverage?]*
 
 *Number of test cases: 32*
 
@@ -476,7 +462,6 @@ This response message parser is used to split the response message from the serv
 - Parser tests: check if the parser functions correctly.
 - Search tests: check if the search engine functions correctly*
 
-*Please provide some screenshots of your testing summary, showing the achieved testing coverage. Feel free to provide further details on your tests.*
 ![Test coverage](./ReportStuff/Test coverage.PNG)
 ![Test summary](./ReportStuff/Test summary.PNG)
 ## Implemented Features
